@@ -31,6 +31,7 @@ public class Principal extends JFrame {
 	private JRadioButton selectAdministrador;
 	private JButton btnNewButton_1;
 	private JPanel panelEntrada;
+	
 
 	/**
 	 * Launch the application.
@@ -70,7 +71,7 @@ public class Principal extends JFrame {
 		mnAdmin = new JMenu("Administrador");
 		menuBar.add(mnAdmin);
 		
-		btnNewButton_1 = new JButton("Cambiar modo Entrada");
+		btnNewButton_1 = new JButton("Iniciar Sesion");
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				panelEntrada.setVisible(true);
