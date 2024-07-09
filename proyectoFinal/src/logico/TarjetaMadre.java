@@ -1,12 +1,14 @@
 package logico;
 
+import java.util.ArrayList;
+
 public class TarjetaMadre extends Componente {
 	private String tipoConector;
 	private String TipoRAM;
-	private String[] listConexionDiscoDuro;
+	private ArrayList<String> listConexionDiscoDuro;
 
 	public TarjetaMadre(String id, String marca, String modelo, float precio, int cantidad, String numeroSerie,
-			String tipoConector, String TipoRAM, String[] listConexionDiscoDuro ) {
+			String tipoConector, String TipoRAM, ArrayList<String> listConexionDiscoDuro ) {
 		super(id, marca, modelo, precio, cantidad, numeroSerie);
 		this.listConexionDiscoDuro = listConexionDiscoDuro;
 		this.TipoRAM = TipoRAM;
@@ -21,7 +23,7 @@ public class TarjetaMadre extends Componente {
 		return TipoRAM;
 	}
 
-	public String[] getListConexionDiscoDuro() {
+	public ArrayList<String> getListConexionDiscoDuro() {
 		return listConexionDiscoDuro;
 	}
 	
