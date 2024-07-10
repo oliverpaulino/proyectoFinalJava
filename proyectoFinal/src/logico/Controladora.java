@@ -17,6 +17,9 @@ public class Controladora {
 	private Controladora() {
 		super();
 		misUsuarios = new ArrayList<>();
+		misComponentes = new ArrayList<>();
+		
+		
 		// TODO Auto-generated constructor stub
 	}
 	
