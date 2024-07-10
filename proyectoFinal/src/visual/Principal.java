@@ -25,6 +25,9 @@ import logico.Usuario;
 
 import java.awt.SystemColor;
 import javax.swing.UIManager;
+import java.awt.Panel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Principal extends JFrame {
 
@@ -42,6 +45,11 @@ public class Principal extends JFrame {
 	private JPanel pnInicioSesion;
 	private JTextField txtCorreo;
 	private JLabel lblNewLabel;
+	private JButton btnContra;
+	private JTextField txtcontra;
+	private JLabel lblinicio;
+	private Panel pnContrasena;
+	private JButton btnatras;
 	
 
 	/**
@@ -93,11 +101,71 @@ public class Principal extends JFrame {
 		contentPane.setBackground(new Color(240, 240, 240));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
+		dim = getToolkit().getScreenSize();
+		setSize(dim.width, dim.height - 35);
+		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
+		
+		pnContrasena = new Panel();
+		pnContrasena.setBackground(Color.WHITE);
+		pnContrasena.setBounds(702, 231, 489, 271);
+		pnContrasena.setLayout(null);
+		pnContrasena.setVisible(false);
+		panel.add(pnContrasena);
+		pnContrasena.setLayout(null);
+		
+		btnContra = new JButton("Enviar");
+		btnContra.setBounds(366, 219, 89, 23);
+		btnContra.setForeground(SystemColor.text);
+		btnContra.setBackground(new Color(66, 133, 244));
+		btnContra.setBorder(BorderFactory.createLineBorder(new Color(66, 133, 244), 1));
+		btnContra.setBackground(new Color(66, 133, 244));
+		pnContrasena.add(btnContra);
+		
+		txtcontra = new JTextField();
+		txtcontra.setForeground(Color.BLACK);
+		txtcontra.setBounds(106, 112, 276, 39);
+		txtcontra.setColumns(10);
+		txtcontra.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Contrasena del correo", TitledBorder.LEADING, TitledBorder.TOP, null, SystemColor.textHighlight));
+		pnContrasena.add(txtcontra);
+		
+		lblinicio = new JLabel("Inicio De Sesion");
+		lblinicio.setBounds(164, 36, 161, 25);	
+		lblinicio.setBackground(SystemColor.textHighlight);
+		lblinicio.setForeground(SystemColor.textHighlight);
+		lblinicio.setFont(new Font("Arial", Font.BOLD, 21));
+		pnContrasena.add(lblinicio);
+		
+		btnatras = new JButton("Atras");
+		btnatras.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pnContrasena.setVisible(false);
+				pnInicioSesion.setVisible(true);
+			}
+		});
+		btnatras.setFont(new Font("Arial", Font.ITALIC, 12));
+		btnatras.setBackground(Color.WHITE);
+		btnatras.setBorder(null);
+		btnatras.setForeground(new Color(66, 133, 244));
+		btnatras.setBounds(55, 219, 89, 23);
+		btnatras.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnatras.setFont(new Font("Arial", Font.ITALIC | Font.BOLD, 12)); // Cambia el estilo del texto
+				btnatras.setText("<html><u>Atras</u></html>"); // Subraya el texto
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnatras.setFont(new Font("Arial", Font.ITALIC, 12)); // Restaura el estilo original
+				btnatras.setText("Atras"); // Quita el subrayado
+			}
+		});
+		pnContrasena.add(btnatras);
 		
 		pnInicioSesion = new JPanel();
 		pnInicioSesion.setBackground(Color.WHITE);
@@ -106,14 +174,25 @@ public class Principal extends JFrame {
 		pnInicioSesion.setLayout(null);
 		pnInicioSesion.setVisible(false);
 		
-		JButton btnEnviar = new JButton("Enviar");
+		JButton btnEnviar = new JButton("Siguiente");
+		btnEnviar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnEnviar.setBackground(Color.gray);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnEnviar.setBackground(new Color(66, 133, 244));
+			}
+		});
 		btnEnviar.setForeground(SystemColor.text);
 		btnEnviar.setBackground(new Color(66, 133, 244));
 		btnEnviar.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario user = Controladora.getInstance().buscarUsuarioByCorreo(txtCorreo.getText().toString());
-				
+				pnContrasena.setVisible(true);
+				pnInicioSesion.setVisible(false);
 				if(user != null) {
 //					poner el panel de qeu se encontro, y pedir la contrasena
 				}else {
@@ -125,14 +204,11 @@ public class Principal extends JFrame {
 		 btnEnviar.setBounds(366, 219, 89, 23);
 	        btnEnviar.setFocusPainted(false);
 	        btnEnviar.setBorder(BorderFactory.createLineBorder(new Color(66, 133, 244), 1));
-	        btnEnviar.addActionListener(e -> panel.setVisible(false));
 		pnInicioSesion.add(btnEnviar);
 		
 		txtCorreo = new JTextField();
 		txtCorreo.setForeground(Color.BLACK);
-		txtCorreo.setName("");
 		txtCorreo.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Correo Electronico", TitledBorder.LEADING, TitledBorder.TOP, null, SystemColor.textHighlight));
-		txtCorreo.setToolTipText("");
 		txtCorreo.setBounds(106, 112, 276, 39);
 		pnInicioSesion.add(txtCorreo);
 		txtCorreo.setColumns(10);
@@ -143,11 +219,9 @@ public class Principal extends JFrame {
 		lblNewLabel.setFont(new Font("Arial", Font.BOLD, 21));
 		lblNewLabel.setBounds(164, 36, 161, 25);
 		pnInicioSesion.add(lblNewLabel);
-		dim = getToolkit().getScreenSize();
-		setSize(dim.width, dim.height - 35);
-		setLocationRelativeTo(null);
+		
+		
+		
 		
 	}
-	
-	
 }
