@@ -8,6 +8,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
+
 import java.awt.Color;
 import javax.swing.border.LineBorder;
 import javax.swing.JMenu;
@@ -21,6 +23,7 @@ import java.awt.Font;
 import javax.swing.border.TitledBorder;
 
 import logico.Controladora;
+import logico.Empleado;
 import logico.Usuario;
 
 import java.awt.SystemColor;
@@ -50,12 +53,18 @@ public class Principal extends JFrame {
 	private JLabel lblinicio;
 	private Panel pnContrasena;
 	private JButton btnatras;
+	private JPanel pnRegistro;
+	private JLabel lblRegistro;
+	private JButton btnSigReg;
+	private Empleado Admin = null;
+	private JPanel panel_1;
 	
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		Controladora.getInstance().getMisUsuarios().add(new Empleado("E1", "Oliver", "Oliver@gmail.com", "8097914801", "blah blah", "1230", 15000, false));
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -88,6 +97,7 @@ public class Principal extends JFrame {
 		menuBar.add(menuAdmin);
 		
 		mnAdmin = new JMenu("Administrador");
+		mnAdmin.setBackground(Color.WHITE);
 		menuBar.add(mnAdmin);
 		
 		btnNewButton_1 = new JButton("Iniciar Sesion");
@@ -96,6 +106,9 @@ public class Principal extends JFrame {
 				pnInicioSesion.setVisible(true);
 			}
 		});
+		
+		panel_1 = new JPanel();
+		menuBar.add(panel_1);
 		menuBar.add(btnNewButton_1);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(240, 240, 240));
@@ -111,14 +124,56 @@ public class Principal extends JFrame {
 		panel.setLayout(null);
 		
 		pnContrasena = new Panel();
+		pnContrasena.setVisible(false);
 		pnContrasena.setBackground(Color.WHITE);
 		pnContrasena.setBounds(702, 231, 489, 271);
 		pnContrasena.setLayout(null);
-		pnContrasena.setVisible(false);
+		
+		pnRegistro = new JPanel();
+		pnRegistro.setVisible(false);
+		pnRegistro.setBackground(Color.WHITE);
+		pnRegistro.setBounds(702, 156, 489, 383);
+		pnRegistro.setLayout(null);
+		panel.add(pnRegistro);
+		
+		lblRegistro = new JLabel("Registro");
+		lblRegistro.setForeground(SystemColor.textHighlight);
+		lblRegistro.setFont(new Font("Arial", Font.BOLD, 21));
+		lblRegistro.setBackground(SystemColor.textHighlight);
+		lblRegistro.setBounds(202, 21, 85, 25);
+		pnRegistro.add(lblRegistro);
+		
+		btnSigReg = new JButton("Siguiente");
+		btnSigReg.setForeground(Color.WHITE);
+		btnSigReg.setFocusPainted(false);
+		btnSigReg.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		btnSigReg.setBackground(new Color(66, 133, 244));
+		btnSigReg.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnSigReg.setBackground(Color.gray);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				btnSigReg.setBackground(new Color(66, 133, 244));
+			}
+		});
+		btnSigReg.setBounds(388, 348, 89, 23);
+		pnRegistro.add(btnSigReg);
 		panel.add(pnContrasena);
 		pnContrasena.setLayout(null);
 		
 		btnContra = new JButton("Enviar");
+		btnContra.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String passw = txtcontra.getText().toString();
+				if(Admin.getPassword().equals(passw)) {
+					JOptionPane.showMessageDialog(null, "Su inicio de sesion ha sido exitosa!", "Inicio de Sesion", JOptionPane.INFORMATION_MESSAGE);
+				}else {
+					JOptionPane.showMessageDialog(null, "Correo o contrasena son incorrectos!", "Inicio de Sesion", JOptionPane.WARNING_MESSAGE);
+				}
+			}
+		});
 		btnContra.setBounds(366, 219, 89, 23);
 		btnContra.setForeground(SystemColor.text);
 		btnContra.setBackground(new Color(66, 133, 244));
@@ -168,11 +223,11 @@ public class Principal extends JFrame {
 		pnContrasena.add(btnatras);
 		
 		pnInicioSesion = new JPanel();
+		pnInicioSesion.setVisible(false);
 		pnInicioSesion.setBackground(Color.WHITE);
 		pnInicioSesion.setBounds(702, 231, 489, 271);
 		panel.add(pnInicioSesion);
 		pnInicioSesion.setLayout(null);
-		pnInicioSesion.setVisible(false);
 		
 		JButton btnEnviar = new JButton("Siguiente");
 		btnEnviar.addMouseListener(new MouseAdapter() {
@@ -191,14 +246,20 @@ public class Principal extends JFrame {
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Usuario user = Controladora.getInstance().buscarUsuarioByCorreo(txtCorreo.getText().toString());
-				pnContrasena.setVisible(true);
 				pnInicioSesion.setVisible(false);
 				if(user != null) {
+					pnContrasena.setVisible(true);
+					Admin = (Empleado) user;
 //					poner el panel de qeu se encontro, y pedir la contrasena
 				}else {
+					int option = JOptionPane.showConfirmDialog(null, "No encontramos ningun email, desea crear uno?", "Registro", JOptionPane.WARNING_MESSAGE);
+					if(option == JOptionPane.CANCEL_OPTION ) {
+						pnInicioSesion.setVisible(true);
+					}else {
+						pnRegistro.setVisible(true);
+					}
 //					poner a registrarse ya que no se encontro usuario
 				}
-				pnInicioSesion.setVisible(false);
 			}
 		});
 		 btnEnviar.setBounds(366, 219, 89, 23);

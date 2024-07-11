@@ -17,6 +17,7 @@ public class Controladora {
 	private Controladora() {
 		super();
 		misUsuarios = new ArrayList<>();
+		misComponentes = new ArrayList<>();
 	}
 	
 	public static Controladora getInstance () {
