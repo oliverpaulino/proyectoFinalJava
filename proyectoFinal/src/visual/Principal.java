@@ -68,6 +68,8 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+
 					Principal frame = new Principal();
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -88,19 +90,25 @@ public class Principal extends JFrame {
 		setJMenuBar(menuBar);
 		
 		menuCon = new JMenu("menu");
+		menuCon.setFont(new Font("Arial", Font.PLAIN, 14));
 		menuBar.add(menuCon);
 		
 		menuCon2 = new JMenu("consumidor");
+		menuCon2.setFont(new Font("Arial", Font.PLAIN, 14));
 		menuBar.add(menuCon2);
 		
 		menuAdmin = new JMenu("Administrador");
+		menuAdmin.setFont(new Font("Arial", Font.PLAIN, 14));
 		menuBar.add(menuAdmin);
 		
 		mnAdmin = new JMenu("Administrador");
+		mnAdmin.setFont(new Font("Arial", Font.PLAIN, 14));
 		mnAdmin.setBackground(Color.WHITE);
 		menuBar.add(mnAdmin);
 		
 		btnNewButton_1 = new JButton("Iniciar Sesion");
+		btnNewButton_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		btnNewButton_1.setBackground(Color.WHITE);
 		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnInicioSesion.setVisible(true);
@@ -129,7 +137,7 @@ public class Principal extends JFrame {
 		pnContrasena.setBounds(702, 231, 489, 271);
 		pnContrasena.setLayout(null);
 		
-		pnRegistro = new JPanel();
+		pnRegistro =  new JPanel();
 		pnRegistro.setVisible(false);
 		pnRegistro.setBackground(Color.WHITE);
 		pnRegistro.setBounds(702, 156, 489, 383);
