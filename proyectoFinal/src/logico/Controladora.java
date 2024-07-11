@@ -18,9 +18,6 @@ public class Controladora {
 		super();
 		misUsuarios = new ArrayList<>();
 		misComponentes = new ArrayList<>();
-		
-		
-		// TODO Auto-generated constructor stub
 	}
 	
 	public static Controladora getInstance () {
@@ -60,8 +57,8 @@ public class Controladora {
 		boolean encontrado = true;
 		int i = 0;
 		while(encontrado && misUsuarios.size() > i) {
-			user = misUsuarios.get(i);
-			if(user.getEmail().equalsIgnoreCase(email)) {
+			if(misUsuarios.get(i).getEmail().equalsIgnoreCase(email)) {
+				user = misUsuarios.get(i);
 				encontrado = false;
 			}
 			i++;
