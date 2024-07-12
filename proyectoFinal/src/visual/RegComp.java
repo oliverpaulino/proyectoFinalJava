@@ -136,7 +136,7 @@ public class RegComp extends JPanel {
 		JPanel panelDiscoDuro = new JPanel();
 		panelDiscoDuro.setBorder(new LineBorder(Color.GRAY, 1, true));
 		panelDiscoDuro.setBounds(60, 205, 464, 150);
-//		add(panelDiscoDuro);
+		add(panelDiscoDuro);
 		panelDiscoDuro.setLayout(null);
 		
 		JPanel panelRam = new JPanel();
@@ -201,9 +201,6 @@ public class RegComp extends JPanel {
 		btnNewButton_1.setFont(new Font("Arial", Font.PLAIN, 11));
 		btnNewButton_1.setBounds(349, 112, 89, 23);
 		panelRam.add(btnNewButton_1);
-		
-		
-		
 		
 		
 		JLabel lblNewLabel_3 = new JLabel("Capacidad de almacenamiento");
