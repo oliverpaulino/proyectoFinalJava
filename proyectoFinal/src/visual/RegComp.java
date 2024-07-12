@@ -145,34 +145,63 @@ public class RegComp extends JPanel {
 		add(panelRam);
 		panelRam.setLayout(null);
 		
+		
+		
 		JLabel lblNewLabel_5 = new JLabel("Cantidad de memoria");
 		lblNewLabel_5.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_5.setBounds(10, 11, 187, 19);
+		lblNewLabel_5.setBounds(10, 16, 187, 19);
 		panelRam.add(lblNewLabel_5);
 		
 		JSpinner spnMemoria = new JSpinner();
 		spnMemoria.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
-		spnMemoria.setBounds(350, 12, 88, 20);
+		spnMemoria.setBounds(350, 13, 88, 20);
 		panelRam.add(spnMemoria);
 		
 		JLabel lblNewLabel_6 = new JLabel("Medida de memoria");
 		lblNewLabel_6.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_6.setBounds(10, 42, 150, 14);
+		lblNewLabel_6.setBounds(10, 51, 150, 14);
 		panelRam.add(lblNewLabel_6);
 		
 		JComboBox cbxUnidadMemoria = new JComboBox();
 		cbxUnidadMemoria.setModel(new DefaultComboBoxModel(new String[] {"Gb", "Mb"}));
-		cbxUnidadMemoria.setBounds(350, 41, 88, 20);
+		cbxUnidadMemoria.setBounds(350, 46, 88, 20);
 		panelRam.add(cbxUnidadMemoria);
 		
 		JLabel lblTipo = new JLabel("Tipo de memoria");
 		lblTipo.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblTipo.setBounds(10, 67, 150, 14);
+		lblTipo.setBounds(10, 81, 150, 14);
 		panelRam.add(lblTipo);
 		
 		JComboBox cbxTipoRam = new JComboBox();
-		cbxTipoRam.setBounds(350, 66, 88, 20);
+		cbxTipoRam.setBounds(350, 79, 88, 20);
 		panelRam.add(cbxTipoRam);
+		
+		
+		JLabel lblNewLabel_7 = new JLabel("Imagen");
+		lblNewLabel_7.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_7.setBounds(10, 111, 150, 19);
+		panelRam.add(lblNewLabel_7);
+		JLabel imgLabel = new JLabel("");
+		imgLabel.setBounds(224, 46, 116, 84);
+		panelRam.add(imgLabel);
+		
+		JButton btnNewButton_1 = new JButton("Seleccionar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser compImgSelec = new JFileChooser();
+				compImgSelec.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif", "bmp"));
+				int valor = compImgSelec.showOpenDialog(null);
+				if (valor == JFileChooser.APPROVE_OPTION) {
+					File imgFile = compImgSelec.getSelectedFile();
+					ImageIcon imgPath = new ImageIcon(imgFile.getAbsolutePath());
+					imgLabel.setIcon(imgPath);
+				}
+			}
+		});
+		btnNewButton_1.setFont(new Font("Arial", Font.PLAIN, 11));
+		btnNewButton_1.setBounds(349, 112, 89, 23);
+		panelRam.add(btnNewButton_1);
+		
 		
 		
 		
