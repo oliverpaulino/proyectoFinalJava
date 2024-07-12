@@ -17,6 +17,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JLabel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class RegOption extends JDialog {
 
@@ -24,6 +26,7 @@ public class RegOption extends JDialog {
 	private RegComp regDiscoDuro = new RegComp(0);
 	private RegComp regProcesador = new RegComp(1);
 	private RegComp regRam = new RegComp(2);
+	private RegComp regTarjeta = new RegComp(3);
 	private JPanel optionPanel;
 
 	// Set System L&F
@@ -65,6 +68,12 @@ public class RegOption extends JDialog {
 			});
 		
 			regDiscoDuro.setBounds(5, 5, 590, 395);
+			regProcesador.btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					optionPanel.setVisible(true);
+					regProcesador.setVisible(false);
+				}
+			});
 			regProcesador.setBounds(5, 5, 590, 395);
 			regRam.btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -72,6 +81,7 @@ public class RegOption extends JDialog {
 					regRam.setVisible(false);
 				}
 			});
+			
 			regRam.setBounds(5, 5, 590, 395);
 			regProcesador.setVisible(false);
 			regRam.setVisible(false);
@@ -166,6 +176,11 @@ public class RegOption extends JDialog {
 			panel_2.setLayout(gbl_panel_2);
 
 			JButton btnTarjetaMadre = new JButton("Tarjeta Madre");
+			btnTarjetaMadre.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+				}
+			});
 			btnTarjetaMadre.setFocusable(false);
 			btnTarjetaMadre.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			btnTarjetaMadre.setBackground(Color.WHITE);
