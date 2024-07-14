@@ -109,6 +109,7 @@ public class Principal extends JFrame {
 				RegOption reg = new RegOption();
 				reg.setModal(true);
 				reg.setVisible(true);
+				reg.setLocationRelativeTo(null);
 				
 			}
 		});

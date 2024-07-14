@@ -4,15 +4,17 @@ public class Componente {
 	private String id;
 	private String marca;
 	private String modelo;
+	private float costo;
 	private float precio;
 	private int cantidad;
 	private String numeroSerie;
 	
-	public Componente(String id, String marca, String modelo, float precio, int cantidad, String numeroSerie) {
+	public Componente(String id, String marca, String modelo,float costo, float precio, int cantidad, String numeroSerie) {
 		super();
 		this.id = id;
 		this.marca = marca;
 		this.modelo = modelo;
+		this.costo = costo;
 		this.precio = precio;
 		this.cantidad = cantidad;
 		this.numeroSerie = numeroSerie;

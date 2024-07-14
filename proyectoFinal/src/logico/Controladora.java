@@ -57,9 +57,16 @@ public class Controladora {
 		Usuario user = findUserById(userId);
 		misUsuarios.remove(user);
 	}
+	
+	public void addComponente(Componente c1) {
+		misComponentes.add(c1);
+		idcomponente++;
+		
+	}
 
 	public ArrayList<Componente> getMisComponentes() {
 		return misComponentes;
+		
 	}
 
 	public void setMisComponentes(ArrayList<Componente> misComponentes) {

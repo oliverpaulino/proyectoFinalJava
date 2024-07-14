@@ -7,9 +7,9 @@ public class TarjetaMadre extends Componente {
 	private String TipoRAM;
 	private ArrayList<String> listConexionDiscoDuro;
 
-	public TarjetaMadre(String id, String marca, String modelo, float precio, int cantidad, String numeroSerie,
+	public TarjetaMadre(String id, String marca, String modelo,float costo, float precio, int cantidad, String numeroSerie,
 			String tipoConector, String TipoRAM, ArrayList<String> listConexionDiscoDuro ) {
-		super(id, marca, modelo, precio, cantidad, numeroSerie);
+		super(id, marca, modelo,costo, precio, cantidad, numeroSerie);
 		this.listConexionDiscoDuro = listConexionDiscoDuro;
 		this.TipoRAM = TipoRAM;
 		this.tipoConector=tipoConector; 

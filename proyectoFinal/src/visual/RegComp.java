@@ -22,6 +22,10 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextPane;
 import java.awt.Panel;
+import javax.swing.border.TitledBorder;
+
+import logico.Controladora;
+import logico.DiscoDuro;
 
 public class RegComp extends JPanel {
 	private JTextField txtId;
@@ -31,7 +35,15 @@ public class RegComp extends JPanel {
 	private JTextField txtSerie;
 	private JTextField txtConexion;
 	private JTextField textField;
-
+	private JComboBox cbxMedida;
+	private JComboBox cbxTipoRam;
+	private JComboBox cbxUnidadMemoria;
+	private JSpinner spnMemoria ;
+	private JSpinner spnPrecio ;
+	private JSpinner spnCosto;
+	private JSpinner spnCantidad;
+	private JSpinner spnAlmacenamiento;
+	
 	/**
 	 * Create the panel.
 	 */
@@ -46,7 +58,7 @@ public class RegComp extends JPanel {
 		txtId = new JTextField();
 		txtId.setFont(new Font("Arial", Font.PLAIN, 16));
 		txtId.setEnabled(false);
-		txtId.setBounds(166, 47, 86, 20);
+		txtId.setBounds(166, 44, 86, 23);
 		add(txtId);
 		txtId.setColumns(10);
 		
@@ -89,7 +101,7 @@ public class RegComp extends JPanel {
 		lblCantl.setBounds(312, 125, 86, 14);
 		add(lblCantl);
 		
-		JSpinner spnCantidad = new JSpinner();
+		spnCantidad = new JSpinner();
 		spnCantidad.setFont(new Font("Arial", Font.PLAIN, 16));
 		spnCantidad.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
 		spnCantidad.setBounds(438, 122, 86, 20);
@@ -100,7 +112,7 @@ public class RegComp extends JPanel {
 		lblCosto.setBounds(60, 165, 86, 14);
 		add(lblCosto);
 		
-		JSpinner spnCosto = new JSpinner();
+		spnCosto = new JSpinner();
 		spnCosto.setFont(new Font("Arial", Font.PLAIN, 16));
 		spnCosto.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
 		spnCosto.setBounds(166, 162, 86, 20);
@@ -111,7 +123,8 @@ public class RegComp extends JPanel {
 		lblPrecio.setBounds(312, 165, 86, 14);
 		add(lblPrecio);
 		
-		JSpinner spnPrecio = new JSpinner();
+		spnPrecio = new JSpinner();
+		spnPrecio.setModel(new SpinnerNumberModel(new Float(0), null, null, new Float(1)));
 		spnPrecio.setFont(new Font("Arial", Font.PLAIN, 16));
 		spnPrecio.setBounds(438, 162, 86, 20);
 		add(spnPrecio);
@@ -145,6 +158,12 @@ public class RegComp extends JPanel {
 		add(panelRam);
 		panelRam.setLayout(null);
 		
+		JPanel panelProcesador = new JPanel();
+		panelProcesador.setBorder(new LineBorder(Color.GRAY, 1, true));
+		panelProcesador.setBounds(60, 205, 464, 150);
+		add(panelProcesador);
+		panelProcesador.setLayout(null);
+		
 		
 		
 		JLabel lblNewLabel_5 = new JLabel("Cantidad de memoria");
@@ -152,7 +171,7 @@ public class RegComp extends JPanel {
 		lblNewLabel_5.setBounds(10, 16, 187, 19);
 		panelRam.add(lblNewLabel_5);
 		
-		JSpinner spnMemoria = new JSpinner();
+		spnMemoria = new JSpinner();
 		spnMemoria.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
 		spnMemoria.setBounds(350, 13, 88, 20);
 		panelRam.add(spnMemoria);
@@ -162,7 +181,7 @@ public class RegComp extends JPanel {
 		lblNewLabel_6.setBounds(10, 51, 150, 14);
 		panelRam.add(lblNewLabel_6);
 		
-		JComboBox cbxUnidadMemoria = new JComboBox();
+		cbxUnidadMemoria = new JComboBox();
 		cbxUnidadMemoria.setModel(new DefaultComboBoxModel(new String[] {"Gb", "Mb"}));
 		cbxUnidadMemoria.setBounds(350, 46, 88, 20);
 		panelRam.add(cbxUnidadMemoria);
@@ -172,7 +191,7 @@ public class RegComp extends JPanel {
 		lblTipo.setBounds(10, 81, 150, 14);
 		panelRam.add(lblTipo);
 		
-		JComboBox cbxTipoRam = new JComboBox();
+		cbxTipoRam = new JComboBox();
 		cbxTipoRam.setBounds(350, 79, 88, 20);
 		panelRam.add(cbxTipoRam);
 		
@@ -208,7 +227,7 @@ public class RegComp extends JPanel {
 		lblNewLabel_3.setBounds(51, 14, 237, 19);
 		panelDiscoDuro.add(lblNewLabel_3);
 		
-		JSpinner spnAlmacenamiento = new JSpinner();
+		spnAlmacenamiento = new JSpinner();
 		spnAlmacenamiento.setFont(new Font("Arial", Font.PLAIN, 16));
 		spnAlmacenamiento.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnAlmacenamiento.setBounds(339, 13, 86, 20);
@@ -219,7 +238,7 @@ public class RegComp extends JPanel {
 		lblNewLabel_4.setBounds(51, 47, 220, 19);
 		panelDiscoDuro.add(lblNewLabel_4);
 		
-		JComboBox cbxMedida = new JComboBox();
+		cbxMedida = new JComboBox();
 		cbxMedida.setModel(new DefaultComboBoxModel(new String[] {"Gb", "Mb"}));
 		cbxMedida.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbxMedida.setBounds(339, 46, 86, 20);
@@ -265,6 +284,37 @@ public class RegComp extends JPanel {
 		
 		
 		JButton btnRegistrar = new JButton("Registrar");
+		btnRegistrar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				switch (type) {
+				case 0:
+					String marca = txtMarca.getText();
+					String conexion = txtConexion.getText();
+					String modelo = txtModelo.getText();
+					String numSerie = txtSerie.getText();
+					int cant = (int) spnCantidad.getValue();
+					float costo = (float) spnCosto.getValue();
+					float precio = (float) spnPrecio.getValue();
+					int almacenamiento = (int) spnAlmacenamiento.getValue();
+					String medidaAlmacenamiento = cbxMedida.getSelectedItem().toString();
+					
+					DiscoDuro discoDuro = new DiscoDuro("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, almacenamiento, medidaAlmacenamiento, conexion);
+					Controladora.getInstance().addComponente(discoDuro);
+					clean();
+					
+					break;
+				case 1:
+					
+					break;
+				case 2:
+					
+					break;
+					
+				default:
+					break;
+				}
+			}
+		});
 		btnRegistrar.setFont(new Font("Arial", Font.PLAIN, 16));
 		btnRegistrar.setBackground(Color.WHITE);
 		btnRegistrar.setBounds(312, 367, 121, 23);
@@ -272,6 +322,7 @@ public class RegComp extends JPanel {
 		
 		panelDiscoDuro.setVisible(false);
 		panelRam.setVisible(false);
+		panelProcesador.setVisible(false);
 		
 		switch (type) {
 		case 0:
@@ -280,6 +331,7 @@ public class RegComp extends JPanel {
 			break;
 		case 1:
 			typeLabel.setText("Registro Micro Procesador");
+			panelProcesador.setVisible(true);
 			break;
 		case 2:
 			typeLabel.setText("Registro Ram");
@@ -290,6 +342,25 @@ public class RegComp extends JPanel {
 			break;
 		}
 		
+		clean();
 		
 	}
+	
+	private void clean() {
+		txtId.setText("C-"+Controladora.getInstance().idcomponente);
+		txtMarca.setText("");
+		txtConexion.setText("");
+		txtModelo.setText("");
+		txtSerie.setText("");
+		spnCantidad.setValue(0);
+		spnCosto.setValue(0);
+		spnPrecio.setValue(0);
+		spnCantidad.setValue(0);
+		spnAlmacenamiento.setValue(0);
+		cbxMedida.setSelectedIndex(0);
+		txtConexion.setText("");
+		
+		
+	}
+	
 }
