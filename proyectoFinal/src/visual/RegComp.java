@@ -26,6 +26,8 @@ import javax.swing.border.TitledBorder;
 
 import logico.Controladora;
 import logico.DiscoDuro;
+import logico.MemoriaRAM;
+import logico.Microprocesador;
 
 public class RegComp extends JPanel {
 	private JTextField txtId;
@@ -39,10 +41,15 @@ public class RegComp extends JPanel {
 	private JComboBox cbxTipoRam;
 	private JComboBox cbxUnidadMemoria;
 	private JSpinner spnMemoria ;
-	private JSpinner spnPrecio ;
-	private JSpinner spnCosto;
 	private JSpinner spnCantidad;
 	private JSpinner spnAlmacenamiento;
+	private JTextField txtTipoConexionCpu;
+	private JSpinner spnCosto;
+	private JSpinner spnPrecio;
+	private JSpinner spnProcesamiento;
+	private JComboBox cbxUnidadVelocidad;
+	
+	
 	
 	/**
 	 * Create the panel.
@@ -112,22 +119,10 @@ public class RegComp extends JPanel {
 		lblCosto.setBounds(60, 165, 86, 14);
 		add(lblCosto);
 		
-		spnCosto = new JSpinner();
-		spnCosto.setFont(new Font("Arial", Font.PLAIN, 16));
-		spnCosto.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
-		spnCosto.setBounds(166, 162, 86, 20);
-		add(spnCosto);
-		
 		JLabel lblPrecio = new JLabel("Precio");
 		lblPrecio.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblPrecio.setBounds(312, 165, 86, 14);
 		add(lblPrecio);
-		
-		spnPrecio = new JSpinner();
-		spnPrecio.setModel(new SpinnerNumberModel(new Float(0), null, null, new Float(1)));
-		spnPrecio.setFont(new Font("Arial", Font.PLAIN, 16));
-		spnPrecio.setBounds(438, 162, 86, 20);
-		add(spnPrecio);
 		
 		JLabel label = new JLabel("Num. Serie");
 		label.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -164,6 +159,52 @@ public class RegComp extends JPanel {
 		add(panelProcesador);
 		panelProcesador.setLayout(null);
 		
+		JLabel lblNewLabel_8 = new JLabel("Tipo de conexion");
+		lblNewLabel_8.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_8.setBounds(10, 14, 121, 19);
+		panelProcesador.add(lblNewLabel_8);
+		
+		JLabel lblTipoDeConexion_1 = new JLabel("Velocidad procesamiento");
+		lblTipoDeConexion_1.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblTipoDeConexion_1.setBounds(10, 47, 203, 19);
+		panelProcesador.add(lblTipoDeConexion_1);
+		
+		JLabel lblUnidadDeVelociad = new JLabel("Unidad de velociad");
+		lblUnidadDeVelociad.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblUnidadDeVelociad.setBounds(10, 80, 203, 19);
+		panelProcesador.add(lblUnidadDeVelociad);
+		
+		JLabel lblImagenDeProcesador = new JLabel("Imagen de procesador");
+		lblImagenDeProcesador.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblImagenDeProcesador.setBounds(10, 113, 203, 19);
+		panelProcesador.add(lblImagenDeProcesador);
+		
+		JButton btnNewButton_2 = new JButton("Imagenes");
+		btnNewButton_2.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnNewButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnNewButton_2.setBounds(343, 112, 111, 23);
+		panelProcesador.add(btnNewButton_2);
+		
+		cbxUnidadVelocidad = new JComboBox();
+		cbxUnidadVelocidad.setFont(new Font("Arial", Font.PLAIN, 16));
+		cbxUnidadVelocidad.setModel(new DefaultComboBoxModel(new String[] {"Ghz", "Mhz", "Khz"}));
+		cbxUnidadVelocidad.setBounds(343, 79, 111, 20);
+		panelProcesador.add(cbxUnidadVelocidad);
+		
+		spnProcesamiento = new JSpinner();
+		spnProcesamiento.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+		spnProcesamiento.setFont(new Font("Arial", Font.PLAIN, 16));
+		spnProcesamiento.setBounds(343, 46, 111, 20);
+		panelProcesador.add(spnProcesamiento);
+		
+		txtTipoConexionCpu = new JTextField();
+		txtTipoConexionCpu.setBounds(343, 13, 111, 20);
+		panelProcesador.add(txtTipoConexionCpu);
+		txtTipoConexionCpu.setColumns(10);
+		
 		
 		
 		JLabel lblNewLabel_5 = new JLabel("Cantidad de memoria");
@@ -172,7 +213,7 @@ public class RegComp extends JPanel {
 		panelRam.add(lblNewLabel_5);
 		
 		spnMemoria = new JSpinner();
-		spnMemoria.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+		spnMemoria.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnMemoria.setBounds(350, 13, 88, 20);
 		panelRam.add(spnMemoria);
 		
@@ -192,6 +233,7 @@ public class RegComp extends JPanel {
 		panelRam.add(lblTipo);
 		
 		cbxTipoRam = new JComboBox();
+		cbxTipoRam.setModel(new DefaultComboBoxModel(new String[] {"DDR1", "DDR2", "DDR3", "DDR4", "DDR5"}));
 		cbxTipoRam.setBounds(350, 79, 88, 20);
 		panelRam.add(cbxTipoRam);
 		
@@ -286,15 +328,15 @@ public class RegComp extends JPanel {
 		JButton btnRegistrar = new JButton("Registrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				String marca = txtMarca.getText();
+				String modelo = txtModelo.getText();
+				String numSerie = txtSerie.getText();
+				int cant = (int) spnCantidad.getValue();
+				float costo = (float) spnCosto.getValue();
+				float precio = (float) spnPrecio.getValue();
 				switch (type) {
 				case 0:
-					String marca = txtMarca.getText();
 					String conexion = txtConexion.getText();
-					String modelo = txtModelo.getText();
-					String numSerie = txtSerie.getText();
-					int cant = (int) spnCantidad.getValue();
-					float costo = (float) spnCosto.getValue();
-					float precio = (float) spnPrecio.getValue();
 					int almacenamiento = (int) spnAlmacenamiento.getValue();
 					String medidaAlmacenamiento = cbxMedida.getSelectedItem().toString();
 					
@@ -304,10 +346,25 @@ public class RegComp extends JPanel {
 					
 					break;
 				case 1:
+					String tipoConexionCpu = txtTipoConexionCpu.getText();
+					String unidadVelcidad = cbxUnidadVelocidad.getSelectedItem().toString();
+					float velocidadProcesamiento = (float)spnProcesamiento.getValue();
+					
+					Microprocesador microprocesador = new Microprocesador("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, tipoConexionCpu, velocidadProcesamiento, unidadVelcidad);
+					Controladora.getInstance().addComponente(microprocesador);
+					clean();
+					
+					
 					
 					break;
 				case 2:
+					int memoria = (int) spnMemoria.getValue();
+					String tipoMemoria = cbxTipoRam.getSelectedItem().toString();
+					String medidaRam = cbxUnidadMemoria.getSelectedItem().toString();
 					
+					MemoriaRAM memoriaRAM = new MemoriaRAM("C"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, memoria, medidaRam, tipoMemoria);
+					Controladora.getInstance().addComponente(memoriaRAM);
+					clean();
 					break;
 					
 				default:
@@ -319,6 +376,18 @@ public class RegComp extends JPanel {
 		btnRegistrar.setBackground(Color.WHITE);
 		btnRegistrar.setBounds(312, 367, 121, 23);
 		add(btnRegistrar);
+		
+		spnCosto = new JSpinner();
+		spnCosto.setModel(new SpinnerNumberModel(new Float(0), null, null, new Float(1)));
+		spnCosto.setFont(new Font("Arial", Font.PLAIN, 16));
+		spnCosto.setBounds(166, 164, 86, 20);
+		add(spnCosto);
+		
+		spnPrecio = new JSpinner();
+		spnPrecio.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+		spnPrecio.setFont(new Font("Arial", Font.PLAIN, 16));
+		spnPrecio.setBounds(438, 164, 86, 20);
+		add(spnPrecio);
 		
 		panelDiscoDuro.setVisible(false);
 		panelRam.setVisible(false);
@@ -353,8 +422,6 @@ public class RegComp extends JPanel {
 		txtModelo.setText("");
 		txtSerie.setText("");
 		spnCantidad.setValue(0);
-		spnCosto.setValue(0);
-		spnPrecio.setValue(0);
 		spnCantidad.setValue(0);
 		spnAlmacenamiento.setValue(0);
 		cbxMedida.setSelectedIndex(0);
@@ -363,4 +430,7 @@ public class RegComp extends JPanel {
 		
 	}
 	
+	public void actualizarId() {
+		txtId.setText("C-"+Controladora.getInstance().idcomponente);
+	}
 }

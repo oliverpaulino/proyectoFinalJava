@@ -59,6 +59,10 @@ public class RegOption extends JDialog {
 		{
 			optionPanel = new JPanel();
 			optionPanel.setBounds(5, 5, 590, 395);
+			
+			regDiscoDuro.setBounds(5, 5, 590, 395);
+			regProcesador.setBounds(5, 5, 590, 395);
+			regRam.setBounds(5, 5, 590, 395);
 			regDiscoDuro.btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					optionPanel.setVisible(true);
@@ -67,14 +71,12 @@ public class RegOption extends JDialog {
 				}
 			});
 		
-			regDiscoDuro.setBounds(5, 5, 590, 395);
 			regProcesador.btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					optionPanel.setVisible(true);
 					regProcesador.setVisible(false);
 				}
 			});
-			regProcesador.setBounds(5, 5, 590, 395);
 			regRam.btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					optionPanel.setVisible(true);
@@ -82,7 +84,6 @@ public class RegOption extends JDialog {
 				}
 			});
 			
-			regRam.setBounds(5, 5, 590, 395);
 			regProcesador.setVisible(false);
 			regRam.setVisible(false);
 			regDiscoDuro.setVisible(false);
@@ -107,13 +108,13 @@ public class RegOption extends JDialog {
 			btnDiscoDuro.setFocusable(false);
 			btnDiscoDuro.setFocusTraversalPolicyProvider(true);
 			btnDiscoDuro.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-			// btnDiscoDuro.setBorder(new RoundedBorder(10));
 			btnDiscoDuro.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					optionPanel.setVisible(false);
 					regDiscoDuro.setVisible(true);
 					regProcesador.setVisible(false);
 					regRam.setVisible(false);
+					regDiscoDuro.actualizarId();
 
 				}
 			});
@@ -134,6 +135,7 @@ public class RegOption extends JDialog {
 					regDiscoDuro.setVisible(false);
 					regProcesador.setVisible(false);
 					regRam.setVisible(true);
+					regRam.actualizarId();
 
 				}
 			});
@@ -151,10 +153,12 @@ public class RegOption extends JDialog {
 			btnMicroProcesador.setFocusable(false);
 			btnMicroProcesador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					optionPanel.setVisible(false);
 					regDiscoDuro.setVisible(false);
 					regProcesador.setVisible(true);
 					regRam.setVisible(false);
+					regProcesador.actualizarId();
 				}
 			});
 			btnMicroProcesador.setFont(new Font("Segoe UI", Font.PLAIN, 16));
