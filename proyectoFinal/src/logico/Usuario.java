@@ -5,16 +5,15 @@ public class Usuario {
 	private String nombre;
 	private String email;
 	private String numero;
-	private String direaccion;
-	private String password;
-	public Usuario(String id, String nombre, String email, String numero, String direaccion, String password) {
+	private String direccion;
+	
+	public Usuario(String id, String nombre, String email, String numero, String direccion) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.email = email;
 		this.numero = numero;
-		this.direaccion = direaccion;
-		this.password = password;
+		this.direccion = direccion;
 	}
 	public String getNombre() {
 		return nombre;
@@ -34,18 +33,13 @@ public class Usuario {
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-	public String getDireaccion() {
-		return direaccion;
+	public String getDireccion() {
+		return direccion;
 	}
-	public void setDireaccion(String direaccion) {
-		this.direaccion = direaccion;
+	public void setDireccion(String direaccion) {
+		this.direccion = direaccion;
 	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+
 	public String getId() {
 		return id;
 	}
