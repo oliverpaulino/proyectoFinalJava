@@ -72,6 +72,7 @@ public class Principal extends JFrame {
 	private JScrollPane scrollPane;
 	private JPanel pnCentro;
 	private JMenuItem mntmNewMenuItem;
+	private JMenuItem mntmNewMenuItem_4;
 
 	public static void main(String[] args) {
 		Controladora.getInstance().getMisUsuarios().add(new Empleado("E1", "Oliver jose paulino perez",
@@ -113,15 +114,55 @@ public class Principal extends JFrame {
 		});
 		menuCon.add(mntmNewMenuItem);
 
-		menuCon2 = new JMenu("consumidor");
+		menuCon2 = new JMenu("Cliente");
 		menuCon2.setMargin(new Insets(5, 5, 5, 5));
 		menuCon2.setFont(new Font("Arial", Font.PLAIN, 14));
 		menuBar.add(menuCon2);
+		
+		JMenuItem mntmNewMenuItem_3 = new JMenuItem("A\u00F1adir cliente");
+		mntmNewMenuItem_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddUser addClient = new AddUser(null, "CLIENTE");
+				addClient.setModal(true);
+				addClient.setVisible(true);
+			}
+		});
+		menuCon2.add(mntmNewMenuItem_3);
+		
+		mntmNewMenuItem_4 = new JMenuItem("Ver clientes");
+		mntmNewMenuItem_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListUsers listClients = new ListUsers("CLIENTE");
+				listClients.setModal(true);
+				listClients.setVisible(true);
+			}
+		});
+		menuCon2.add(mntmNewMenuItem_4);
 
 		menuAdmin = new JMenu("Administrador");
 		menuAdmin.setMargin(new Insets(5, 5, 5, 5));
 		menuAdmin.setFont(new Font("Arial", Font.PLAIN, 14));
 		menuBar.add(menuAdmin);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("A\u00F1adir empleado");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				AddUser addEmp = new AddUser(null, "EMPLEADO");
+				addEmp.setModal(true);
+				addEmp.setVisible(true);
+			}
+		});
+		menuAdmin.add(mntmNewMenuItem_1);
+		
+		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Ver empleados");
+		mntmNewMenuItem_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ListUsers listEmp = new ListUsers("EMPLEADO");
+				listEmp.setModal(true);
+				listEmp.setVisible(true);
+			}
+		});
+		menuAdmin.add(mntmNewMenuItem_2);
 
 		mnAdmin = new JMenu("Administrador");
 		mnAdmin.setMargin(new Insets(5, 5, 5, 5));

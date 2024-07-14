@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Controladora {
 	
 	public static int idfactura = 1;
-	public static int idcliente = 1;
+	public static int iduser = 1;
 	public static int idcomponente = 1;
 //	public static int id = 1;
 	
@@ -31,6 +31,32 @@ public class Controladora {
 	public ArrayList<Usuario> getMisUsuarios() {
 		return misUsuarios;
 	}
+	
+	public Usuario findUserById(String userId) {
+		Usuario user = null;
+		boolean found = false;
+
+		int i = 0;
+		while (!found && i < misUsuarios.size()) {
+			if (misUsuarios.get(i).getId().equalsIgnoreCase(userId)) {
+				user = misUsuarios.get(i);
+				found = true;
+			}
+			i++;
+		}
+
+		return user;
+	}
+	
+	public void addUser(Usuario user) {
+		misUsuarios.add(user);
+		iduser++;
+	}
+	
+	public void deleteUser(String userId) {
+		Usuario user = findUserById(userId);
+		misUsuarios.remove(user);
+	}
 
 	public ArrayList<Componente> getMisComponentes() {
 		return misComponentes;
@@ -46,10 +72,6 @@ public class Controladora {
 
 	public static void setMiControladora(Controladora miControladora) {
 		Controladora.miControladora = miControladora;
-	}
-
-	public void setMisUsuarios(ArrayList<Usuario> misUsuarios) {
-		this.misUsuarios = misUsuarios;
 	}
 
 	public Usuario buscarUsuarioByCorreo(String email) {
