@@ -2,6 +2,7 @@ package visual;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JSpinner;
@@ -14,6 +15,7 @@ import javax.swing.border.LineBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JComboBox;
@@ -28,6 +30,7 @@ import logico.Controladora;
 import logico.DiscoDuro;
 import logico.MemoriaRAM;
 import logico.Microprocesador;
+import logico.TarjetaMadre;
 
 public class RegComp extends JPanel {
 	private JTextField txtId;
@@ -48,6 +51,9 @@ public class RegComp extends JPanel {
 	private JSpinner spnPrecio;
 	private JSpinner spnProcesamiento;
 	private JComboBox cbxUnidadVelocidad;
+	private JTextField txtConectorTarjetaMadre;
+	private JTextField txtConexionDiscos;
+	private JComboBox cbxTipoRamMadre;
 	
 	
 	
@@ -158,6 +164,12 @@ public class RegComp extends JPanel {
 		panelProcesador.setBounds(60, 205, 464, 150);
 		add(panelProcesador);
 		panelProcesador.setLayout(null);
+		
+		JPanel panelTarjetaMadre = new JPanel();
+		panelTarjetaMadre.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelTarjetaMadre.setBounds(60, 205, 464, 150);
+		add(panelTarjetaMadre);
+		panelTarjetaMadre.setLayout(null);
 		
 		JLabel lblNewLabel_8 = new JLabel("Tipo de conexion");
 		lblNewLabel_8.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -328,47 +340,89 @@ public class RegComp extends JPanel {
 		JButton btnRegistrar = new JButton("Registrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				
 				String marca = txtMarca.getText();
 				String modelo = txtModelo.getText();
 				String numSerie = txtSerie.getText();
 				int cant = (int) spnCantidad.getValue();
 				float costo = (float) spnCosto.getValue();
 				float precio = (float) spnPrecio.getValue();
-				switch (type) {
-				case 0:
-					String conexion = txtConexion.getText();
-					int almacenamiento = (int) spnAlmacenamiento.getValue();
-					String medidaAlmacenamiento = cbxMedida.getSelectedItem().toString();
+				if (cant==0 || costo==0 || precio==0 || marca.isEmpty() || modelo.isEmpty() || numSerie.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
 					
-					DiscoDuro discoDuro = new DiscoDuro("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, almacenamiento, medidaAlmacenamiento, conexion);
-					Controladora.getInstance().addComponente(discoDuro);
+					switch (type) {
+					case 0:
+						String conexion = txtConexion.getText();
+						int almacenamiento = (int) spnAlmacenamiento.getValue();
+						String medidaAlmacenamiento = cbxMedida.getSelectedItem().toString();
+						
+						if(conexion.isEmpty() || almacenamiento==0 || medidaAlmacenamiento.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+						}
+						else {
+							
+							DiscoDuro discoDuro = new DiscoDuro("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, almacenamiento, medidaAlmacenamiento, conexion);
+							Controladora.getInstance().addComponente(discoDuro);
+							clean();
+							
+						}
+						
+						break;
+					case 1:
+						String tipoConexionCpu = txtTipoConexionCpu.getText();
+						String unidadVelcidad = cbxUnidadVelocidad.getSelectedItem().toString();
+						float velocidadProcesamiento = (float)spnProcesamiento.getValue();
+						if (tipoConexionCpu.isEmpty()||velocidadProcesamiento==0) {
+							JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+						}
+						else {
+							
+							Microprocesador microprocesador = new Microprocesador("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, tipoConexionCpu, velocidadProcesamiento, unidadVelcidad);
+							Controladora.getInstance().addComponente(microprocesador);
+							clean();
+						}
+						
+						break;
+					case 2:
+						int memoria = (int) spnMemoria.getValue();
+						String tipoMemoria = cbxTipoRam.getSelectedItem().toString();
+						String medidaRam = cbxUnidadMemoria.getSelectedItem().toString();
+						
+						if (memoria==0) {
+							JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+						}
+						else {
+							
+							MemoriaRAM memoriaRAM = new MemoriaRAM("C"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, memoria, medidaRam, tipoMemoria);
+							Controladora.getInstance().addComponente(memoriaRAM);
+							clean();
+						}
+						break;
+						
+					case 3:
+						String conectorTajetaMadre = txtConectorTarjetaMadre.getText();
+						String tipoRamTarjeta = cbxTipoRamMadre.getSelectedItem().toString();
+						ArrayList<String> conexionesDiscoDuro = new ArrayList<>();
+						conexionesDiscoDuro.add(txtConexionDiscos.getText());
+						
+						if (conectorTajetaMadre.isEmpty() || conexionesDiscoDuro.isEmpty()) {
+							JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+						}
+						else {
+							
+							TarjetaMadre tarjetaMadre = new TarjetaMadre("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, conectorTajetaMadre, tipoRamTarjeta, conexionesDiscoDuro);
+							Controladora.getInstance().addComponente(tarjetaMadre);
+							clean();
+						}
+						
+					default:
+						break;
+					}
+					
+					JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Registro", JOptionPane.INFORMATION_MESSAGE);
 					clean();
-					
-					break;
-				case 1:
-					String tipoConexionCpu = txtTipoConexionCpu.getText();
-					String unidadVelcidad = cbxUnidadVelocidad.getSelectedItem().toString();
-					float velocidadProcesamiento = (float)spnProcesamiento.getValue();
-					
-					Microprocesador microprocesador = new Microprocesador("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, tipoConexionCpu, velocidadProcesamiento, unidadVelcidad);
-					Controladora.getInstance().addComponente(microprocesador);
-					clean();
-					
-					
-					
-					break;
-				case 2:
-					int memoria = (int) spnMemoria.getValue();
-					String tipoMemoria = cbxTipoRam.getSelectedItem().toString();
-					String medidaRam = cbxUnidadMemoria.getSelectedItem().toString();
-					
-					MemoriaRAM memoriaRAM = new MemoriaRAM("C"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, memoria, medidaRam, tipoMemoria);
-					Controladora.getInstance().addComponente(memoriaRAM);
-					clean();
-					break;
-					
-				default:
-					break;
 				}
 			}
 		});
@@ -389,9 +443,53 @@ public class RegComp extends JPanel {
 		spnPrecio.setBounds(438, 164, 86, 20);
 		add(spnPrecio);
 		
+		
+		
+		JLabel lblNewLabel_9 = new JLabel("Tipo de conector");
+		lblNewLabel_9.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_9.setBounds(10, 14, 151, 19);
+		panelTarjetaMadre.add(lblNewLabel_9);
+		
+		txtConectorTarjetaMadre = new JTextField();
+		txtConectorTarjetaMadre.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtConectorTarjetaMadre.setBounds(316, 12, 138, 20);
+		panelTarjetaMadre.add(txtConectorTarjetaMadre);
+		txtConectorTarjetaMadre.setColumns(10);
+		
+		JLabel lblTipoDeRam = new JLabel("Tipo de ram");
+		lblTipoDeRam.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblTipoDeRam.setBounds(10, 47, 151, 19);
+		panelTarjetaMadre.add(lblTipoDeRam);
+		
+		cbxTipoRamMadre = new JComboBox();
+		cbxTipoRamMadre.setFont(new Font("Arial", Font.PLAIN, 14));
+		cbxTipoRamMadre.setModel(new DefaultComboBoxModel(new String[] {"DDR1", "DDR2", "DDR3", "DDR4", "DDR5"}));
+		cbxTipoRamMadre.setBounds(316, 44, 138, 20);
+		panelTarjetaMadre.add(cbxTipoRamMadre);
+		
+		JLabel lblNewLabel_10 = new JLabel("Conexiones disco duro");
+		lblNewLabel_10.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblNewLabel_10.setBounds(10, 80, 184, 14);
+		panelTarjetaMadre.add(lblNewLabel_10);
+		
+		txtConexionDiscos = new JTextField();
+		txtConexionDiscos.setBounds(316, 76, 138, 20);
+		panelTarjetaMadre.add(txtConexionDiscos);
+		txtConexionDiscos.setColumns(10);
+		
+		JLabel lblSeleccionarImagen = new JLabel("Seleccionar imagen");
+		lblSeleccionarImagen.setFont(new Font("Arial", Font.PLAIN, 16));
+		lblSeleccionarImagen.setBounds(10, 108, 151, 19);
+		panelTarjetaMadre.add(lblSeleccionarImagen);
+		
+		JButton btnImagenes = new JButton("Seleccionar");
+		btnImagenes.setBounds(316, 108, 138, 23);
+		panelTarjetaMadre.add(btnImagenes);
+		
 		panelDiscoDuro.setVisible(false);
 		panelRam.setVisible(false);
 		panelProcesador.setVisible(false);
+		panelTarjetaMadre.setVisible(false);
 		
 		switch (type) {
 		case 0:
@@ -406,7 +504,10 @@ public class RegComp extends JPanel {
 			typeLabel.setText("Registro Ram");
 			panelRam.setVisible(true);
 			break;
-			
+		case 3:
+			typeLabel.setText("Registro Tarjeta Madre");
+			panelTarjetaMadre.setVisible(true);
+		
 		default:
 			break;
 		}
@@ -420,13 +521,20 @@ public class RegComp extends JPanel {
 		txtMarca.setText("");
 		txtConexion.setText("");
 		txtModelo.setText("");
+		txtConexion.setText("");
 		txtSerie.setText("");
 		spnCantidad.setValue(0);
 		spnCantidad.setValue(0);
+		spnCosto.setValue(0);
+		spnPrecio.setValue(0);
 		spnAlmacenamiento.setValue(0);
-		cbxMedida.setSelectedIndex(0);
-		txtConexion.setText("");
+		spnProcesamiento.setValue(0);
 		
+		cbxMedida.setSelectedIndex(0);
+		cbxTipoRam.setSelectedIndex(0);
+		cbxTipoRamMadre.setSelectedIndex(0);
+		cbxUnidadMemoria.setSelectedIndex(0);
+		cbxUnidadVelocidad.setSelectedIndex(0);
 		
 	}
 	

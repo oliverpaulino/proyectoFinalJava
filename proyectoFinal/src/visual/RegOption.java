@@ -63,6 +63,13 @@ public class RegOption extends JDialog {
 			regDiscoDuro.setBounds(5, 5, 590, 395);
 			regProcesador.setBounds(5, 5, 590, 395);
 			regRam.setBounds(5, 5, 590, 395);
+			regTarjeta.btnCancelar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					optionPanel.setVisible(true);
+					regTarjeta.setVisible(false);
+				}
+			});
+			regTarjeta.setBounds(5, 5, 590, 395);
 			regDiscoDuro.btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					optionPanel.setVisible(true);
@@ -87,10 +94,12 @@ public class RegOption extends JDialog {
 			regProcesador.setVisible(false);
 			regRam.setVisible(false);
 			regDiscoDuro.setVisible(false);
+			regTarjeta.setVisible(false);
 			contentPanel.add(optionPanel);
 			contentPanel.add(regRam);
 			contentPanel.add(regProcesador);
 			contentPanel.add(regDiscoDuro);
+			contentPanel.add(regTarjeta);
 
 			optionPanel.setLayout(null);
 
@@ -114,6 +123,7 @@ public class RegOption extends JDialog {
 					regDiscoDuro.setVisible(true);
 					regProcesador.setVisible(false);
 					regRam.setVisible(false);
+					regTarjeta.setVisible(false);
 					regDiscoDuro.actualizarId();
 
 				}
@@ -135,6 +145,7 @@ public class RegOption extends JDialog {
 					regDiscoDuro.setVisible(false);
 					regProcesador.setVisible(false);
 					regRam.setVisible(true);
+					regTarjeta.setVisible(false);
 					regRam.actualizarId();
 
 				}
@@ -158,6 +169,7 @@ public class RegOption extends JDialog {
 					regDiscoDuro.setVisible(false);
 					regProcesador.setVisible(true);
 					regRam.setVisible(false);
+					regTarjeta.setVisible(false);
 					regProcesador.actualizarId();
 				}
 			});
@@ -182,6 +194,12 @@ public class RegOption extends JDialog {
 			JButton btnTarjetaMadre = new JButton("Tarjeta Madre");
 			btnTarjetaMadre.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					optionPanel.setVisible(false);
+					regDiscoDuro.setVisible(false);
+					regProcesador.setVisible(false);
+					regRam.setVisible(false);
+					regTarjeta.setVisible(true);
+					regProcesador.actualizarId();
 					
 				}
 			});
