@@ -12,6 +12,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -24,17 +25,25 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableModel;
 
+import logico.Cliente;
 import logico.Controladora;
 import logico.Empleado;
 import logico.Usuario;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import java.awt.GridBagLayout;
+import javax.swing.JTable;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class Principal extends JFrame {
 
@@ -68,10 +77,22 @@ public class Principal extends JFrame {
 	private JMenuItem mntmNewMenuItem;
 	private JMenuItem mntmNewMenuItem_4;
 	private JButton btnInfoPer;
+	private JTable table;
+	private DefaultTableModel modelo;
+	private Object row[];
+	private String idSelected;
+	private JLabel lblNewLabel_3;
+	private JTextField txtBuscadorCliente;
+	private JComboBox cbxbuscador;
+	private JPanel pnBuscarClientes;
 
 	public static void main(String[] args) {
 		Controladora.getInstance().getMisUsuarios().add(new Empleado("E1", "Oliver jose paulino perez", "oliver",
-				"8097914801", "blah blah", "1230", 15000, false));
+				"8097914801", "blah blah", "1230", 15000, true));
+//		Controladora.getInstance().getMisUsuarios()
+//				.add(new Cliente("E2", "Oliver jose paulino perez", "oliver", "8097914801", "blah blah"));
+//		Controladora.getInstance().getMisUsuarios()
+//				.add(new Cliente("E3", "Oscar pajaro", "oscar", "8097914801", "blah blah"));
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -124,6 +145,7 @@ public class Principal extends JFrame {
 				AddUser addClient = new AddUser(null, "CLIENTE");
 				addClient.setModal(true);
 				addClient.setVisible(true);
+				loadUsers();
 			}
 		});
 		mnCl.add(mntmNewMenuItem_3);
@@ -394,12 +416,81 @@ public class Principal extends JFrame {
 
 		panelizquierda = new JPanel();
 		panelizquierda.setBackground(Color.WHITE);
-		panelizquierda.setBounds(0, 0, 191, 967);
+		panelizquierda.setBounds(0, 47, 244, 920);
 		panel.add(panelizquierda);
+		panelizquierda.setLayout(null);
+
+		modelo = new DefaultTableModel();
+		String[] headers = { "Nombre", "Email", "Direccion" };
+		modelo.setColumnIdentifiers(headers);
+		
+		pnBuscarClientes = new JPanel();
+		pnBuscarClientes.setBorder(null);
+		pnBuscarClientes.setVisible(false);
+		pnBuscarClientes.setBackground(Color.WHITE);
+		pnBuscarClientes.setBounds(10, 11, 224, 414);
+		panelizquierda.add(pnBuscarClientes);
+		pnBuscarClientes.setLayout(null);
+		
+				JLabel lblNewLabel_2 = new JLabel("Clientes:");
+				lblNewLabel_2.setBounds(89, 0, 46, 14);
+				pnBuscarClientes.add(lblNewLabel_2);
+				
+						txtBuscadorCliente = new JTextField();
+						txtBuscadorCliente.setBounds(10, 25, 206, 20);
+						pnBuscarClientes.add(txtBuscadorCliente);
+						txtBuscadorCliente.getDocument().addDocumentListener(new DocumentListener() {
+							public void insertUpdate(DocumentEvent e) {
+								loadUsers();
+							}
+
+							public void removeUpdate(DocumentEvent e) {
+								loadUsers();
+							}
+
+							public void changedUpdate(DocumentEvent e) {
+								loadUsers();
+							}
+						});
+						txtBuscadorCliente.setColumns(10);
+						
+								JScrollPane scrollPane_1 = new JScrollPane();
+								scrollPane_1.setBounds(10, 56, 206, 281);
+								pnBuscarClientes.add(scrollPane_1);
+								table = new JTable();
+								table.setDefaultEditor(Object.class, null);
+								table.addMouseListener(new MouseAdapter() {
+									@Override
+									public void mouseClicked(MouseEvent arg0) {
+										int index = table.getSelectedRow();
+										if (index >= 0) {
+											idSelected = new String(table.getValueAt(index, 0).toString());
+											// btnDelete.setEnabled(true);
+											// btnEdit.setEnabled(true);
+										}
+									}
+								});
+								table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+								
+										scrollPane_1.setViewportView(table);
+										
+												JPanel panel_1 = new JPanel();
+												panel_1.setBounds(10, 56, 206, 281);
+												pnBuscarClientes.add(panel_1);
+												panel_1.setLayout(new BorderLayout(0, 0));
+												
+														lblNewLabel_3 = new JLabel("Buscar por:");
+														lblNewLabel_3.setBounds(10, 351, 55, 14);
+														pnBuscarClientes.add(lblNewLabel_3);
+														
+																cbxbuscador = new JComboBox();
+																cbxbuscador.setBounds(90, 348, 126, 20);
+																pnBuscarClientes.add(cbxbuscador);
+																cbxbuscador.setModel(new DefaultComboBoxModel(new String[] { "Nombre", "Email", "Direccion" }));
 
 		panel_3 = new JPanel();
 		panel_3.setBackground(Color.LIGHT_GRAY);
-		panel_3.setBounds(190, 47, 1704, 920);
+		panel_3.setBounds(241, 47, 1653, 920);
 		panel.add(panel_3);
 		panel_3.setLayout(new BorderLayout(0, 0));
 
@@ -419,6 +510,7 @@ public class Principal extends JFrame {
 				pnInicioSesion.setVisible(true);
 			}
 		});
+		loadUsers();
 	}
 
 	private void loadMenu() {
@@ -430,6 +522,7 @@ public class Principal extends JFrame {
 			txtcontra.setText("");
 			mnCl.setVisible(true);
 			mnReg.setVisible(true);
+			pnBuscarClientes.setVisible(true);
 			if (Admin.isManager())
 				mnAdmin.setVisible(true);
 			else {
@@ -438,6 +531,7 @@ public class Principal extends JFrame {
 
 			// cierra la sesion o sale
 		} else {
+			pnBuscarClientes.setVisible(false);
 			pnUser.setVisible(false);
 			Admin = null;
 			btniniciosesion.setVisible(true);
@@ -446,5 +540,35 @@ public class Principal extends JFrame {
 			mnReg.setVisible(false);
 			mnAdmin.setVisible(false);
 		}
+
+	}
+
+	public void loadUsers() {
+		ArrayList<Usuario> users = Controladora.getInstance().getMisUsuarios();
+		String textoBuscador = txtBuscadorCliente.getText().toLowerCase(), filtro;
+		modelo.setRowCount(0);
+		row = new Object[table.getColumnCount()];
+
+		if (users != null)
+			for (Usuario user : users) {
+				if (user instanceof Cliente) {
+					if(cbxbuscador.getSelectedItem().toString().equalsIgnoreCase("Nombre"))
+						filtro = user.getNombre();
+					else if(cbxbuscador.getSelectedItem().toString().equalsIgnoreCase("Email"))
+						filtro = user.getEmail();
+					else {
+						filtro = user.getDireccion();
+					}
+						
+					if (filtro.toLowerCase().contains(textoBuscador)) {
+						row[0] = user.getNombre();
+						row[1] = user.getEmail();
+						row[2] = user.getDireccion();
+						modelo.addRow(row);
+					}
+				}
+			}
+
+		table.setModel(modelo);
 	}
 }
