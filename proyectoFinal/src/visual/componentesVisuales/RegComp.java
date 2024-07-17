@@ -1,4 +1,4 @@
-package visual;
+package visual.componentesVisuales;
 
 import javax.swing.JPanel;
 import javax.swing.JLabel;
