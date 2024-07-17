@@ -47,13 +47,13 @@ public class RegComp extends JPanel {
 	private JSpinner spnCantidad;
 	private JSpinner spnAlmacenamiento;
 	private JTextField txtTipoConexionCpu;
-	private JSpinner spnCosto;
-	private JSpinner spnPrecio;
 	private JSpinner spnProcesamiento;
 	private JComboBox cbxUnidadVelocidad;
 	private JTextField txtConectorTarjetaMadre;
 	private JTextField txtConexionDiscos;
 	private JComboBox cbxTipoRamMadre;
+	private JSpinner spnCosto;
+	private JSpinner spnPrecio;
 	
 	
 	
@@ -431,18 +431,6 @@ public class RegComp extends JPanel {
 		btnRegistrar.setBounds(312, 367, 121, 23);
 		add(btnRegistrar);
 		
-		spnCosto = new JSpinner();
-		spnCosto.setModel(new SpinnerNumberModel(new Float(0), null, null, new Float(1)));
-		spnCosto.setFont(new Font("Arial", Font.PLAIN, 16));
-		spnCosto.setBounds(166, 164, 86, 20);
-		add(spnCosto);
-		
-		spnPrecio = new JSpinner();
-		spnPrecio.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
-		spnPrecio.setFont(new Font("Arial", Font.PLAIN, 16));
-		spnPrecio.setBounds(438, 164, 86, 20);
-		add(spnPrecio);
-		
 		
 		
 		JLabel lblNewLabel_9 = new JLabel("Tipo de conector");
@@ -486,6 +474,18 @@ public class RegComp extends JPanel {
 		btnImagenes.setBounds(316, 108, 138, 23);
 		panelTarjetaMadre.add(btnImagenes);
 		
+		spnCosto = new JSpinner();
+		spnCosto.setFont(new Font("Arial", Font.PLAIN, 14));
+		spnCosto.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+		spnCosto.setBounds(166, 164, 86, 20);
+		add(spnCosto);
+		
+		spnPrecio = new JSpinner();
+		spnPrecio.setFont(new Font("Arial", Font.PLAIN, 14));
+		spnPrecio.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+		spnPrecio.setBounds(438, 164, 86, 20);
+		add(spnPrecio);
+		
 		panelDiscoDuro.setVisible(false);
 		panelRam.setVisible(false);
 		panelProcesador.setVisible(false);
@@ -525,8 +525,6 @@ public class RegComp extends JPanel {
 		txtSerie.setText("");
 		spnCantidad.setValue(0);
 		spnCantidad.setValue(0);
-		spnCosto.setValue(0);
-		spnPrecio.setValue(0);
 		spnAlmacenamiento.setValue(0);
 		spnProcesamiento.setValue(0);
 		
