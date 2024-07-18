@@ -363,8 +363,8 @@ public class RegComp extends JPanel {
 						}
 						else {
 							
-							DiscoDuro discoDuro = new DiscoDuro("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, almacenamiento, medidaAlmacenamiento, conexion);
-							Controladora.getInstance().addComponente(discoDuro);
+							DiscoDuro discoDuro = new DiscoDuro("C-"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, almacenamiento, medidaAlmacenamiento, conexion);
+							Controladora.getInstance().addProduct(discoDuro);
 							clean();
 							
 						}
@@ -379,8 +379,8 @@ public class RegComp extends JPanel {
 						}
 						else {
 							
-							Microprocesador microprocesador = new Microprocesador("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, tipoConexionCpu, velocidadProcesamiento, unidadVelcidad);
-							Controladora.getInstance().addComponente(microprocesador);
+							Microprocesador microprocesador = new Microprocesador("C-"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, tipoConexionCpu, velocidadProcesamiento, unidadVelcidad);
+							Controladora.getInstance().addProduct(microprocesador);
 							clean();
 						}
 						
@@ -395,8 +395,8 @@ public class RegComp extends JPanel {
 						}
 						else {
 							
-							MemoriaRAM memoriaRAM = new MemoriaRAM("C"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, memoria, medidaRam, tipoMemoria);
-							Controladora.getInstance().addComponente(memoriaRAM);
+							MemoriaRAM memoriaRAM = new MemoriaRAM("C"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, memoria, medidaRam, tipoMemoria);
+							Controladora.getInstance().addProduct(memoriaRAM);
 							clean();
 						}
 						break;
@@ -412,8 +412,8 @@ public class RegComp extends JPanel {
 						}
 						else {
 							
-							TarjetaMadre tarjetaMadre = new TarjetaMadre("C-"+Controladora.getInstance().idcomponente, marca, modelo, costo, precio, cant, numSerie, conectorTajetaMadre, tipoRamTarjeta, conexionesDiscoDuro);
-							Controladora.getInstance().addComponente(tarjetaMadre);
+							TarjetaMadre tarjetaMadre = new TarjetaMadre("C-"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, conectorTajetaMadre, tipoRamTarjeta, conexionesDiscoDuro);
+							Controladora.getInstance().addProduct(tarjetaMadre);
 							clean();
 						}
 						
@@ -517,7 +517,7 @@ public class RegComp extends JPanel {
 	}
 	
 	private void clean() {
-		txtId.setText("C-"+Controladora.getInstance().idcomponente);
+		txtId.setText("C-"+Controladora.idproduct);
 		txtMarca.setText("");
 		txtConexion.setText("");
 		txtModelo.setText("");
@@ -537,6 +537,6 @@ public class RegComp extends JPanel {
 	}
 	
 	public void actualizarId() {
-		txtId.setText("C-"+Controladora.getInstance().idcomponente);
+		txtId.setText("C-"+Controladora.idproduct);
 	}
 }

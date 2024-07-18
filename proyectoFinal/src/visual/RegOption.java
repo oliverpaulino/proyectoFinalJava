@@ -50,7 +50,7 @@ public class RegOption extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegOption() {
-		setTitle("Registro de Componentes\r\n");
+		setTitle("Registro de Productos");
 		setBounds(100, 100, 616, 444);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -234,9 +234,9 @@ public class RegOption extends JDialog {
 			gbc_btnComputadora.gridy = 0;
 			panel_2.add(btnComputadora, gbc_btnComputadora);
 
-			JLabel lblNewLabel = new JLabel("Registrar un:");
+			JLabel lblNewLabel = new JLabel("Registrar:");
 			lblNewLabel.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-			lblNewLabel.setBounds(241, 35, 107, 22);
+			lblNewLabel.setBounds(255, 47, 66, 22);
 			optionPanel.add(lblNewLabel);
 		}
 	}

@@ -2,7 +2,7 @@ package logico;
 
 import java.io.Serializable;
 
-public class Componente implements Serializable  {
+public class Product implements Serializable  {
 	/**
 	 * 
 	 */
@@ -15,7 +15,7 @@ public class Componente implements Serializable  {
 	private int cantidad;
 	private String numeroSerie;
 	
-	public Componente(String id, String marca, String modelo,float costo, float precio, int cantidad, String numeroSerie) {
+	public Product(String id, String marca, String modelo,float costo, float precio, int cantidad, String numeroSerie) {
 		super();
 		this.id = id;
 		this.marca = marca;

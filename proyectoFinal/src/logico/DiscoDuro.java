@@ -1,6 +1,6 @@
 package logico;
 
-public class DiscoDuro extends Componente {
+public class DiscoDuro extends Product {
 	/**
 	 * 
 	 */

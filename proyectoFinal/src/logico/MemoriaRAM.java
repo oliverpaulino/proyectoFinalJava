@@ -1,6 +1,6 @@
 package logico;
 
-public class MemoriaRAM extends Componente{
+public class MemoriaRAM extends Product{
 	
 	/**
 	 * 

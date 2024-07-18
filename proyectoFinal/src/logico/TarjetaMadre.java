@@ -2,7 +2,7 @@ package logico;
 
 import java.util.ArrayList;
 
-public class TarjetaMadre extends Componente {
+public class TarjetaMadre extends Product {
 	/**
 	 * 
 	 */
