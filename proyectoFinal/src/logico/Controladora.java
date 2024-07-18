@@ -1,13 +1,25 @@
 package logico;
 
+import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Controladora {
+public class Controladora implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static int idfactura = 1;
 	public static int iduser = 1;
 	public static int idcomponente = 1;
-//	public static int id = 1;
 	
 	private ArrayList<Usuario>misUsuarios;
 	private ArrayList<Componente>misComponentes;
@@ -33,29 +45,26 @@ public class Controladora {
 	}
 	
 	public Usuario findUserById(String userId) {
-		Usuario user = null;
-		boolean found = false;
-
-		int i = 0;
-		while (!found && i < misUsuarios.size()) {
-			if (misUsuarios.get(i).getId().equalsIgnoreCase(userId)) {
-				user = misUsuarios.get(i);
-				found = true;
-			}
-			i++;
-		}
-
-		return user;
+		return misUsuarios.stream()
+				.filter(user -> user.getId().equalsIgnoreCase(userId))
+				.findFirst()
+				.orElse(null);
 	}
 	
 	public void addUser(Usuario user) {
+		if(cargarDatosUsuarios()!= null)
+			setMisUsuarios(cargarDatosUsuarios());
 		misUsuarios.add(user);
 		iduser++;
+		guardarDatosUsuario();
 	}
 	
 	public void deleteUser(String userId) {
 		Usuario user = findUserById(userId);
-		misUsuarios.remove(user);
+		if (user != null) {
+			misUsuarios.remove(user);
+			guardarDatosUsuario();
+		}
 	}
 	
 	public void addComponente(Componente c1) {
@@ -67,6 +76,10 @@ public class Controladora {
 	public ArrayList<Componente> getMisComponentes() {
 		return misComponentes;
 		
+	}
+	
+	public void setMisUsuarios(ArrayList<Usuario> misUsuarios) {
+		this.misUsuarios = misUsuarios;
 	}
 
 	public void setMisComponentes(ArrayList<Componente> misComponentes) {
@@ -82,21 +95,43 @@ public class Controladora {
 	}
 
 	public Usuario buscarUsuarioByCorreo(String email) {
-		Usuario user = null;
-		boolean encontrado = true;
-		int i = 0;
-		while(encontrado && misUsuarios.size() > i) {
-			if(misUsuarios.get(i).getEmail().equalsIgnoreCase(email)) {
-				user = misUsuarios.get(i);
-				encontrado = false;
+		if(cargarDatosUsuarios() != null)
+			for(int i = 0; cargarDatosUsuarios().size()>i; i++) {
+				misUsuarios.add(cargarDatosUsuarios().get(i));			
 			}
-			i++;
-		}
-		return user;
+		return misUsuarios.stream()
+				.filter(user -> user.getEmail().equalsIgnoreCase(email))
+				.findFirst()
+				.orElse(null);
 	}
 	
 	
-	
+	public void guardarDatosUsuario() {
+		 File directorio = new File("./src/Datos");
+	        if (!directorio.exists()) {
+	            directorio.mkdirs(); // Crea los directorios necesarios
+	        }
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./src/Datos/Usuarios.dat"))) {
+			oos.writeObject(miControladora.getMisUsuarios());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	public ArrayList<Usuario> cargarDatosUsuarios() {
+		ArrayList<Usuario> usuarios = null;
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./src/Datos/Usuarios.dat"))) {
+	        usuarios = (ArrayList<Usuario>) ois.readObject();
+	    } catch (FileNotFoundException e) {
+	        System.out.println("Archivo no encontrado: " + e.getMessage());
+	    } catch (EOFException e) {
+	        System.out.println("Fin del archivo alcanzado inesperadamente: " + e.getMessage());
+	    } catch (IOException | ClassNotFoundException e) {
+	        System.out.println("Error al leer el archivo Usuarios.dat: " + e.getMessage());
+	    }
+		return usuarios;
+	}
 	
 	
 

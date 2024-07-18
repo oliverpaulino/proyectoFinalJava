@@ -1,6 +1,12 @@
 package logico;
 
-public class Componente {
+import java.io.Serializable;
+
+public class Componente implements Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4354380039011536968L;
 	private String id;
 	private String marca;
 	private String modelo;
@@ -42,6 +48,10 @@ public class Componente {
 
 	public String getNumeroSerie() {
 		return numeroSerie;
+	}
+
+	public float getCosto() {
+		return costo;
 	}
 	
 	

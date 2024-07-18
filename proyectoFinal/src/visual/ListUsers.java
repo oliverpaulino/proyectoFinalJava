@@ -166,7 +166,7 @@ public class ListUsers extends JDialog {
 	}
 
 	public void loadUsers(String type) {
-		ArrayList<Usuario> users = Controladora.getInstance().getMisUsuarios();
+		ArrayList<Usuario> users = Controladora.getInstance().cargarDatosUsuarios();
 		modelo.setRowCount(0);
 
 		for (Usuario user : users) {

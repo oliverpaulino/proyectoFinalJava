@@ -63,7 +63,7 @@ public class Principal extends JFrame {
 	private JLabel lblinicio;
 	private JPanel pnContrasena;
 	private Empleado Admin = null;
-	private boolean inicioSesion = false;
+	private boolean inicioSesion = false;//==========================
 	private JButton button;
 	private JButton btnAtrasInicio;
 	private JLabel lblimg;
@@ -91,7 +91,6 @@ public class Principal extends JFrame {
 	public static void main(String[] args) {
 		Controladora.getInstance().getMisUsuarios().add(new Empleado("E1", "Oliver jose paulino perez", "oliver",
 				"8097914801", "blah blah", "1230", 15000, true));
-		
 //		Controladora.getInstance().getMisUsuarios()
 //				.add(new Cliente("E3", "Oscar pajaro", "oscar", "8097914801", "blah blah"));
 		EventQueue.invokeLater(new Runnable() {
@@ -146,6 +145,7 @@ public class Principal extends JFrame {
 				AddUser addClient = new AddUser(null, "CLIENTE");
 				addClient.setModal(true);
 				addClient.setVisible(true);
+//				Controladora.getInstance().guardarDatosUsuario();
 				loadUsers();
 			}
 		});
@@ -503,19 +503,21 @@ public class Principal extends JFrame {
 		pnCentro = new JPanel();
 		scrollPane.setViewportView(pnCentro);
 		pnCentro.setLayout(null);
-		
+
 		JButton btnNewButton = new JButton("Ofertas");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(btnNewButton.getIcon().toString().contains("sortDown")) {
+				if (btnNewButton.getIcon().toString().contains("sortDown")) {
 					btnNewButton.setBounds(781, 0, 89, 23);
 					pnOfertas.setVisible(false);
-					btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortUp.png")));
-				}else {
+					btnNewButton.setIcon(
+							new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortUp.png")));
+				} else {
 					btnNewButton.setBounds(781, 162, 89, 23);
 					pnOfertas.setVisible(true);
-					btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortDown.png")));
-					
+					btnNewButton.setIcon(
+							new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortDown.png")));
+
 				}
 			}
 		});
@@ -533,7 +535,7 @@ public class Principal extends JFrame {
 
 		JScrollPane scrollPane_2 = new JScrollPane();
 		pnOfertas.add(scrollPane_2, BorderLayout.CENTER);
-		
+
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		scrollPane_2.setViewportView(panel_2);
@@ -545,7 +547,7 @@ public class Principal extends JFrame {
 		loadUsers();
 	}
 
-	private void loadMenu() {
+	public void loadMenu() {
 		if (inicioSesion) {
 			btniniciosesion.setVisible(false);
 			pnContrasena.setVisible(false);
@@ -575,32 +577,33 @@ public class Principal extends JFrame {
 
 	}
 
-	public void loadUsers() {
-		ArrayList<Usuario> users = Controladora.getInstance().getMisUsuarios();
-		String textoBuscador = txtBuscadorCliente.getText().toLowerCase(), filtro;
-		modelo.setRowCount(0);
-		row = new Object[table.getColumnCount()];
+	private void loadUsers() {
+	    ArrayList<Usuario> users = Controladora.getInstance().cargarDatosUsuarios();
+	    String textoBuscador = txtBuscadorCliente.getText().toLowerCase();
+	    modelo.setRowCount(0); // Limpia el modelo antes de cargar nuevos datos
 
-		if (users != null)
-			for (Usuario user : users) {
-				if (user instanceof Cliente) {
-					if (cbxbuscador.getSelectedItem().toString().equalsIgnoreCase("Nombre"))
-						filtro = user.getNombre();
-					else if (cbxbuscador.getSelectedItem().toString().equalsIgnoreCase("Email"))
-						filtro = user.getEmail();
-					else {
-						filtro = user.getDireccion();
-					}
+	    if (users != null && !users.isEmpty()) {
+	        for (Usuario user : users) {
+	            if (user instanceof Cliente) {
+	                String nombre = user.getNombre();
+	                String email = user.getEmail();
+	                String direccion = user.getDireccion();
 
-					if (filtro.toLowerCase().contains(textoBuscador)) {
-						row[0] = user.getNombre();
-						row[1] = user.getEmail();
-						row[2] = user.getDireccion();
-						modelo.addRow(row);
-					}
-				}
-			}
+	                // Filtrar según el tipo de búsqueda seleccionado
+	                String filtro = cbxbuscador.getSelectedItem().toString();
+	                if ((filtro.equalsIgnoreCase("Nombre") && nombre.toLowerCase().contains(textoBuscador)) ||
+	                    (filtro.equalsIgnoreCase("Email") && email.toLowerCase().contains(textoBuscador)) ||
+	                    (filtro.equalsIgnoreCase("Direccion") && direccion.toLowerCase().contains(textoBuscador))) {
+	                    // Agregar fila al modelo
+	                    Object[] row = { nombre, email, direccion };
+	                    modelo.addRow(row);
+	                }
+	            }
+	        }
+	    } else {
+	        System.out.println("No se encontraron usuarios para cargar.");
+	    }
 
-		table.setModel(modelo);
+	    table.setModel(modelo); // Establecer el modelo en la tabla
 	}
 }

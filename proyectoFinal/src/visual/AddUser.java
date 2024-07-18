@@ -39,6 +39,7 @@ public class AddUser extends JDialog {
 	private JTextField tbPassword;
 	private JSpinner spSalary;
 	private JComboBox cbType;
+	private int idActual =  Controladora.getInstance().cargarDatosUsuarios() == null? 1 : Controladora.getInstance().cargarDatosUsuarios().size()+1 ;
 
 	/**
 	 * Launch the application.
@@ -84,7 +85,7 @@ public class AddUser extends JDialog {
 			tbId.setBounds(12, 24, 116, 22);
 			panel.add(tbId);
 			tbId.setColumns(10);
-			tbId.setText("U-" + Controladora.iduser);
+			tbId.setText( user!= null? user.getId(): "U-" +idActual);
 
 			tbName = new JTextField();
 			tbName.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Nombre", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
@@ -177,8 +178,10 @@ public class AddUser extends JDialog {
 							
 							JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Registro de "+type.toLowerCase(),
 									JOptionPane.INFORMATION_MESSAGE);
+							idActual++;
 							cleanUser();
 						} else {
+							tbId.setText(user.getId());
 							user.setNombre(name);
 							user.setEmail(email);
 							user.setNumero(phone);
@@ -192,6 +195,9 @@ public class AddUser extends JDialog {
 								/*...*/
 							}
 							
+							Controladora.getInstance().deleteUser(user.getId());
+							Controladora.getInstance().addUser(user);
+							Controladora.getInstance().guardarDatosUsuario();
 							
 							JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Actualización de "+type.toLowerCase(),
 									JOptionPane.INFORMATION_MESSAGE);
@@ -236,7 +242,7 @@ public class AddUser extends JDialog {
 	}
 
 	public void cleanUser() {
-		tbId.setText("U-" + Controladora.iduser);
+		tbId.setText("U-" + (idActual));
 		tbName.setText("");
 		tbEmail.setText("");
 		tbPhone.setText("");
