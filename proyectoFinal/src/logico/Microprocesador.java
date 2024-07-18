@@ -1,6 +1,6 @@
 package logico;
 
-public class Microprocesador extends Componente {
+public class Microprocesador extends Product {
 	/**
 	 * 
 	 */
