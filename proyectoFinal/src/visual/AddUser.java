@@ -12,10 +12,8 @@ import logico.Cliente;
 import logico.Controladora;
 import logico.Empleado;
 import logico.Usuario;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import javax.swing.border.TitledBorder;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JSpinner;
@@ -23,12 +21,15 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.DropMode;
 import java.awt.Color;
 import javax.swing.UIManager;
 
 public class AddUser extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField tbId;
 	private JTextField tbName;
@@ -235,7 +236,7 @@ public class AddUser extends JDialog {
 	}
 
 	public void cleanUser() {
-		tbId.setText("");
+		tbId.setText("U-" + Controladora.iduser);
 		tbName.setText("");
 		tbEmail.setText("");
 		tbPhone.setText("");

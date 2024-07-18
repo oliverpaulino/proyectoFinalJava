@@ -40,10 +40,10 @@ import logico.Empleado;
 import logico.Usuario;
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
-import java.awt.GridBagLayout;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
+import java.awt.GridBagConstraints;
 
 public class Principal extends JFrame {
 
@@ -83,14 +83,15 @@ public class Principal extends JFrame {
 	private String idSelected;
 	private JLabel lblNewLabel_3;
 	private JTextField txtBuscadorCliente;
-	private JComboBox cbxbuscador;
+	private JComboBox<String> cbxbuscador;
 	private JPanel pnBuscarClientes;
+	private JPanel pnOfertas;
+	private JPanel panel_2;
 
 	public static void main(String[] args) {
 		Controladora.getInstance().getMisUsuarios().add(new Empleado("E1", "Oliver jose paulino perez", "oliver",
 				"8097914801", "blah blah", "1230", 15000, true));
-//		Controladora.getInstance().getMisUsuarios()
-//				.add(new Cliente("E2", "Oliver jose paulino perez", "oliver", "8097914801", "blah blah"));
+		
 //		Controladora.getInstance().getMisUsuarios()
 //				.add(new Cliente("E3", "Oscar pajaro", "oscar", "8097914801", "blah blah"));
 		EventQueue.invokeLater(new Runnable() {
@@ -156,6 +157,7 @@ public class Principal extends JFrame {
 				ListUsers listClients = new ListUsers("CLIENTE");
 				listClients.setModal(true);
 				listClients.setVisible(true);
+				loadUsers();
 			}
 		});
 		mnCl.add(mntmNewMenuItem_4);
@@ -182,6 +184,7 @@ public class Principal extends JFrame {
 				ListUsers listEmp = new ListUsers("EMPLEADO");
 				listEmp.setModal(true);
 				listEmp.setVisible(true);
+				loadMenu();
 			}
 		});
 		mnAdmin.add(mntmNewMenuItem_2);
@@ -423,7 +426,7 @@ public class Principal extends JFrame {
 		modelo = new DefaultTableModel();
 		String[] headers = { "Nombre", "Email", "Direccion" };
 		modelo.setColumnIdentifiers(headers);
-		
+
 		pnBuscarClientes = new JPanel();
 		pnBuscarClientes.setBorder(null);
 		pnBuscarClientes.setVisible(false);
@@ -431,62 +434,62 @@ public class Principal extends JFrame {
 		pnBuscarClientes.setBounds(10, 11, 224, 414);
 		panelizquierda.add(pnBuscarClientes);
 		pnBuscarClientes.setLayout(null);
-		
-				JLabel lblNewLabel_2 = new JLabel("Clientes:");
-				lblNewLabel_2.setBounds(89, 0, 46, 14);
-				pnBuscarClientes.add(lblNewLabel_2);
-				
-						txtBuscadorCliente = new JTextField();
-						txtBuscadorCliente.setBounds(10, 25, 206, 20);
-						pnBuscarClientes.add(txtBuscadorCliente);
-						txtBuscadorCliente.getDocument().addDocumentListener(new DocumentListener() {
-							public void insertUpdate(DocumentEvent e) {
-								loadUsers();
-							}
 
-							public void removeUpdate(DocumentEvent e) {
-								loadUsers();
-							}
+		JLabel lblNewLabel_2 = new JLabel("Clientes:");
+		lblNewLabel_2.setBounds(89, 0, 46, 14);
+		pnBuscarClientes.add(lblNewLabel_2);
 
-							public void changedUpdate(DocumentEvent e) {
-								loadUsers();
-							}
-						});
-						txtBuscadorCliente.setColumns(10);
-						
-								JScrollPane scrollPane_1 = new JScrollPane();
-								scrollPane_1.setBounds(10, 56, 206, 281);
-								pnBuscarClientes.add(scrollPane_1);
-								table = new JTable();
-								table.setDefaultEditor(Object.class, null);
-								table.addMouseListener(new MouseAdapter() {
-									@Override
-									public void mouseClicked(MouseEvent arg0) {
-										int index = table.getSelectedRow();
-										if (index >= 0) {
-											idSelected = new String(table.getValueAt(index, 0).toString());
-											// btnDelete.setEnabled(true);
-											// btnEdit.setEnabled(true);
-										}
-									}
-								});
-								table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-								
-										scrollPane_1.setViewportView(table);
-										
-												JPanel panel_1 = new JPanel();
-												panel_1.setBounds(10, 56, 206, 281);
-												pnBuscarClientes.add(panel_1);
-												panel_1.setLayout(new BorderLayout(0, 0));
-												
-														lblNewLabel_3 = new JLabel("Buscar por:");
-														lblNewLabel_3.setBounds(10, 351, 55, 14);
-														pnBuscarClientes.add(lblNewLabel_3);
-														
-																cbxbuscador = new JComboBox();
-																cbxbuscador.setBounds(90, 348, 126, 20);
-																pnBuscarClientes.add(cbxbuscador);
-																cbxbuscador.setModel(new DefaultComboBoxModel(new String[] { "Nombre", "Email", "Direccion" }));
+		txtBuscadorCliente = new JTextField();
+		txtBuscadorCliente.setBounds(10, 25, 206, 20);
+		pnBuscarClientes.add(txtBuscadorCliente);
+		txtBuscadorCliente.getDocument().addDocumentListener(new DocumentListener() {
+			public void insertUpdate(DocumentEvent e) {
+				loadUsers();
+			}
+
+			public void removeUpdate(DocumentEvent e) {
+				loadUsers();
+			}
+
+			public void changedUpdate(DocumentEvent e) {
+				loadUsers();
+			}
+		});
+		txtBuscadorCliente.setColumns(10);
+
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(10, 56, 206, 281);
+		pnBuscarClientes.add(scrollPane_1);
+		table = new JTable();
+		table.setDefaultEditor(Object.class, null);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int index = table.getSelectedRow();
+				if (index >= 0) {
+					idSelected = new String(table.getValueAt(index, 0).toString());
+					// btnDelete.setEnabled(true);
+					// btnEdit.setEnabled(true);
+				}
+			}
+		});
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+		scrollPane_1.setViewportView(table);
+
+		JPanel panel_1 = new JPanel();
+		panel_1.setBounds(10, 56, 206, 281);
+		pnBuscarClientes.add(panel_1);
+		panel_1.setLayout(new BorderLayout(0, 0));
+
+		lblNewLabel_3 = new JLabel("Buscar por:");
+		lblNewLabel_3.setBounds(10, 351, 55, 14);
+		pnBuscarClientes.add(lblNewLabel_3);
+
+		cbxbuscador = new JComboBox<String>();
+		cbxbuscador.setBounds(90, 348, 126, 20);
+		pnBuscarClientes.add(cbxbuscador);
+		cbxbuscador.setModel(new DefaultComboBoxModel<String>(new String[] { "Nombre", "Email", "Direccion" }));
 
 		panel_3 = new JPanel();
 		panel_3.setBackground(Color.LIGHT_GRAY);
@@ -499,12 +502,41 @@ public class Principal extends JFrame {
 
 		pnCentro = new JPanel();
 		scrollPane.setViewportView(pnCentro);
-		GridBagLayout gbl_pnCentro = new GridBagLayout();
-		gbl_pnCentro.columnWidths = new int[] { 0 };
-		gbl_pnCentro.rowHeights = new int[] { 0 };
-		gbl_pnCentro.columnWeights = new double[] { Double.MIN_VALUE };
-		gbl_pnCentro.rowWeights = new double[] { Double.MIN_VALUE };
-		pnCentro.setLayout(gbl_pnCentro);
+		pnCentro.setLayout(null);
+		
+		JButton btnNewButton = new JButton("Ofertas");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(btnNewButton.getIcon().toString().contains("sortDown")) {
+					btnNewButton.setBounds(781, 0, 89, 23);
+					pnOfertas.setVisible(false);
+					btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortUp.png")));
+				}else {
+					btnNewButton.setBounds(781, 162, 89, 23);
+					pnOfertas.setVisible(true);
+					btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortDown.png")));
+					
+				}
+			}
+		});
+		btnNewButton.setBackground(Color.WHITE);
+		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortUp.png")));
+		btnNewButton.setBounds(781, 0, 89, 23);
+		pnCentro.add(btnNewButton);
+
+		pnOfertas = new JPanel();
+		pnOfertas.setBackground(Color.LIGHT_GRAY);
+		pnOfertas.setVisible(false);
+		pnOfertas.setBounds(0, 0, 1666, 162);
+		pnCentro.add(pnOfertas);
+		pnOfertas.setLayout(new BorderLayout(0, 0));
+
+		JScrollPane scrollPane_2 = new JScrollPane();
+		pnOfertas.add(scrollPane_2, BorderLayout.CENTER);
+		
+		panel_2 = new JPanel();
+		panel_2.setBackground(Color.LIGHT_GRAY);
+		scrollPane_2.setViewportView(panel_2);
 		btniniciosesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnInicioSesion.setVisible(true);
@@ -552,14 +584,14 @@ public class Principal extends JFrame {
 		if (users != null)
 			for (Usuario user : users) {
 				if (user instanceof Cliente) {
-					if(cbxbuscador.getSelectedItem().toString().equalsIgnoreCase("Nombre"))
+					if (cbxbuscador.getSelectedItem().toString().equalsIgnoreCase("Nombre"))
 						filtro = user.getNombre();
-					else if(cbxbuscador.getSelectedItem().toString().equalsIgnoreCase("Email"))
+					else if (cbxbuscador.getSelectedItem().toString().equalsIgnoreCase("Email"))
 						filtro = user.getEmail();
 					else {
 						filtro = user.getDireccion();
 					}
-						
+
 					if (filtro.toLowerCase().contains(textoBuscador)) {
 						row[0] = user.getNombre();
 						row[1] = user.getEmail();

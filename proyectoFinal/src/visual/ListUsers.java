@@ -76,6 +76,10 @@ public class ListUsers extends JDialog {
 							idSelected = new String(table.getValueAt(index, 0).toString());
 							btnDelete.setEnabled(true);
 							btnEdit.setEnabled(true);
+						}else {
+							btnDelete.setEnabled(false);
+							btnEdit.setEnabled(false);
+							
 						}
 					}
 				});
@@ -137,6 +141,8 @@ public class ListUsers extends JDialog {
 									Controladora.getInstance().deleteUser(idSelected);
 						            JOptionPane.showMessageDialog(null, "El usuario ha sido eliminado.", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
 									loadUsers(type);
+									btnEdit.setEnabled(false);
+									btnDelete.setEnabled(false);
 						        }
 						}
 					}
