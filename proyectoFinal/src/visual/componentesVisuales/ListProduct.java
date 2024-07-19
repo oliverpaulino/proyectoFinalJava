@@ -29,6 +29,7 @@ public class ListProduct extends JPanel {
 
     private JPanel panel = new JPanel();
     private JTextField txtBuscador;
+    private JComboBox cbxFiltro ;
 
     /**
      * Create the panel.
@@ -71,7 +72,7 @@ public class ListProduct extends JPanel {
         lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 14));
         panel_1.add(lblNewLabel_1);
         
-        JComboBox cbxFiltro = new JComboBox();
+        cbxFiltro = new JComboBox();
         cbxFiltro.setFont(new Font("Arial", Font.PLAIN, 14));
         cbxFiltro.setModel(new DefaultComboBoxModel(new String[] {"Id", "Num. de serie", "Marca", "Modelo", "Tipo"}));
         
@@ -82,8 +83,18 @@ public class ListProduct extends JPanel {
 
     public void loadComponents() {
     	String buscadorTxt = txtBuscador.getText();
+    	String tipoBuscador = cbxFiltro.getSelectedItem().toString();
+    	System.out.println(tipoBuscador);
+    	ArrayList<Product> losComponentes = new ArrayList<>();  
+    	if (buscadorTxt.isEmpty()) {
+    		losComponentes = Controladora.getInstance().getProducts();
+		}
+    	else {
+			losComponentes = Controladora.getInstance().getFilteredProducts(buscadorTxt, tipoBuscador);
+		}
+    	
+    	
         panel.removeAll(); 
-        ArrayList<Product> losComponentes = Controladora.getInstance().getProducts();  
         Dimension cardSize = new Dimension(200, 300);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
@@ -100,12 +111,12 @@ public class ListProduct extends JPanel {
             panel.add(card, gbc);
 
             x++;
-            if (x == 4) {
+            if (x == 5) {
                 x = 0;
                 y++;
             }
         }
-        panel.revalidate();  // Revalidate the panel
-        panel.repaint();     // Repaint the panel to show new components
+        panel.revalidate();
+        panel.repaint();     
     }
 }

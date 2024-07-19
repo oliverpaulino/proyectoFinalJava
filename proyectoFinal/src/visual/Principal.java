@@ -36,7 +36,11 @@ import javax.swing.table.DefaultTableModel;
 
 import logico.Cliente;
 import logico.Controladora;
+import logico.DiscoDuro;
 import logico.Empleado;
+import logico.MemoriaRAM;
+import logico.Microprocesador;
+import logico.TarjetaMadre;
 import logico.Usuario;
 import visual.componentesVisuales.ListProduct;
 
@@ -46,6 +50,7 @@ import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.GridBagConstraints;
+import javax.swing.SwingConstants;
 
 public class Principal extends JFrame {
 
@@ -93,6 +98,20 @@ public class Principal extends JFrame {
 	public static void main(String[] args) {
 		Controladora.getInstance().getMisUsuarios().add(new Empleado("E1", "Oliver jose paulino perez", "oliver",
 				"8097914801", "blah blah", "1230", 15000, true));
+		DiscoDuro d1 = new DiscoDuro("C-1", "Wd-black", "7980", 95, 125, 10, "123412", 2000, "Gb", "M2");
+		Controladora.getInstance().addProduct(d1);
+		Controladora.getInstance().addProduct(new MemoriaRAM("C-2", "corsair", "King-v2", 50, 75, 25, "safa", 64, "Gb", "DDR5"));
+		Controladora.getInstance().addProduct(new Microprocesador("C-3", "Intel", "i-9", 120, 200, 12, "1231", "s33", (float)4.5, "Ghz"));
+		Controladora.getInstance().addProduct(new DiscoDuro("C-3", "Wd-black", "7980", 95, 125, 10, "123412", 2000, "Gb", "M2"));
+		Controladora.getInstance().addProduct(new MemoriaRAM("C-4", "corsair", "King-v2", 50, 75, 25, "safa", 64, "Gb", "DDR5"));
+		Controladora.getInstance().addProduct(new Microprocesador("C-5", "Intel", "i-9", 120, 200, 12, "1231", "s33", (float)4.5, "Ghz"));
+		Controladora.getInstance().addProduct(new DiscoDuro("C-6", "Wd-black", "7980", 95, 125, 10, "123412", 2000, "Gb", "M2"));
+		Controladora.getInstance().addProduct(new MemoriaRAM("C-7", "corsair", "King-v2", 50, 75, 25, "safa", 64, "Gb", "DDR5"));
+		Controladora.getInstance().addProduct(new Microprocesador("C-8", "Intel", "i-9", 120, 200, 12, "1231", "s33", (float)4.5, "Ghz"));
+		
+		
+		
+		
 //		Controladora.getInstance().getMisUsuarios()
 //				.add(new Cliente("E3", "Oscar pajaro", "oscar", "8097914801", "blah blah"));
 		EventQueue.invokeLater(new Runnable() {
@@ -166,6 +185,7 @@ public class Principal extends JFrame {
 		mnCl.add(mntmNewMenuItem_4);
 
 		mnAdmin = new JMenu("Administrador");
+		mnAdmin.setHorizontalAlignment(SwingConstants.LEFT);
 		mnAdmin.setVisible(false);
 		mnAdmin.setMargin(new Insets(5, 5, 5, 5));
 		mnAdmin.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -522,6 +542,7 @@ public class Principal extends JFrame {
 		
 		listProduct = new ListProduct();
 		listProduct.setBounds(10, 37, 1631, 857);
+		listProduct.setVisible(false);
 		
 		pnOfertas = new JPanel();
 		pnOfertas.setBackground(Color.LIGHT_GRAY);
@@ -557,6 +578,7 @@ public class Principal extends JFrame {
 			mnCl.setVisible(true);
 			mnReg.setVisible(true);
 			pnBuscarClientes.setVisible(true);
+			listProduct.setVisible(true);
 			if (Admin.isManager())
 				mnAdmin.setVisible(true);
 			else {
@@ -573,6 +595,7 @@ public class Principal extends JFrame {
 			mnCl.setVisible(false);
 			mnReg.setVisible(false);
 			mnAdmin.setVisible(false);
+			listProduct.setVisible(false);
 		}
 
 	}

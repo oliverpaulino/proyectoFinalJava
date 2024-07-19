@@ -118,6 +118,67 @@ public class Controladora implements Serializable {
 		return myProducts;
 
 	}
+	
+	public ArrayList<Product> getFilteredProducts(String filtro, String filtroType) {
+		ArrayList<Product> filteredProducts = new ArrayList<>();
+		
+		if (myProducts!=null) {
+			for (Product product : myProducts) {
+				switch (filtroType) {
+				case "Id":
+					if (product.getId().contains(filtro)) {
+						filteredProducts.add(product);
+					}
+					
+					break;
+				case "Num. de serie":
+					if (product.getNumeroSerie().contains(filtro)) {
+						filteredProducts.add(product);
+						
+					}
+					break;
+					
+				case "Marca":
+					if (product.getMarca().contains(filtro)) {
+						filteredProducts.add(product);
+						
+					}
+					break;
+				case "Modelo":
+					if (product.getModelo().contains(filtro)) {
+						filteredProducts.add(product);
+					}
+					break;
+					
+				case "Tipo":
+					if (filtro.toLowerCase().contains("ram")) {
+						if (product instanceof MemoriaRAM) {
+							filteredProducts.add(product);
+							
+						}
+					}
+					
+					if (filtro.toLowerCase().contains("disco")) {
+						if (product instanceof DiscoDuro) {
+							filteredProducts.add(product);
+							
+						}
+						
+					}
+					
+					break;
+				
+				default:
+					break;
+				}
+				
+			}
+			
+		}
+		
+		return filteredProducts;
+		
+	}
 
 	public void setProducts(ArrayList<Product> products) {
 		this.myProducts = products;
