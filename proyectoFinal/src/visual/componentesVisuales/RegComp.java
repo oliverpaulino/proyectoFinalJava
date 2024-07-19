@@ -421,6 +421,7 @@ public class RegComp extends JPanel {
 						break;
 					}
 					
+					
 					JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Registro", JOptionPane.INFORMATION_MESSAGE);
 					clean();
 				}

@@ -38,6 +38,8 @@ import logico.Cliente;
 import logico.Controladora;
 import logico.Empleado;
 import logico.Usuario;
+import visual.componentesVisuales.ListProduct;
+
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -67,7 +69,6 @@ public class Principal extends JFrame {
 	private JButton button;
 	private JButton btnAtrasInicio;
 	private JLabel lblimg;
-	private JTextField textField;
 	private JPanel pnUser;
 	private JButton btnCierreSesion;
 	private JPanel panelizquierda;
@@ -87,6 +88,7 @@ public class Principal extends JFrame {
 	private JPanel pnBuscarClientes;
 	private JPanel pnOfertas;
 	private JPanel panel_2;
+	private ListProduct listProduct;
 
 	public static void main(String[] args) {
 		Controladora.getInstance().getMisUsuarios().add(new Empleado("E1", "Oliver jose paulino perez", "oliver",
@@ -128,6 +130,7 @@ public class Principal extends JFrame {
 				reg.setModal(true);
 				reg.setVisible(true);
 				reg.setLocationRelativeTo(null);
+				listProduct.loadComponents();
 
 			}
 		});
@@ -371,15 +374,6 @@ public class Principal extends JFrame {
 		lblimg.setBounds(1854, 8, 30, 30);
 		pnSuperior.add(lblimg);
 
-		textField = new JTextField();
-		textField.setBounds(818, 13, 257, 20);
-		pnSuperior.add(textField);
-		textField.setColumns(10);
-
-		JLabel lblNewLabel_1 = new JLabel("Buscador:");
-		lblNewLabel_1.setBounds(750, 16, 48, 14);
-		pnSuperior.add(lblNewLabel_1);
-
 		pnUser = new JPanel();
 		pnUser.setBounds(1766, 47, 118, 47);
 		pnUser.setVisible(false);
@@ -525,7 +519,10 @@ public class Principal extends JFrame {
 		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortUp.png")));
 		btnNewButton.setBounds(781, 0, 89, 23);
 		pnCentro.add(btnNewButton);
-
+		
+		listProduct = new ListProduct();
+		listProduct.setBounds(10, 37, 1631, 857);
+		
 		pnOfertas = new JPanel();
 		pnOfertas.setBackground(Color.LIGHT_GRAY);
 		pnOfertas.setVisible(false);
@@ -533,12 +530,15 @@ public class Principal extends JFrame {
 		pnCentro.add(pnOfertas);
 		pnOfertas.setLayout(new BorderLayout(0, 0));
 
+		pnCentro.add(listProduct);
 		JScrollPane scrollPane_2 = new JScrollPane();
 		pnOfertas.add(scrollPane_2, BorderLayout.CENTER);
 
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		scrollPane_2.setViewportView(panel_2);
+		
+		
 		btniniciosesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnInicioSesion.setVisible(true);

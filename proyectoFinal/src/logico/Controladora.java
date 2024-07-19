@@ -96,6 +96,7 @@ public class Controladora implements Serializable {
 		ArrayList<Usuario> usuarios = null;
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./src/Datos/Usuarios.dat"))) {
 			usuarios = (ArrayList<Usuario>) ois.readObject();
+			
 		} catch (FileNotFoundException e) {
 			System.out.println("Archivo no encontrado: " + e.getMessage());
 		} catch (EOFException e) {
