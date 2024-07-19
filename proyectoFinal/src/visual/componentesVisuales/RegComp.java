@@ -395,7 +395,7 @@ public class RegComp extends JPanel {
 						}
 						else {
 							
-							MemoriaRAM memoriaRAM = new MemoriaRAM("C"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, memoria, medidaRam, tipoMemoria);
+							MemoriaRAM memoriaRAM = new MemoriaRAM("C-"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, memoria, medidaRam, tipoMemoria);
 							Controladora.getInstance().addProduct(memoriaRAM);
 							clean();
 						}

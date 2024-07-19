@@ -95,7 +95,7 @@ public class ListProduct extends JPanel {
     	
     	
         panel.removeAll(); 
-        Dimension cardSize = new Dimension(200, 300);
+        Dimension cardSize = new Dimension(200, 350);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.NONE;

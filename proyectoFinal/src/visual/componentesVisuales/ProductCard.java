@@ -37,6 +37,13 @@ public class ProductCard extends JPanel {
 				setBackground(Color.WHITE);
 				
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				ProductModal productModal = new ProductModal(c1);
+				productModal.setLocationRelativeTo(null);
+				productModal.setModal(true);
+				productModal.setVisible(true);
+			}
 		});
 		setBackground(Color.WHITE);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -49,12 +56,12 @@ public class ProductCard extends JPanel {
 		
 		JLabel lblMarca = new JLabel(c1.getMarca());
 		lblMarca.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblMarca.setBounds(10, 133, 94, 22);
+		lblMarca.setBounds(88, 133, 94, 22);
 		add(lblMarca);
 		
 		JLabel lblModelo = new JLabel(c1.getModelo());
 		lblModelo.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblModelo.setBounds(10, 166, 94, 22);
+		lblModelo.setBounds(88, 166, 94, 22);
 		add(lblModelo);
 		
 		JLabel label232 = new JLabel("Costo:");
@@ -64,7 +71,7 @@ public class ProductCard extends JPanel {
 		
 		JLabel lblCosto = new JLabel(c1.getCosto()+"$");
 		lblCosto.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblCosto.setBounds(78, 232, 94, 22);
+		lblCosto.setBounds(88, 232, 94, 22);
 		add(lblCosto);
 		
 		JLabel label342 = new JLabel("Precio:");
@@ -74,12 +81,12 @@ public class ProductCard extends JPanel {
 		
 		JLabel label_1 = new JLabel(c1.getPrecio()+"$");
 		label_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		label_1.setBounds(78, 265, 94, 22);
+		label_1.setBounds(88, 265, 94, 22);
 		add(label_1);
 		
 		JLabel lblSerial = new JLabel(c1.getNumeroSerie());
 		lblSerial.setFont(new Font("Arial", Font.PLAIN, 14));
-		lblSerial.setBounds(10, 199, 94, 22);
+		lblSerial.setBounds(88, 199, 94, 22);
 		add(lblSerial);
 		
 		JLabel lblIcon = new JLabel("");
@@ -108,6 +115,31 @@ public class ProductCard extends JPanel {
 		lblIcon.setIcon(productIcon);
 		lblIcon.setBounds(53, 44, 94, 78);
 		add(lblIcon);
+		
+		JLabel lblExistencia = new JLabel("Existencia:");
+		lblExistencia.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblExistencia.setBounds(10, 298, 73, 22);
+		add(lblExistencia);
+		
+		JLabel lblCant = new JLabel(c1.getCantidad()+"");
+		lblCant.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblCant.setBounds(88, 298, 94, 22);
+		add(lblCant);
+		
+		JLabel lblMarca_1 = new JLabel("Marca:");
+		lblMarca_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblMarca_1.setBounds(10, 133, 58, 22);
+		add(lblMarca_1);
+		
+		JLabel lblModelo_1 = new JLabel("Modelo:");
+		lblModelo_1.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblModelo_1.setBounds(10, 166, 58, 22);
+		add(lblModelo_1);
+		
+		JLabel lblSerie = new JLabel("Serie:");
+		lblSerie.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblSerie.setBounds(10, 199, 58, 22);
+		add(lblSerie);
 
 	}
 }
