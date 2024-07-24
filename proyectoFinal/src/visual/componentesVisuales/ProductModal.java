@@ -20,6 +20,8 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.Image;
 import javax.swing.JSpinner;
@@ -28,7 +30,11 @@ import javax.swing.SpinnerNumberModel;
 public class ProductModal extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-
+	private JSpinner spnCosto;
+	private JSpinner spnCant;
+	private JSpinner spnPrecio;
+	public JButton btnEliminar;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -123,21 +129,21 @@ public class ProductModal extends JDialog {
 			contentPanel.add(lblCantidad);
 		}
 		
-		JSpinner spnCosto = new JSpinner();
+		spnCosto = new JSpinner();
 		spnCosto.setModel(new SpinnerNumberModel(new Float(0), null, null, new Float(1)));
 		spnCosto.setFont(new Font("Arial", Font.PLAIN, 16));
 		spnCosto.setValue((Float) c1.getCosto());
 		spnCosto.setBounds(92, 171, 104, 20);
 		contentPanel.add(spnCosto);
 		
-		JSpinner spnCant = new JSpinner();
+		spnCant = new JSpinner();
 		spnCant.setModel(new SpinnerNumberModel(new Float(0), null, null, new Float(1)));
 		spnCant.setFont(new Font("Arial", Font.PLAIN, 16));
 		spnCant.setValue( c1.getCantidad());
 		spnCant.setBounds(92, 249, 104, 20);
 		contentPanel.add(spnCant);
 		
-		JSpinner spnPrecio = new JSpinner();
+		spnPrecio = new JSpinner();
 		spnPrecio.setModel(new SpinnerNumberModel(new Float(0), null, null, new Float(1)));
 		spnPrecio.setFont(new Font("Arial", Font.PLAIN, 16));
 		spnPrecio.setValue(c1.getPrecio());
@@ -207,6 +213,16 @@ public class ProductModal extends JDialog {
 				okButton.setFont(new Font("Arial", Font.PLAIN, 11));
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						float newCosto = (float) spnCosto.getValue();
+						int newCant = (int) spnCant.getValue();
+						float newPrecio = (float) spnPrecio.getValue();
+						
+						c1.setCosto(newCosto);
+						c1.setCantidad(newCant);
+						c1.setPrecio(newPrecio);
+						JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Productos", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						
 					}
 				});
 				okButton.setBackground(Color.WHITE);
@@ -223,13 +239,14 @@ public class ProductModal extends JDialog {
 					}
 				});
 				{
-					JButton btnNewButton = new JButton("Eliminar");
-					btnNewButton.setFont(new Font("Arial", Font.PLAIN, 11));
-					btnNewButton.addActionListener(new ActionListener() {
+					btnEliminar = new JButton("Eliminar");
+					btnEliminar.setFont(new Font("Arial", Font.PLAIN, 11));
+					btnEliminar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 						}
 					});
-					buttonPane.add(btnNewButton);
+					buttonPane.add(btnEliminar);
+					
 				}
 				cancelButton.setBackground(Color.WHITE);
 				cancelButton.setActionCommand("Cancel");

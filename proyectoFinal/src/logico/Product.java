@@ -53,6 +53,18 @@ public class Product implements Serializable  {
 	public float getCosto() {
 		return costo;
 	}
+
+	public void setCosto(float costo) {
+		this.costo = costo;
+	}
+
+	public void setPrecio(float precio) {
+		this.precio = precio;
+	}
+
+	public void setCantidad(int cantidad) {
+		this.cantidad = cantidad;
+	}
 	
 	
 	

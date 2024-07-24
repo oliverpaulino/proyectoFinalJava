@@ -46,30 +46,23 @@ public class ListProduct extends JPanel {
         add(panel_1, BorderLayout.NORTH);
         panel_1.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
         
-        JLabel lblNewLabel = new JLabel("Buscar:");
-        lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 14));
-        panel_1.add(lblNewLabel);
-        
         txtBuscador = new JTextField();
         txtBuscador.setFont(new Font("Arial", Font.PLAIN, 14));
         panel_1.add(txtBuscador);
         txtBuscador.setColumns(40);
-        txtBuscador.getDocument().addDocumentListener(new DocumentListener() {
-			public void insertUpdate(DocumentEvent e) {
-				loadComponents();
-			}
-
-			public void removeUpdate(DocumentEvent e) {
-				loadComponents();
-			}
-
-			public void changedUpdate(DocumentEvent e) {
-				loadComponents();
-			}
-		});
+        
+        
+        JButton btnNewButton = new JButton("Buscar");
+        btnNewButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		loadComponents();
+        	}
+        });
+        btnNewButton.setFont(new Font("Arial", Font.PLAIN, 14));
+        panel_1.add(btnNewButton);
         
         JLabel lblNewLabel_1 = new JLabel("Por:");
-        lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 14));
+        lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN,  14));
         panel_1.add(lblNewLabel_1);
         
         cbxFiltro = new JComboBox();

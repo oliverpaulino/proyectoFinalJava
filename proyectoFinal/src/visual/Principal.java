@@ -544,6 +544,7 @@ public class Principal extends JFrame {
 		listProduct.setBounds(10, 37, 1631, 857);
 		listProduct.setVisible(false);
 		
+		
 		pnOfertas = new JPanel();
 		pnOfertas.setBackground(Color.LIGHT_GRAY);
 		pnOfertas.setVisible(false);
