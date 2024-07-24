@@ -1,6 +1,7 @@
 package visual.componentesVisuales;
 
 import java.awt.BorderLayout;
+
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -10,6 +11,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+
+import logico.Controladora;
 import logico.DiscoDuro;
 import logico.MemoriaRAM;
 import logico.Microprocesador;
@@ -240,9 +243,15 @@ public class ProductModal extends JDialog {
 				});
 				{
 					btnEliminar = new JButton("Eliminar");
-					btnEliminar.setFont(new Font("Arial", Font.PLAIN, 11));
+					btnEliminar.setFont(new Font("Arial", Font.PLAIN, 11)); 
 					btnEliminar.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
+							int option = JOptionPane.showConfirmDialog(null, "Seguro desea eliminar el vino con código: "+c1.getId(), "Confirmación", JOptionPane.WARNING_MESSAGE);
+							if(option == JOptionPane.YES_OPTION){
+								
+								Controladora.getInstance().getProducts().remove(c1);
+								dispose();
+							}
 						}
 					});
 					buttonPane.add(btnEliminar);

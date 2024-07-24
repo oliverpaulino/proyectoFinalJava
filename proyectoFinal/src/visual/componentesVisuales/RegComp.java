@@ -150,7 +150,7 @@ public class RegComp extends JPanel {
 		JPanel panelDiscoDuro = new JPanel();
 		panelDiscoDuro.setBorder(new LineBorder(Color.GRAY, 1, true));
 		panelDiscoDuro.setBounds(60, 205, 464, 150);
-		add(panelDiscoDuro);
+		add(panelDiscoDuro); 
 		panelDiscoDuro.setLayout(null);
 		
 		JPanel panelRam = new JPanel();
@@ -173,47 +173,33 @@ public class RegComp extends JPanel {
 		
 		JLabel lblNewLabel_8 = new JLabel("Tipo de conexion");
 		lblNewLabel_8.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_8.setBounds(10, 14, 121, 19);
+		lblNewLabel_8.setBounds(10, 23, 121, 19);
 		panelProcesador.add(lblNewLabel_8);
 		
 		JLabel lblTipoDeConexion_1 = new JLabel("Velocidad procesamiento");
 		lblTipoDeConexion_1.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblTipoDeConexion_1.setBounds(10, 47, 203, 19);
+		lblTipoDeConexion_1.setBounds(10, 65, 203, 19);
 		panelProcesador.add(lblTipoDeConexion_1);
 		
 		JLabel lblUnidadDeVelociad = new JLabel("Unidad de velociad");
 		lblUnidadDeVelociad.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblUnidadDeVelociad.setBounds(10, 80, 203, 19);
+		lblUnidadDeVelociad.setBounds(10, 107, 203, 19);
 		panelProcesador.add(lblUnidadDeVelociad);
-		
-		JLabel lblImagenDeProcesador = new JLabel("Imagen de procesador");
-		lblImagenDeProcesador.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblImagenDeProcesador.setBounds(10, 113, 203, 19);
-		panelProcesador.add(lblImagenDeProcesador);
-		
-		JButton btnNewButton_2 = new JButton("Imagenes");
-		btnNewButton_2.setFont(new Font("Arial", Font.PLAIN, 16));
-		btnNewButton_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNewButton_2.setBounds(343, 112, 111, 23);
-		panelProcesador.add(btnNewButton_2);
 		
 		cbxUnidadVelocidad = new JComboBox();
 		cbxUnidadVelocidad.setFont(new Font("Arial", Font.PLAIN, 16));
 		cbxUnidadVelocidad.setModel(new DefaultComboBoxModel(new String[] {"Ghz", "Mhz", "Khz"}));
-		cbxUnidadVelocidad.setBounds(343, 79, 111, 20);
+		cbxUnidadVelocidad.setBounds(343, 106, 111, 20);
 		panelProcesador.add(cbxUnidadVelocidad);
 		
 		spnProcesamiento = new JSpinner();
 		spnProcesamiento.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
 		spnProcesamiento.setFont(new Font("Arial", Font.PLAIN, 16));
-		spnProcesamiento.setBounds(343, 46, 111, 20);
+		spnProcesamiento.setBounds(343, 64, 111, 20);
 		panelProcesador.add(spnProcesamiento);
 		
 		txtTipoConexionCpu = new JTextField();
-		txtTipoConexionCpu.setBounds(343, 13, 111, 20);
+		txtTipoConexionCpu.setBounds(343, 22, 111, 20);
 		panelProcesador.add(txtTipoConexionCpu);
 		txtTipoConexionCpu.setColumns(10);
 		
@@ -221,120 +207,67 @@ public class RegComp extends JPanel {
 		
 		JLabel lblNewLabel_5 = new JLabel("Cantidad de memoria");
 		lblNewLabel_5.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_5.setBounds(10, 16, 187, 19);
+		lblNewLabel_5.setBounds(10, 25, 187, 19);
 		panelRam.add(lblNewLabel_5);
 		
 		spnMemoria = new JSpinner();
 		spnMemoria.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		spnMemoria.setBounds(350, 13, 88, 20);
+		spnMemoria.setBounds(350, 22, 88, 20);
 		panelRam.add(spnMemoria);
 		
 		JLabel lblNewLabel_6 = new JLabel("Medida de memoria");
 		lblNewLabel_6.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_6.setBounds(10, 51, 150, 14);
+		lblNewLabel_6.setBounds(10, 69, 150, 14);
 		panelRam.add(lblNewLabel_6);
 		
 		cbxUnidadMemoria = new JComboBox();
 		cbxUnidadMemoria.setModel(new DefaultComboBoxModel(new String[] {"Gb", "Mb"}));
-		cbxUnidadMemoria.setBounds(350, 46, 88, 20);
+		cbxUnidadMemoria.setBounds(350, 64, 88, 20);
 		panelRam.add(cbxUnidadMemoria);
 		
 		JLabel lblTipo = new JLabel("Tipo de memoria");
 		lblTipo.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblTipo.setBounds(10, 81, 150, 14);
+		lblTipo.setBounds(10, 108, 150, 14);
 		panelRam.add(lblTipo);
 		
 		cbxTipoRam = new JComboBox();
 		cbxTipoRam.setModel(new DefaultComboBoxModel(new String[] {"DDR1", "DDR2", "DDR3", "DDR4", "DDR5"}));
-		cbxTipoRam.setBounds(350, 79, 88, 20);
+		cbxTipoRam.setBounds(350, 106, 88, 20);
 		panelRam.add(cbxTipoRam);
-		
-		
-		JLabel lblNewLabel_7 = new JLabel("Imagen");
-		lblNewLabel_7.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_7.setBounds(10, 111, 150, 19);
-		panelRam.add(lblNewLabel_7);
-		JLabel imgLabel = new JLabel("");
-		imgLabel.setBounds(224, 46, 116, 84);
-		panelRam.add(imgLabel);
-		
-		JButton btnNewButton_1 = new JButton("Seleccionar");
-		btnNewButton_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser compImgSelec = new JFileChooser();
-				compImgSelec.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "jpeg", "png", "gif", "bmp"));
-				int valor = compImgSelec.showOpenDialog(null);
-				if (valor == JFileChooser.APPROVE_OPTION) {
-					File imgFile = compImgSelec.getSelectedFile();
-					ImageIcon imgPath = new ImageIcon(imgFile.getAbsolutePath());
-					imgLabel.setIcon(imgPath);
-				}
-			}
-		});
-		btnNewButton_1.setFont(new Font("Arial", Font.PLAIN, 11));
-		btnNewButton_1.setBounds(349, 112, 89, 23);
-		panelRam.add(btnNewButton_1);
 		
 		
 		JLabel lblNewLabel_3 = new JLabel("Capacidad de almacenamiento");
 		lblNewLabel_3.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_3.setBounds(51, 14, 237, 19);
+		lblNewLabel_3.setBounds(51, 23, 237, 19);
 		panelDiscoDuro.add(lblNewLabel_3);
 		
 		spnAlmacenamiento = new JSpinner();
 		spnAlmacenamiento.setFont(new Font("Arial", Font.PLAIN, 16));
 		spnAlmacenamiento.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		spnAlmacenamiento.setBounds(339, 13, 86, 20);
+		spnAlmacenamiento.setBounds(339, 22, 86, 20);
 		panelDiscoDuro.add(spnAlmacenamiento);
 		
 		JLabel lblNewLabel_4 = new JLabel("Medida de almacenamieto");
 		lblNewLabel_4.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_4.setBounds(51, 47, 220, 19);
+		lblNewLabel_4.setBounds(51, 65, 220, 19);
 		panelDiscoDuro.add(lblNewLabel_4);
 		
 		cbxMedida = new JComboBox();
 		cbxMedida.setModel(new DefaultComboBoxModel(new String[] {"Gb", "Mb"}));
 		cbxMedida.setFont(new Font("Arial", Font.PLAIN, 16));
-		cbxMedida.setBounds(339, 46, 86, 20);
+		cbxMedida.setBounds(339, 64, 86, 20);
 		panelDiscoDuro.add(cbxMedida);
 		
 		JLabel lblTipoDeConexion = new JLabel("Tipo de conexion");
 		lblTipoDeConexion.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblTipoDeConexion.setBounds(51, 80, 220, 19);
+		lblTipoDeConexion.setBounds(51, 107, 220, 19);
 		panelDiscoDuro.add(lblTipoDeConexion);
 		
 		txtConexion = new JTextField();
 		txtConexion.setFont(new Font("Arial", Font.PLAIN, 16));
 		txtConexion.setColumns(10);
-		txtConexion.setBounds(339, 79, 86, 20);
+		txtConexion.setBounds(339, 106, 86, 20);
 		panelDiscoDuro.add(txtConexion);
-		
-		JLabel lblImagenDeDisco = new JLabel("Imagen de disco duro");
-		lblImagenDeDisco.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblImagenDeDisco.setBounds(51, 113, 220, 19);
-		panelDiscoDuro.add(lblImagenDeDisco);
-		JLabel imageLabel = new JLabel("");
-		imageLabel.setBounds(243, 77, 86, 55);
-		panelDiscoDuro.add(imageLabel);
-		
-		
-		JButton btnNewButton = new JButton("Imagenes");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser selecImagen = new JFileChooser();
-				selecImagen.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image files", "jpg", "jpeg", "png","bmp"));
-				int valor = selecImagen.showOpenDialog(null);
-				if (valor == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = selecImagen.getSelectedFile();
-                    ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
-                    
-					imageLabel.setIcon(imageIcon); // Display the image in the label
-                }
-			}
-		});
-		btnNewButton.setFont(new Font("Arial", Font.PLAIN, 12));
-		btnNewButton.setBounds(336, 112, 89, 23);
-		panelDiscoDuro.add(btnNewButton);
 		
 		
 		JButton btnRegistrar = new JButton("Registrar");
@@ -345,10 +278,11 @@ public class RegComp extends JPanel {
 				String modelo = txtModelo.getText();
 				String numSerie = txtSerie.getText();
 				int cant = (int) spnCantidad.getValue();
+				boolean error = false;
 				float costo = (float) spnCosto.getValue();
 				float precio = (float) spnPrecio.getValue();
 				if (cant==0 || costo==0 || precio==0 || marca.isEmpty() || modelo.isEmpty() || numSerie.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+					error=true;
 				}
 				else {
 					
@@ -359,7 +293,7 @@ public class RegComp extends JPanel {
 						String medidaAlmacenamiento = cbxMedida.getSelectedItem().toString();
 						
 						if(conexion.isEmpty() || almacenamiento==0 || medidaAlmacenamiento.isEmpty()) {
-							JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+							error=true;
 						}
 						else {
 							
@@ -375,7 +309,7 @@ public class RegComp extends JPanel {
 						String unidadVelcidad = cbxUnidadVelocidad.getSelectedItem().toString();
 						float velocidadProcesamiento = (float)spnProcesamiento.getValue();
 						if (tipoConexionCpu.isEmpty()||velocidadProcesamiento==0) {
-							JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+							error=true;
 						}
 						else {
 							
@@ -391,7 +325,7 @@ public class RegComp extends JPanel {
 						String medidaRam = cbxUnidadMemoria.getSelectedItem().toString();
 						
 						if (memoria==0) {
-							JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+							error=true;
 						}
 						else {
 							
@@ -408,7 +342,7 @@ public class RegComp extends JPanel {
 						conexionesDiscoDuro.add(txtConexionDiscos.getText());
 						
 						if (conectorTajetaMadre.isEmpty() || conexionesDiscoDuro.isEmpty()) {
-							JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+							error=true;
 						}
 						else {
 							
@@ -421,6 +355,13 @@ public class RegComp extends JPanel {
 						break;
 					}
 					
+					
+				}
+				
+				if (error) {
+					JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+				}
+				else {
 					
 					JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Registro", JOptionPane.INFORMATION_MESSAGE);
 					clean();
