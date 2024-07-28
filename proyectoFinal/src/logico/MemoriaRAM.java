@@ -5,6 +5,7 @@ public class MemoriaRAM extends Product{
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = 1L;
 	private int cantMemoria;
 	private String medidaDeMemoria;// gb o mb
 	private String tipoMemoria;

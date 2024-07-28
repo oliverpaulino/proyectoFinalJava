@@ -4,6 +4,10 @@ package logico;
 public class Empleado extends Usuario  {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private float salario;
     private boolean manager;
     private String password; // Marcar como transient si no se debe serializar

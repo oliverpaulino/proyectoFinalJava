@@ -3,6 +3,10 @@ package logico;
 import java.util.ArrayList;
 
 public class TarjetaMadre extends Product {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String tipoConector;
 	private String TipoRAM;
 	private ArrayList<String> listConexionDiscoDuro;

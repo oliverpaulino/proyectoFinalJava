@@ -4,6 +4,7 @@ public class Microprocesador extends Product {
 	/**
 	 * 
 	 */
+	private static final long serialVersionUID = -7437646600463635388L;
 	private String tipoConexion;
 	private float velocidadProcesamiento;
 	private String tipoDeVelocidad;
