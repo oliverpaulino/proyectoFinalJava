@@ -7,7 +7,6 @@ public class Computadora extends Product {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private ArrayList<DiscoDuro> misDiscoDuros;
 	private ArrayList<MemoriaRAM> misMemoriaRAMs;
 	private TarjetaMadre miTarjetaMadre;

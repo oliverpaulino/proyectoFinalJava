@@ -12,19 +12,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
 import java.util.ArrayList;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JTextPane;
-import java.awt.Panel;
-import javax.swing.border.TitledBorder;
 
 import logico.Controladora;
 import logico.DiscoDuro;
@@ -33,18 +23,20 @@ import logico.Microprocesador;
 import logico.TarjetaMadre;
 
 public class RegComp extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtId;
 	public 	JButton btnCancelar;
 	private JTextField txtMarca;
 	private JTextField txtModelo;
 	private JTextField txtSerie;
 	private JTextField txtConexion;
-	private JTextField textField;
 	private JComboBox cbxMedida;
 	private JComboBox cbxTipoRam;
 	private JComboBox cbxUnidadMemoria;
 	private JSpinner spnMemoria ;
-	private JSpinner spnCantidad;
 	private JSpinner spnAlmacenamiento;
 	private JTextField txtTipoConexionCpu;
 	private JSpinner spnProcesamiento;
@@ -54,6 +46,8 @@ public class RegComp extends JPanel {
 	private JComboBox cbxTipoRamMadre;
 	private JSpinner spnCosto;
 	private JSpinner spnPrecio;
+	private int idActual =  Controladora.getInstance().getProducts() == null? 1 : Controladora.getInstance().getProducts().size()+1 ;
+	private JSpinner spnCantidad;
 	
 	
 	
@@ -71,6 +65,7 @@ public class RegComp extends JPanel {
 		txtId = new JTextField();
 		txtId.setFont(new Font("Arial", Font.PLAIN, 16));
 		txtId.setEnabled(false);
+		txtId.setText("C-"+idActual);
 		txtId.setBounds(166, 44, 86, 23);
 		add(txtId);
 		txtId.setColumns(10);
@@ -113,12 +108,6 @@ public class RegComp extends JPanel {
 		lblCantl.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblCantl.setBounds(312, 125, 86, 14);
 		add(lblCantl);
-		
-		spnCantidad = new JSpinner();
-		spnCantidad.setFont(new Font("Arial", Font.PLAIN, 16));
-		spnCantidad.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
-		spnCantidad.setBounds(438, 122, 86, 20);
-		add(spnCantidad);
 		
 		JLabel lblCosto = new JLabel("Costo:");
 		lblCosto.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -273,7 +262,7 @@ public class RegComp extends JPanel {
 		JButton btnRegistrar = new JButton("Registrar");
 		btnRegistrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				String id = txtId.getText();
 				String marca = txtMarca.getText();
 				String modelo = txtModelo.getText();
 				String numSerie = txtSerie.getText();
@@ -297,7 +286,7 @@ public class RegComp extends JPanel {
 						}
 						else {
 							
-							DiscoDuro discoDuro = new DiscoDuro("C-"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, almacenamiento, medidaAlmacenamiento, conexion);
+							DiscoDuro discoDuro = new DiscoDuro(id, marca, modelo, costo, precio, cant, numSerie, almacenamiento, medidaAlmacenamiento, conexion);
 							Controladora.getInstance().addProduct(discoDuro);
 							clean();
 							
@@ -313,7 +302,7 @@ public class RegComp extends JPanel {
 						}
 						else {
 							
-							Microprocesador microprocesador = new Microprocesador("C-"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, tipoConexionCpu, velocidadProcesamiento, unidadVelcidad);
+							Microprocesador microprocesador = new Microprocesador(id, marca, modelo, costo, precio, cant, numSerie, tipoConexionCpu, velocidadProcesamiento, unidadVelcidad);
 							Controladora.getInstance().addProduct(microprocesador);
 							clean();
 						}
@@ -329,7 +318,7 @@ public class RegComp extends JPanel {
 						}
 						else {
 							
-							MemoriaRAM memoriaRAM = new MemoriaRAM("C-"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, memoria, medidaRam, tipoMemoria);
+							MemoriaRAM memoriaRAM = new MemoriaRAM(id, marca, modelo, costo, precio, cant, numSerie, memoria, medidaRam, tipoMemoria);
 							Controladora.getInstance().addProduct(memoriaRAM);
 							clean();
 						}
@@ -346,7 +335,7 @@ public class RegComp extends JPanel {
 						}
 						else {
 							
-							TarjetaMadre tarjetaMadre = new TarjetaMadre("C-"+Controladora.idproduct, marca, modelo, costo, precio, cant, numSerie, conectorTajetaMadre, tipoRamTarjeta, conexionesDiscoDuro);
+							TarjetaMadre tarjetaMadre = new TarjetaMadre(id, marca, modelo, costo, precio, cant, numSerie, conectorTajetaMadre, tipoRamTarjeta, conexionesDiscoDuro);
 							Controladora.getInstance().addProduct(tarjetaMadre);
 							clean();
 						}
@@ -359,11 +348,12 @@ public class RegComp extends JPanel {
 				}
 				
 				if (error) {
-					JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Complete todos los campos", "Registro", JOptionPane.WARNING_MESSAGE);
 				}
 				else {
 					
 					JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Registro", JOptionPane.INFORMATION_MESSAGE);
+					idActual++;
 					clean();
 				}
 			}
@@ -418,15 +408,21 @@ public class RegComp extends JPanel {
 		
 		spnCosto = new JSpinner();
 		spnCosto.setFont(new Font("Arial", Font.PLAIN, 14));
-		spnCosto.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+		spnCosto.setModel(new SpinnerNumberModel(new Float(1), new Float(1), null, new Float(1)));
 		spnCosto.setBounds(166, 164, 86, 20);
 		add(spnCosto);
 		
 		spnPrecio = new JSpinner();
 		spnPrecio.setFont(new Font("Arial", Font.PLAIN, 14));
-		spnPrecio.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+		spnPrecio.setModel(new SpinnerNumberModel(new Float(1), new Float(1), null, new Float(1)));
 		spnPrecio.setBounds(438, 164, 86, 20);
 		add(spnPrecio);
+		
+		spnCantidad = new JSpinner();
+		spnCantidad.setModel(new SpinnerNumberModel(new Integer(1), new Integer(1), null, new Integer(1)));
+		spnCantidad.setFont(new Font("Arial", Font.PLAIN, 14));
+		spnCantidad.setBounds(438, 122, 86, 20);
+		add(spnCantidad);
 		
 		panelDiscoDuro.setVisible(false);
 		panelRam.setVisible(false);
@@ -459,14 +455,12 @@ public class RegComp extends JPanel {
 	}
 	
 	private void clean() {
-		txtId.setText("C-"+Controladora.idproduct);
+		txtId.setText("C-"+ idActual);
 		txtMarca.setText("");
 		txtConexion.setText("");
 		txtModelo.setText("");
 		txtConexion.setText("");
 		txtSerie.setText("");
-		spnCantidad.setValue(0);
-		spnCantidad.setValue(0);
 		spnAlmacenamiento.setValue(0);
 		spnProcesamiento.setValue(0);
 		

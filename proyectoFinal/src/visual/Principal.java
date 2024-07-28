@@ -96,24 +96,6 @@ public class Principal extends JFrame {
 	private ListProduct listProduct;
 
 	public static void main(String[] args) {
-		Controladora.getInstance().getMisUsuarios().add(new Empleado("E1", "Oliver jose paulino perez", "oliver",
-				"8097914801", "blah blah", "1230", 15000, true));
-		DiscoDuro d1 = new DiscoDuro("C-1", "Wd-black", "7980", 95, 125, 10, "123412", 2000, "Gb", "M2");
-		Controladora.getInstance().addProduct(d1);
-		Controladora.getInstance().addProduct(new MemoriaRAM("C-2", "corsair", "King-v2", 50, 75, 25, "safa", 64, "Gb", "DDR5"));
-		Controladora.getInstance().addProduct(new Microprocesador("C-3", "Intel", "i-9", 120, 200, 12, "1231", "s33", (float)4.5, "Ghz"));
-		Controladora.getInstance().addProduct(new DiscoDuro("C-3", "Wd-black", "7980", 95, 125, 10, "123412", 2000, "Gb", "M2"));
-		Controladora.getInstance().addProduct(new MemoriaRAM("C-4", "corsair", "King-v2", 50, 75, 25, "safa", 64, "Gb", "DDR5"));
-		Controladora.getInstance().addProduct(new Microprocesador("C-5", "Intel", "i-9", 120, 200, 12, "1231", "s33", (float)4.5, "Ghz"));
-		Controladora.getInstance().addProduct(new DiscoDuro("C-6", "Wd-black", "7980", 95, 125, 10, "123412", 2000, "Gb", "M2"));
-		Controladora.getInstance().addProduct(new MemoriaRAM("C-7", "corsair", "King-v2", 50, 75, 25, "safa", 64, "Gb", "DDR5"));
-		Controladora.getInstance().addProduct(new Microprocesador("C-8", "Intel", "i-9", 120, 200, 12, "1231", "s33", (float)4.5, "Ghz"));
-		
-		
-		
-		
-//		Controladora.getInstance().getMisUsuarios()
-//				.add(new Cliente("E3", "Oscar pajaro", "oscar", "8097914801", "blah blah"));
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -260,11 +242,11 @@ public class Principal extends JFrame {
 		btnEnviar.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Usuario user = Controladora.getInstance().buscarUsuarioByCorreo(txtCorreo.getText().toString());
+				Empleado user = Controladora.getInstance().buscarEmpleadoByCorreo(txtCorreo.getText().toString());
 				if (user != null) {
 					pnContrasena.setVisible(true);
 					pnInicioSesion.setVisible(false);
-					Admin = (Empleado) user;
+					Admin =  user;
 				} else {
 					JOptionPane.showMessageDialog(null, "No encontramos ningun email, hable con el manager", "Registro",
 							JOptionPane.WARNING_MESSAGE);
@@ -602,7 +584,7 @@ public class Principal extends JFrame {
 	}
 
 	private void loadUsers() {
-	    ArrayList<Usuario> users = Controladora.getInstance().cargarDatosUsuarios();
+	    ArrayList<Usuario> users = Controladora.getInstance().getMisUsuarios();
 	    String textoBuscador = txtBuscadorCliente.getText().toLowerCase();
 	    modelo.setRowCount(0); // Limpia el modelo antes de cargar nuevos datos
 

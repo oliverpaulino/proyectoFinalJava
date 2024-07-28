@@ -68,6 +68,7 @@ public class ListUsers extends JDialog {
 			{
 				modelo = new DefaultTableModel();
 				table = new JTable();
+				table.setDefaultEditor(Object.class, null);
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
@@ -166,7 +167,7 @@ public class ListUsers extends JDialog {
 	}
 
 	public void loadUsers(String type) {
-		ArrayList<Usuario> users = Controladora.getInstance().cargarDatosUsuarios();
+		ArrayList<Usuario> users = Controladora.getInstance().getMisUsuarios();
 		modelo.setRowCount(0);
 
 		for (Usuario user : users) {

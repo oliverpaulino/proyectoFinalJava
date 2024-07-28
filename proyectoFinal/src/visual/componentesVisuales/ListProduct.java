@@ -75,7 +75,7 @@ public class ListProduct extends JPanel {
     }
 
     public void loadComponents() {
-    	String buscadorTxt = txtBuscador.getText();
+    	String buscadorTxt = txtBuscador.getText().toLowerCase();
     	String tipoBuscador = cbxFiltro.getSelectedItem().toString();
     	System.out.println(tipoBuscador);
     	ArrayList<Product> losComponentes = new ArrayList<>();  

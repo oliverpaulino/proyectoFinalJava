@@ -4,7 +4,6 @@ public class DiscoDuro extends Product {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 9082250312294122917L;
 	private int maxAlmacenamiento;
 	private String medidaAlmacenamiento;//gb p tb
 	private String tipoConexion;

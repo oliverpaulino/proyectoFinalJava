@@ -1,7 +1,6 @@
 package logico;
 
 import java.io.EOFException;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -36,7 +35,11 @@ public class Controladora implements Serializable {
 
 	public static Controladora getInstance() {
 		if (miControladora == null) {
-			miControladora = new Controladora();
+
+			miControladora = cargarDatos();
+			if (miControladora == null) {
+				miControladora = new Controladora();
+			}
 		}
 		return miControladora;
 
@@ -52,18 +55,16 @@ public class Controladora implements Serializable {
 	}
 
 	public void addUser(Usuario user) {
-		if (cargarDatosUsuarios() != null)
-			setMisUsuarios(cargarDatosUsuarios());
 		misUsuarios.add(user);
 		iduser++;
-		guardarDatosUsuario();
+		guardarDatos();
 	}
 
 	public void deleteUser(String userId) {
 		Usuario user = findUserById(userId);
 		if (user != null) {
 			misUsuarios.remove(user);
-			guardarDatosUsuario();
+			guardarDatos();
 		}
 	}
 
@@ -71,46 +72,39 @@ public class Controladora implements Serializable {
 		this.misUsuarios = misUsuarios;
 	}
 
-	public Usuario buscarUsuarioByCorreo(String email) {
-		if (cargarDatosUsuarios() != null)
-			for (int i = 0; cargarDatosUsuarios().size() > i; i++) {
-				misUsuarios.add(cargarDatosUsuarios().get(i));
+	public Empleado buscarEmpleadoByCorreo(String email) {
+		Empleado emp = null;
+		boolean encontrado = false;
+		int i = 0;
+		while (!encontrado && misUsuarios.size() > i) {
+			if (misUsuarios.get(i) instanceof Empleado) {
+				if (misUsuarios.get(i).getEmail().equalsIgnoreCase(email)) {
+					emp = (Empleado) misUsuarios.get(i);
+					encontrado = true;
+				}
 			}
-		return misUsuarios.stream().filter(user -> user.getEmail().equalsIgnoreCase(email)).findFirst().orElse(null);
+			i++;
+		}
+		return emp;
 	}
 
-	public void guardarDatosUsuario() {
-		File directorio = new File("./src/Datos");
-		if (!directorio.exists()) {
-			directorio.mkdirs(); // Crea los directorios necesarios
+	public boolean buscarExistenciaDeEmail(String email) {
+		boolean encontrado = false;
+		int i = 0;
+		while (!encontrado && misUsuarios.size() > i) {
+			if (misUsuarios.get(i).getEmail().equalsIgnoreCase(email)) {
+				encontrado = true;
+			}
+			i++;
 		}
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./src/Datos/Usuarios.dat"))) {
-			oos.writeObject(miControladora.getMisUsuarios());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	@SuppressWarnings("unchecked")
-	public ArrayList<Usuario> cargarDatosUsuarios() {
-		ArrayList<Usuario> usuarios = null;
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./src/Datos/Usuarios.dat"))) {
-			usuarios = (ArrayList<Usuario>) ois.readObject();
-			
-		} catch (FileNotFoundException e) {
-			System.out.println("Archivo no encontrado: " + e.getMessage());
-		} catch (EOFException e) {
-			System.out.println("Fin del archivo alcanzado inesperadamente: " + e.getMessage());
-		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Error al leer el archivo Usuarios.dat: " + e.getMessage());
-		}
-		return usuarios;
+		return encontrado;
 	}
 
 	// Products
 	public void addProduct(Product c1) {
 		myProducts.add(c1);
 		idproduct++;
+		guardarDatos();
 
 	}
 
@@ -118,30 +112,30 @@ public class Controladora implements Serializable {
 		return myProducts;
 
 	}
-	
+
 	public ArrayList<Product> getFilteredProducts(String filtro, String filtroType) {
 		ArrayList<Product> filteredProducts = new ArrayList<>();
-		
-		if (myProducts!=null) {
+
+		if (myProducts != null) {
 			for (Product product : myProducts) {
 				switch (filtroType) {
 				case "Id":
-					if (product.getId().contains(filtro)) {
+					if (product.getId().toLowerCase().contains(filtro)) {
 						filteredProducts.add(product);
 					}
-					
+
 					break;
 				case "Num. de serie":
 					if (product.getNumeroSerie().contains(filtro)) {
 						filteredProducts.add(product);
-						
+
 					}
 					break;
-					
+
 				case "Marca":
 					if (product.getMarca().contains(filtro)) {
 						filteredProducts.add(product);
-						
+
 					}
 					break;
 				case "Modelo":
@@ -149,35 +143,35 @@ public class Controladora implements Serializable {
 						filteredProducts.add(product);
 					}
 					break;
-					
+
 				case "Tipo":
 					if (filtro.toLowerCase().contains("ram")) {
 						if (product instanceof MemoriaRAM) {
 							filteredProducts.add(product);
-							
+
 						}
 					}
-					
+
 					if (filtro.toLowerCase().contains("disco")) {
 						if (product instanceof DiscoDuro) {
 							filteredProducts.add(product);
-							
+
 						}
-						
+
 					}
-					
+
 					break;
-				
+
 				default:
 					break;
 				}
-				
+
 			}
-			
+
 		}
-		
+
 		return filteredProducts;
-		
+
 	}
 
 	public void setProducts(ArrayList<Product> products) {
@@ -192,6 +186,7 @@ public class Controladora implements Serializable {
 	public void addOrder(Order order) {
 		myOrders.add(order);
 		idorder++;
+		guardarDatos();
 	}
 
 	public void deleteOrder(String orderId) {
@@ -199,7 +194,30 @@ public class Controladora implements Serializable {
 
 		if (order != null) {
 			myOrders.remove(order);
+			guardarDatos();
 		}
+	}
+
+	public void guardarDatos() {
+		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./src/Datos/Informaciones.dat"))) {
+			oos.writeObject(miControladora);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static Controladora cargarDatos() {
+		Controladora controladora = null;
+		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./src/Datos/Informaciones.dat"))) {
+			controladora = (Controladora) ois.readObject();
+		} catch (FileNotFoundException e) {
+			System.out.println("Archivo no encontrado: " + e.getMessage());
+		} catch (EOFException e) {
+			System.out.println("Fin del archivo alcanzado inesperadamente: " + e.getMessage());
+		} catch (IOException | ClassNotFoundException e) {
+			System.out.println("Error al leer el archivo Controladora.dat: " + e.getMessage());
+		}
+		return controladora;
 	}
 
 }
