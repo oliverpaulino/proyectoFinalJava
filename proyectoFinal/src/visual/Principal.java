@@ -121,7 +121,7 @@ public class Principal extends JFrame {
 		mnReg.setFont(new Font("Arial", Font.PLAIN, 14));
 		menuBar.add(mnReg);
 
-		mntmNewMenuItem = new JMenuItem("Productos");
+		mntmNewMenuItem = new JMenuItem("Registrar productos");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegOption reg = new RegOption();
