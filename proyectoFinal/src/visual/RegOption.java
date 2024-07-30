@@ -2,6 +2,8 @@ package visual;
 
 import java.awt.BorderLayout;
 import visual.componentesVisuales.RegComp;
+import visual.componentesVisuales.RegPC;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -225,6 +227,19 @@ public class RegOption extends JDialog {
 			panel_2.add(btnNewButton, gbc_btnNewButton);
 
 			JButton btnComputadora = new JButton("Computadora");
+			btnComputadora.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					/*optionPanel.setVisible(false);
+					regDiscoDuro.setVisible(false);
+					regProcesador.setVisible(false);
+					regRam.setVisible(false);
+					regTarjeta.setVisible(false);*/
+					RegPC regPC = new RegPC(null);
+					regPC.setModal(true);
+					regPC.setVisible(true);
+					//regProcesador.actualizarId();
+				}
+			});
 			btnComputadora.setFocusable(false);
 			btnComputadora.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			btnComputadora.setBackground(Color.WHITE);
