@@ -7,6 +7,9 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+
+import logico.Controladora;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
@@ -121,13 +124,14 @@ public class RegOption extends JDialog {
 			btnDiscoDuro.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			btnDiscoDuro.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Controladora.getInstance();
+					regDiscoDuro.actualizarId();
+					
 					optionPanel.setVisible(false);
 					regDiscoDuro.setVisible(true);
 					regProcesador.setVisible(false);
 					regRam.setVisible(false);
 					regTarjeta.setVisible(false);
-					regDiscoDuro.actualizarId();
-
 				}
 			});
 			btnDiscoDuro.setBackground(Color.WHITE);
@@ -143,12 +147,13 @@ public class RegOption extends JDialog {
 			btnRam.setFocusTraversalPolicyProvider(true);
 			btnRam.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					Controladora.getInstance();
+					regRam.actualizarId();
 					optionPanel.setVisible(false);
 					regDiscoDuro.setVisible(false);
 					regProcesador.setVisible(false);
 					regRam.setVisible(true);
 					regTarjeta.setVisible(false);
-					regRam.actualizarId();
 
 				}
 			});
@@ -166,13 +171,14 @@ public class RegOption extends JDialog {
 			btnMicroProcesador.setFocusable(false);
 			btnMicroProcesador.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					Controladora.getInstance();
+					regProcesador.actualizarId();
 					
 					optionPanel.setVisible(false);
 					regDiscoDuro.setVisible(false);
 					regProcesador.setVisible(true);
 					regRam.setVisible(false);
 					regTarjeta.setVisible(false);
-					regProcesador.actualizarId();
 				}
 			});
 			btnMicroProcesador.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -196,12 +202,13 @@ public class RegOption extends JDialog {
 			JButton btnTarjetaMadre = new JButton("Tarjeta Madre");
 			btnTarjetaMadre.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					Controladora.getInstance();
+					regTarjeta.actualizarId();
 					optionPanel.setVisible(false);
 					regDiscoDuro.setVisible(false);
 					regProcesador.setVisible(false);
 					regRam.setVisible(false);
 					regTarjeta.setVisible(true);
-					regTarjeta.actualizarId();
 					
 				}
 			});

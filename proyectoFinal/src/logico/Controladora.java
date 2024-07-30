@@ -16,14 +16,15 @@ public class Controladora implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static int idfactura = 1;
-	public static int iduser = 1;
-	public static int idproduct = 1;
-	public static int idorder = 1;
+	public static int idfactura;
+	public static int iduser;
+	public static int idproduct;
+	public static int idorder;
 
 	private ArrayList<Usuario> misUsuarios;
 	private ArrayList<Product> myProducts;
 	private ArrayList<Order> myOrders;
+	private ArrayList<Product> carrito;
 	private static Controladora miControladora = null;
 
 	private Controladora() {
@@ -31,6 +32,10 @@ public class Controladora implements Serializable {
 		misUsuarios = new ArrayList<Usuario>();
 		myProducts = new ArrayList<Product>();
 		myOrders = new ArrayList<Order>();
+		iduser = 1;
+		idfactura = 1;
+		idproduct = 1;
+		idorder = 1;
 	}
 
 	public static Controladora getInstance() {
@@ -38,8 +43,23 @@ public class Controladora implements Serializable {
 		if (miControladora == null) {
 			miControladora = new Controladora();
 		}
+		actualizarUltimoid();
 		return miControladora;
 
+	}
+	
+	private static void actualizarUltimoid() {
+		if(miControladora.getProducts() == null)
+			idproduct = 1;
+		else
+			 for (Product product : miControladora.getProducts()) {
+		            String idStr = product.getId().substring(2); // Elimina "C-"
+		            int id = Integer.parseInt(idStr);
+		            if (id >= idproduct) {
+		                idproduct = id + 1;
+		            }
+		        }
+		 //agregar tambien para todos los otros ids
 	}
 
 	// Users
@@ -100,7 +120,9 @@ public class Controladora implements Serializable {
 	// Products
 	public void addProduct(Product c1) {
 		myProducts.add(c1);
-		idproduct++;
+		cargarDatos();
+		idproduct = Controladora.idproduct++;
+		System.out.println(idproduct);
 		guardarDatos();
 
 	}
@@ -108,6 +130,18 @@ public class Controladora implements Serializable {
 	public ArrayList<Product> getProducts() {
 		return myProducts;
 
+	}
+	
+	public void deleteProduct(String productid) {
+		Product product = findProductById(productid);
+		if (product != null) {
+			myProducts.remove(product);
+			guardarDatos();
+		}
+	}
+
+	private Product findProductById(String productid) {
+		return myProducts.stream().filter(user -> user.getId().equalsIgnoreCase(productid)).findFirst().orElse(null);
 	}
 
 	public ArrayList<Product> getFilteredProducts(String filtro, String filtroType) {
@@ -215,6 +249,14 @@ public class Controladora implements Serializable {
 			System.out.println("Error al leer el archivo Controladora.dat: " + e.getMessage());
 		}
 		return controladora;
+	}
+
+	public ArrayList<Product> getCarrito() {
+		return carrito;
+	}
+
+	public void setCarrito(ArrayList<Product> carrito) {
+		this.carrito = carrito;
 	}
 
 }
