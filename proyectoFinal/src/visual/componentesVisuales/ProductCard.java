@@ -96,7 +96,7 @@ public class ProductCard extends JPanel {
 					.getScaledInstance(80,80, Image.SCALE_SMOOTH));
 		}
 		else if (c1 instanceof MemoriaRAM) {
-			productIcon =new ImageIcon(new ImageIcon(ProductCard.class.getResource("/img/ram Hollow.png")).getImage()
+			productIcon =new ImageIcon(new ImageIcon(ProductCard.class.getResource("/img/ramHollow.png")).getImage()
 					.getScaledInstance(80,80, Image.SCALE_SMOOTH));
 		}
 		else if (c1 instanceof Microprocesador) {

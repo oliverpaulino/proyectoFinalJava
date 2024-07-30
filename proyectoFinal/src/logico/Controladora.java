@@ -34,12 +34,9 @@ public class Controladora implements Serializable {
 	}
 
 	public static Controladora getInstance() {
+		miControladora = cargarDatos();
 		if (miControladora == null) {
-
-			miControladora = cargarDatos();
-			if (miControladora == null) {
-				miControladora = new Controladora();
-			}
+			miControladora = new Controladora();
 		}
 		return miControladora;
 

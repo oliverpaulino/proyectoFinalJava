@@ -50,10 +50,12 @@ public class RegOption extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegOption() {
+		setResizable(false);
 		setTitle("Registro de Productos");
 		setBounds(100, 100, 616, 444);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
@@ -199,7 +201,7 @@ public class RegOption extends JDialog {
 					regProcesador.setVisible(false);
 					regRam.setVisible(false);
 					regTarjeta.setVisible(true);
-					regProcesador.actualizarId();
+					regTarjeta.actualizarId();
 					
 				}
 			});
