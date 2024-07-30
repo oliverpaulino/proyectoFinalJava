@@ -89,7 +89,7 @@ public class ProductModal extends JDialog {
 						.getScaledInstance(80,80, Image.SCALE_SMOOTH));
 			}
 			else if (c1 instanceof TarjetaMadre) {
-				productIcon =new ImageIcon(new ImageIcon(ProductCard.class.getResource("/img/madreHollow.png")).getImage()
+				productIcon =new ImageIcon(new ImageIcon(ProductCard.class.getResource("/img/madreFull.png")).getImage()
 						.getScaledInstance(80,80, Image.SCALE_SMOOTH));
 			}
 			else {

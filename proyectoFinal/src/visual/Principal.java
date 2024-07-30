@@ -112,7 +112,7 @@ public class Principal extends JFrame {
 	public Principal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-
+//		Controladora.getInstance().addUser(new Empleado("", "", "", "", "", "", 0, true));
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -355,7 +355,7 @@ public class Principal extends JFrame {
 		pnSuperior.setLayout(null);
 
 		btniniciosesion = new JButton("Iniciar Sesion");
-		btniniciosesion.setBounds(1773, 10, 111, 26);
+		btniniciosesion.setBounds(1533, 12, 111, 26);
 		pnSuperior.add(btniniciosesion);
 
 		lblimg = new JLabel("");
@@ -372,9 +372,24 @@ public class Principal extends JFrame {
 				}
 			}
 		});
-		lblimg.setBounds(113, 3, 30, 30);
+		lblimg.setBounds(1804, 12, 30, 30);
 		lblimg.setBounds(1854, 8, 30, 30);
 		pnSuperior.add(lblimg);
+		
+		JLabel lblNewLabel_1 = new JLabel("");
+		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				
+			}
+		});
+		ImageIcon imgCarrito = new ImageIcon(Controladora.class.getResource("/img/carrito-de-compras.png"));
+		Image carritoImg = imgCarrito.getImage();
+		
+		lblNewLabel_1.setIcon(new ImageIcon(carritoImg.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
+		
+		lblNewLabel_1.setBounds(1800, 3, 30, 35);
+		pnSuperior.add(lblNewLabel_1);
 
 		pnUser = new JPanel();
 		pnUser.setBounds(1766, 47, 118, 47);

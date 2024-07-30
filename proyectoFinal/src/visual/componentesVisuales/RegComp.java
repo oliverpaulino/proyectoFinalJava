@@ -32,7 +32,6 @@ public class RegComp extends JPanel {
 	private JTextField txtMarca;
 	private JTextField txtModelo;
 	private JTextField txtSerie;
-	private JTextField txtConexion;
 	private JComboBox cbxMedida;
 	private JComboBox cbxTipoRam;
 	private JComboBox cbxUnidadMemoria;
@@ -42,13 +41,12 @@ public class RegComp extends JPanel {
 	private JSpinner spnProcesamiento;
 	private JComboBox cbxUnidadVelocidad;
 	private JTextField txtConectorTarjetaMadre;
-	private JTextField txtConexionDiscos;
 	private JComboBox cbxTipoRamMadre;
 	private JSpinner spnCosto;
 	private JSpinner spnPrecio;
 	private int idActual =  Controladora.getInstance().getProducts() == null? 1 : Controladora.getInstance().getProducts().size()+1 ;
 	private JSpinner spnCantidad;
-	
+	private ListConexiones listConexiones = new ListConexiones();
 	
 	
 	/**
@@ -252,11 +250,12 @@ public class RegComp extends JPanel {
 		lblTipoDeConexion.setBounds(51, 107, 220, 19);
 		panelDiscoDuro.add(lblTipoDeConexion);
 		
-		txtConexion = new JTextField();
-		txtConexion.setFont(new Font("Arial", Font.PLAIN, 16));
-		txtConexion.setColumns(10);
-		txtConexion.setBounds(339, 106, 86, 20);
-		panelDiscoDuro.add(txtConexion);
+		JComboBox cbxConexion = new JComboBox();
+		cbxConexion.setModel(new DefaultComboBoxModel(new String[] {"SATA", "PATA", "eSATA", "SCSI", "SSD", "SAS", "NVMe", "Express"}));
+		cbxConexion.setSelectedIndex(0);
+		cbxConexion.setFont(new Font("Arial", Font.PLAIN, 16));
+		cbxConexion.setBounds(339, 108, 86, 20);
+		panelDiscoDuro.add(cbxConexion);
 		
 		
 		JButton btnRegistrar = new JButton("Registrar");
@@ -277,7 +276,7 @@ public class RegComp extends JPanel {
 					
 					switch (type) {
 					case 0:
-						String conexion = txtConexion.getText();
+						String conexion = cbxConexion.getSelectedItem().toString();
 						int almacenamiento = (int) spnAlmacenamiento.getValue();
 						String medidaAlmacenamiento = cbxMedida.getSelectedItem().toString();
 						
@@ -327,8 +326,7 @@ public class RegComp extends JPanel {
 					case 3:
 						String conectorTajetaMadre = txtConectorTarjetaMadre.getText();
 						String tipoRamTarjeta = cbxTipoRamMadre.getSelectedItem().toString();
-						ArrayList<String> conexionesDiscoDuro = new ArrayList<>();
-						conexionesDiscoDuro.add(txtConexionDiscos.getText());
+						ArrayList<String> conexionesDiscoDuro = listConexiones.conexiones;
 						
 						if (conectorTajetaMadre.isEmpty() || conexionesDiscoDuro.isEmpty()) {
 							error=true;
@@ -367,44 +365,43 @@ public class RegComp extends JPanel {
 		
 		JLabel lblNewLabel_9 = new JLabel("Tipo de conector");
 		lblNewLabel_9.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_9.setBounds(10, 14, 151, 19);
+		lblNewLabel_9.setBounds(10, 24, 151, 19);
 		panelTarjetaMadre.add(lblNewLabel_9);
 		
 		txtConectorTarjetaMadre = new JTextField();
 		txtConectorTarjetaMadre.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtConectorTarjetaMadre.setBounds(316, 12, 138, 20);
+		txtConectorTarjetaMadre.setBounds(316, 22, 138, 20);
 		panelTarjetaMadre.add(txtConectorTarjetaMadre);
 		txtConectorTarjetaMadre.setColumns(10);
 		
 		JLabel lblTipoDeRam = new JLabel("Tipo de ram");
 		lblTipoDeRam.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblTipoDeRam.setBounds(10, 47, 151, 19);
+		lblTipoDeRam.setBounds(10, 67, 151, 19);
 		panelTarjetaMadre.add(lblTipoDeRam);
 		
 		cbxTipoRamMadre = new JComboBox();
 		cbxTipoRamMadre.setFont(new Font("Arial", Font.PLAIN, 14));
 		cbxTipoRamMadre.setModel(new DefaultComboBoxModel(new String[] {"DDR1", "DDR2", "DDR3", "DDR4", "DDR5"}));
-		cbxTipoRamMadre.setBounds(316, 44, 138, 20);
+		cbxTipoRamMadre.setBounds(316, 64, 138, 20);
 		panelTarjetaMadre.add(cbxTipoRamMadre);
 		
 		JLabel lblNewLabel_10 = new JLabel("Conexiones disco duro");
 		lblNewLabel_10.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblNewLabel_10.setBounds(10, 80, 184, 14);
+		lblNewLabel_10.setBounds(10, 110, 184, 14);
 		panelTarjetaMadre.add(lblNewLabel_10);
 		
-		txtConexionDiscos = new JTextField();
-		txtConexionDiscos.setBounds(316, 76, 138, 20);
-		panelTarjetaMadre.add(txtConexionDiscos);
-		txtConexionDiscos.setColumns(10);
-		
-		JLabel lblSeleccionarImagen = new JLabel("Seleccionar imagen");
-		lblSeleccionarImagen.setFont(new Font("Arial", Font.PLAIN, 16));
-		lblSeleccionarImagen.setBounds(10, 108, 151, 19);
-		panelTarjetaMadre.add(lblSeleccionarImagen);
-		
-		JButton btnImagenes = new JButton("Seleccionar");
-		btnImagenes.setBounds(316, 108, 138, 23);
-		panelTarjetaMadre.add(btnImagenes);
+		JButton btnConexiones = new JButton("Conexiones");
+		btnConexiones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				listConexiones.setModal(true);
+				listConexiones.setVisible(true);
+			}
+		});
+		btnConexiones.setFont(new Font("Arial", Font.PLAIN, 16));
+		btnConexiones.setBackground(Color.WHITE);
+		btnConexiones.setBounds(316, 108, 138, 23);
+		panelTarjetaMadre.add(btnConexiones);
 		
 		spnCosto = new JSpinner();
 		spnCosto.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -457,12 +454,13 @@ public class RegComp extends JPanel {
 	private void clean() {
 		txtId.setText("C-"+ idActual);
 		txtMarca.setText("");
-		txtConexion.setText("");
 		txtModelo.setText("");
-		txtConexion.setText("");
 		txtSerie.setText("");
 		spnAlmacenamiento.setValue(0);
 		spnProcesamiento.setValue(0);
+		spnCosto.setValue(0);
+		spnCantidad.setValue(0);
+		spnPrecio.setValue(0);
 		
 		cbxMedida.setSelectedIndex(0);
 		cbxTipoRam.setSelectedIndex(0);
