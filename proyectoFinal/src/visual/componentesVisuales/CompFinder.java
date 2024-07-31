@@ -12,7 +12,11 @@ import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
 
 import logico.Controladora;
+import logico.DiscoDuro;
+import logico.MemoriaRAM;
+import logico.Microprocesador;
 import logico.Product;
+import logico.TarjetaMadre;
 
 import java.awt.GridLayout;
 import java.awt.GridBagLayout;
@@ -33,6 +37,9 @@ import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.SwingConstants;
 
 public class CompFinder extends JDialog {
 
@@ -43,13 +50,14 @@ public class CompFinder extends JDialog {
 	private String idSelected;
 	private JButton okButton;
 	private JLabel resultsLabel;
+	private JLabel lblNewLabel;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			CompFinder dialog = new CompFinder();
+			CompFinder dialog = new CompFinder(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -60,7 +68,9 @@ public class CompFinder extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public CompFinder() {
+	public CompFinder(String type) {
+		// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
+		setTitle("Buscador de componentes | " + getTypeName(type));
 		setBounds(100, 100, 732, 446);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -72,7 +82,7 @@ public class CompFinder extends JDialog {
 		gbl_contentPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0 };
 		contentPanel.setLayout(gbl_contentPanel);
 		{
-			JLabel lblNewLabel = new JLabel("Buscar componente:");
+			lblNewLabel = new JLabel("Buscar componente:");
 			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 			gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
@@ -82,6 +92,7 @@ public class CompFinder extends JDialog {
 		}
 		{
 			tbSearch = new JTextField();
+			lblNewLabel.setLabelFor(tbSearch);
 			tbSearch.getDocument().addDocumentListener(new DocumentListener() {
 				@Override
 				public void insertUpdate(DocumentEvent e) {
@@ -100,26 +111,19 @@ public class CompFinder extends JDialog {
 
 				private void textChanged() {
 					String searchText = tbSearch.getText();
-					findProducts(searchText);
+					findProducts(searchText, type);
 				}
 			});
 
-			tbSearch.setToolTipText("Escribe ID o nombre de componente");
+			tbSearch.setToolTipText("Escribe ID o nombre de " + getTypeName(type));
 			GridBagConstraints gbc_tbSearch = new GridBagConstraints();
+			gbc_tbSearch.gridwidth = 2;
 			gbc_tbSearch.insets = new Insets(0, 0, 5, 5);
 			gbc_tbSearch.fill = GridBagConstraints.HORIZONTAL;
 			gbc_tbSearch.gridx = 2;
 			gbc_tbSearch.gridy = 1;
 			contentPanel.add(tbSearch, gbc_tbSearch);
 			tbSearch.setColumns(10);
-		}
-		{
-			JButton btnNewButton = new JButton("New button");
-			GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-			gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
-			gbc_btnNewButton.gridx = 3;
-			gbc_btnNewButton.gridy = 1;
-			contentPanel.add(btnNewButton, gbc_btnNewButton);
 		}
 		{
 			resultsLabel = new JLabel("Resultados ():");
@@ -145,12 +149,7 @@ public class CompFinder extends JDialog {
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
-						int index = table.getSelectedRow();
-
-						if (index >= 0) {
-							idSelected = new String(table.getValueAt(index, 0).toString());
-							okButton.setEnabled(true);
-						}
+			
 					}
 				});
 
@@ -168,7 +167,18 @@ public class CompFinder extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				okButton = new JButton("Seleccionar");
-				okButton.setEnabled(false);
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						int index = table.getSelectedRow();
+
+						if (index >= 0) {
+							idSelected = new String(table.getValueAt(index, 0).toString());
+							dispose();
+						} else {
+							JOptionPane.showMessageDialog(null, "No ha seleccionado ningún producto");
+						}
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
@@ -186,36 +196,17 @@ public class CompFinder extends JDialog {
 			}
 		}
 
-		findProducts("");
+		findProducts("", type);
 	}
 
-	public void findProducts(String search) {
+	public void findProducts(String search, String type) {
 		ArrayList<Product> products = Controladora.getInstance().getProducts();
 		modelo.setRowCount(0);
 		int resultCount = 0;
-		
+			
 		if (search == "") {
 			for (Product product : products) {
-
-				Object[] row = new Object[table.getColumnCount()];
-				row[0] = product.getId();
-				row[1] = product.getMarca();
-				row[2] = product.getModelo();
-				row[3] = product.getPrecio();
-				row[4] = product.getNumeroSerie();
-				modelo.addRow(row);
-				resultCount++;
-			}
-		} else {
-			for (Product product : products) {
-				String lowerCaseSearch = search.toLowerCase();
-
-				if (product.getId().toLowerCase().contains(lowerCaseSearch)
-						|| product.getMarca().toLowerCase().contains(lowerCaseSearch)
-						|| product.getModelo().toLowerCase().contains(lowerCaseSearch)
-						|| String.valueOf(product.getPrecio()).contains(lowerCaseSearch)
-						|| product.getNumeroSerie().toLowerCase().contains(lowerCaseSearch)) {
-					
+				if (isType(product, type)) {
 					Object[] row = new Object[table.getColumnCount()];
 					row[0] = product.getId();
 					row[1] = product.getMarca();
@@ -226,11 +217,58 @@ public class CompFinder extends JDialog {
 					resultCount++;
 				}
 			}
+		} else {
+			for (Product product : products) {
+				String lowerCaseSearch = search.toLowerCase();
+
+				if (isType(product, type)) {
+					if (product.getId().toLowerCase().contains(lowerCaseSearch)
+							|| product.getMarca().toLowerCase().contains(lowerCaseSearch)
+							|| product.getModelo().toLowerCase().contains(lowerCaseSearch)
+							|| String.valueOf(product.getPrecio()).contains(lowerCaseSearch)
+							|| product.getNumeroSerie().toLowerCase().contains(lowerCaseSearch)) {
+
+						Object[] row = new Object[table.getColumnCount()];
+						row[0] = product.getId();
+						row[1] = product.getMarca();
+						row[2] = product.getModelo();
+						row[3] = product.getPrecio();
+						row[4] = product.getNumeroSerie();
+						modelo.addRow(row);
+						resultCount++;
+					}
+				}
+			}
 		}
-		
+
 		resultsLabel.setText("Resultado(s) (" + resultCount + ")");
 
 		table.setModel(modelo);
+	}
+	
+	public String getSelectedID() {
+	    return idSelected;
+	}
+
+	private String getTypeName(String type) {
+		switch (type) {
+		case "RAM":
+			return "Memoria RAM";
+		case "HARDDRIVE":
+			return "Almacenamiento";
+		case "PROCESADOR":
+			return "Procesador";
+		case "MOTHERBOARD":
+			return "Tarjeta Madre";
+		}
+		return type;
+	}
+
+	private boolean isType(Product product, String type) {
+		return ((product instanceof DiscoDuro) && type.equalsIgnoreCase("HARDDRIVE"))
+				|| ((product instanceof MemoriaRAM) && type.equalsIgnoreCase("RAM"))
+				|| ((product instanceof Microprocesador) && type.equalsIgnoreCase("PROCESADOR"))
+				|| ((product instanceof TarjetaMadre) && type.equalsIgnoreCase("MOTHERBOARD"));
 	}
 
 }

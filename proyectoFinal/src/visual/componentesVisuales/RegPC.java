@@ -210,9 +210,16 @@ public class RegPC extends JDialog {
 		JButton btnSelectMotherboard = new JButton("Seleccionar");
 		btnSelectMotherboard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				CompFinder finderDialog = new CompFinder();
-				finderDialog.setModal(true);
-				finderDialog.setVisible(true);
+				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
+				CompFinder finderMotherBoardDialog = new CompFinder("MOTHERBOARD");
+				finderMotherBoardDialog.setModal(true);
+				finderMotherBoardDialog.setVisible(true);
+				String selectedID = finderMotherBoardDialog.getSelectedID();
+				if (selectedID != null) {
+					System.out.println("Elemento seleccionado: " + selectedID);
+					selectedMotherboard = selectedID;
+					// Realiza alguna acción con el ID seleccionado
+				}
 			}
 		});
 		btnSelectMotherboard.setBounds(12, 53, 111, 25);
@@ -233,6 +240,14 @@ public class RegPC extends JDialog {
 		panel_1.add(lblSelectedProcesador);
 
 		JButton btnSelectProcesador = new JButton("Seleccionar");
+		btnSelectProcesador.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
+				CompFinder finderProcesadorDialog = new CompFinder("PROCESADOR");
+				finderProcesadorDialog.setModal(true);
+				finderProcesadorDialog.setVisible(true);
+			}
+		});
 		btnSelectProcesador.setBounds(383, 53, 117, 25);
 		panel_1.add(btnSelectProcesador);
 
@@ -246,6 +261,14 @@ public class RegPC extends JDialog {
 		panel_1.add(lblSelectedHardDrive);
 
 		JButton btnSelectHardDrive = new JButton("Seleccionar");
+		btnSelectHardDrive.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
+				CompFinder finderHardDriveDialog = new CompFinder("HARDDRIVE");
+				finderHardDriveDialog.setModal(true);
+				finderHardDriveDialog.setVisible(true);
+			}
+		});
 		btnSelectHardDrive.setBounds(12, 112, 117, 25);
 		panel_1.add(btnSelectHardDrive);
 
@@ -259,6 +282,14 @@ public class RegPC extends JDialog {
 		panel_1.add(lblSelectedRAM);
 
 		JButton btnSelectRAM = new JButton("Seleccionar");
+		btnSelectRAM.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
+				CompFinder finderRAMDialog = new CompFinder("RAM");
+				finderRAMDialog.setModal(true);
+				finderRAMDialog.setVisible(true);
+			}
+		});
 		btnSelectRAM.setBounds(383, 112, 117, 25);
 		panel_1.add(btnSelectRAM);
 
@@ -301,6 +332,14 @@ public class RegPC extends JDialog {
 		btnAddonsList.setEnabled(selectedAddonsId.size() > 0);
 
 		JButton btnSelectAddons = new JButton("Seleccionar");
+		btnSelectAddons.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
+				CompFinder finderOthersDialog = new CompFinder("");
+				finderOthersDialog.setModal(true);
+				finderOthersDialog.setVisible(true);
+			}
+		});
 		btnSelectAddons.setBounds(12, 171, 117, 25);
 		panel_1.add(btnSelectAddons);
 		{
