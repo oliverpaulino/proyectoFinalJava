@@ -32,6 +32,7 @@ public class Controladora implements Serializable {
 		misUsuarios = new ArrayList<Usuario>();
 		myProducts = new ArrayList<Product>();
 		myOrders = new ArrayList<Order>();
+		carrito = new ArrayList<Product>();
 		iduser = 1;
 		idfactura = 1;
 		idproduct = 1;
@@ -39,11 +40,14 @@ public class Controladora implements Serializable {
 	}
 
 	public static Controladora getInstance() {
-		miControladora = cargarDatos();
-		if (miControladora == null) {
-			miControladora = new Controladora();
+		if (miControladora==null) {
+			
+			miControladora = cargarDatos();
+			if (miControladora == null) {
+				miControladora = new Controladora();
+			}
+			actualizarUltimoid();
 		}
-		actualizarUltimoid();
 		return miControladora;
 
 	}
@@ -70,6 +74,10 @@ public class Controladora implements Serializable {
 	public Usuario findUserById(String userId) {
 		return misUsuarios.stream().filter(user -> user.getId().equalsIgnoreCase(userId)).findFirst().orElse(null);
 	}
+	public Usuario findUserByCorreo(String userCorreo) {
+		return misUsuarios.stream().filter(user -> user.getEmail().equalsIgnoreCase(userCorreo)).findFirst().orElse(null);
+	}
+	
 
 	public void addUser(Usuario user) {
 		misUsuarios.add(user);
@@ -139,9 +147,17 @@ public class Controladora implements Serializable {
 			guardarDatos();
 		}
 	}
+	
 
 	private Product findProductById(String productid) {
 		return myProducts.stream().filter(user -> user.getId().equalsIgnoreCase(productid)).findFirst().orElse(null);
+	}
+	public void deleteProductFromCarrito(String productid) {
+		Product product = findProductById(productid);
+		if (product != null) {
+			carrito.remove(product);
+			guardarDatos();
+		}
 	}
 
 	public ArrayList<Product> getFilteredProducts(String filtro, String filtroType) {

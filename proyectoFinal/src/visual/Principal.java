@@ -73,7 +73,7 @@ public class Principal extends JFrame {
 	private boolean inicioSesion = false;//==========================
 	private JButton button;
 	private JButton btnAtrasInicio;
-	private JLabel lblimg;
+	private JLabel lblUser;
 	private JPanel pnUser;
 	private JButton btnCierreSesion;
 	private JPanel panelizquierda;
@@ -94,6 +94,7 @@ public class Principal extends JFrame {
 	private JPanel pnOfertas;
 	private JPanel panel_2;
 	private ListProduct listProduct;
+	private JLabel lblCarrito;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -193,6 +194,14 @@ public class Principal extends JFrame {
 			}
 		});
 		mnAdmin.add(mntmNewMenuItem_2);
+		
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Ver facturas");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		mnAdmin.add(mntmNewMenuItem_5);
 
 		btnNewButton_1 = new JButton("Iniciar Sesion");
 		btnNewButton_1.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -355,15 +364,15 @@ public class Principal extends JFrame {
 		pnSuperior.setLayout(null);
 
 		btniniciosesion = new JButton("Iniciar Sesion");
-		btniniciosesion.setBounds(1533, 12, 111, 26);
+		btniniciosesion.setBounds(1773, 12, 111, 26);
 		pnSuperior.add(btniniciosesion);
 
-		lblimg = new JLabel("");
-		lblimg.setVisible(false);
+		lblUser = new JLabel("");
+		lblUser.setVisible(false);
 		ImageIcon img = new ImageIcon(Controladora.class.getResource("/img/user.png"));
 		Image userimg = img.getImage();
-		lblimg.setIcon(new ImageIcon(userimg.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		lblimg.addMouseListener(new MouseAdapter() {
+		lblUser.setIcon(new ImageIcon(userimg.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
+		lblUser.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (pnUser.isVisible() == true)
 					pnUser.setVisible(false);
@@ -372,24 +381,38 @@ public class Principal extends JFrame {
 				}
 			}
 		});
-		lblimg.setBounds(1804, 12, 30, 30);
-		lblimg.setBounds(1854, 8, 30, 30);
-		pnSuperior.add(lblimg);
+		lblUser.setBounds(1804, 12, 30, 30);
+		lblUser.setBounds(1854, 8, 30, 30);
+		pnSuperior.add(lblUser);
 		
-		JLabel lblNewLabel_1 = new JLabel("");
-		lblNewLabel_1.addMouseListener(new MouseAdapter() {
+		lblCarrito = new JLabel("");
+		lblCarrito.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				Cliente cliente = (Cliente) Controladora.getInstance().findUserByCorreo(idSelected);
+				if (cliente!=null) {
+					
+					Facturacion facturacion = new Facturacion(cliente);
+					
+					facturacion.setModal(true);
+					facturacion.setVisible(true);
+				}
+				else {
+
+					JOptionPane.showMessageDialog(null, "Debe de elegir un cliente", "Productos", JOptionPane.INFORMATION_MESSAGE);
+				}
+				
 				
 			}
 		});
+		lblCarrito.setVisible(false);
 		ImageIcon imgCarrito = new ImageIcon(Controladora.class.getResource("/img/carrito-de-compras.png"));
 		Image carritoImg = imgCarrito.getImage();
 		
-		lblNewLabel_1.setIcon(new ImageIcon(carritoImg.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
+		lblCarrito.setIcon(new ImageIcon(carritoImg.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
 		
-		lblNewLabel_1.setBounds(1800, 3, 30, 35);
-		pnSuperior.add(lblNewLabel_1);
+		lblCarrito.setBounds(1800, 6, 30, 35);
+		pnSuperior.add(lblCarrito);
 
 		pnUser = new JPanel();
 		pnUser.setBounds(1766, 47, 118, 47);
@@ -478,7 +501,7 @@ public class Principal extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				int index = table.getSelectedRow();
 				if (index >= 0) {
-					idSelected = new String(table.getValueAt(index, 0).toString());
+					idSelected = new String(table.getValueAt(index, 1).toString());
 					// btnDelete.setEnabled(true);
 					// btnEdit.setEnabled(true);
 				}
@@ -570,7 +593,8 @@ public class Principal extends JFrame {
 		if (inicioSesion) {
 			btniniciosesion.setVisible(false);
 			pnContrasena.setVisible(false);
-			lblimg.setVisible(true);
+			lblUser.setVisible(true);
+			lblCarrito.setVisible(true);
 			txtCorreo.setText("");
 			txtcontra.setText("");
 			mnCl.setVisible(true);
@@ -589,7 +613,8 @@ public class Principal extends JFrame {
 			pnUser.setVisible(false);
 			Admin = null;
 			btniniciosesion.setVisible(true);
-			lblimg.setVisible(false);
+			lblUser.setVisible(false);
+			lblCarrito.setVisible(false);
 			mnCl.setVisible(false);
 			mnReg.setVisible(false);
 			mnAdmin.setVisible(false);

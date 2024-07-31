@@ -36,13 +36,7 @@ public class ProductCard extends JPanel {
 				setBackground(Color.WHITE);
 				
 			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				ProductModal productModal = new ProductModal(c1);
-				productModal.setLocationRelativeTo(null);
-				productModal.setModal(true);
-				productModal.setVisible(true);
-			}
+			
 		});
 		setBackground(Color.WHITE);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));

@@ -21,6 +21,7 @@ import logico.TarjetaMadre;
 
 import java.awt.Color;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -205,12 +206,18 @@ public class ProductModal extends JDialog {
 				btnAgregarACarrito.setFont(new Font("Arial", Font.PLAIN, 11));
 				btnAgregarACarrito.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						Controladora.getInstance().getCarrito().add(c1);
+						Controladora.getInstance().guardarDatos();
+						JOptionPane.showMessageDialog(null, "Agregado", "Productos", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
+						
 					}
 				});
 				btnAgregarACarrito.setBackground(Color.WHITE);
 				btnAgregarACarrito.setActionCommand("OK");
 				buttonPane.add(btnAgregarACarrito);
 			}
+		
 			{
 				JButton okButton = new JButton("Guardar Cambios");
 				okButton.setFont(new Font("Arial", Font.PLAIN, 11));
@@ -223,6 +230,7 @@ public class ProductModal extends JDialog {
 						c1.setCosto(newCosto);
 						c1.setCantidad(newCant);
 						c1.setPrecio(newPrecio);
+						
 						JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Productos", JOptionPane.INFORMATION_MESSAGE);
 						dispose();
 						
@@ -249,7 +257,7 @@ public class ProductModal extends JDialog {
 							int option = JOptionPane.showConfirmDialog(null, "Seguro desea eliminar el vino con código: "+c1.getId(), "Confirmación", JOptionPane.WARNING_MESSAGE);
 							if(option == JOptionPane.YES_OPTION){
 								
-								Controladora.getInstance().getProducts().remove(c1);
+								Controladora.getInstance().deleteProduct(c1.getId());
 								dispose();
 							}
 						}

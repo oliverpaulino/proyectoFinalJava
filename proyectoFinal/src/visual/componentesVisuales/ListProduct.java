@@ -17,6 +17,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.FlowLayout;
 import javax.swing.JTextField;
@@ -98,6 +100,18 @@ public class ListProduct extends JPanel {
         for (Product componente : losComponentes) {
             ProductCard card = new ProductCard(componente);
             card.setPreferredSize(cardSize);
+            card.addMouseListener(new MouseAdapter() {
+    			
+    			@Override
+    			public void mouseClicked(MouseEvent e) {
+    				ProductModal productModal = new ProductModal(componente);
+    				productModal.setLocationRelativeTo(null);
+    				productModal.setModal(true);
+    				productModal.setVisible(true);
+    				Controladora.getInstance().guardarDatos();
+    				loadComponents();
+    			}
+    		});
 
             gbc.gridx = x;
             gbc.gridy = y;
