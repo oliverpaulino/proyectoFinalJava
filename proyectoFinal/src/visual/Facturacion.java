@@ -131,7 +131,8 @@ public class Facturacion extends JDialog {
 		txtNoFactura = new JTextField();
 		txtNoFactura.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtNoFactura.setEditable(false);
-		txtNoFactura.setText("F-"+Controladora.getInstance().idorder);
+		Controladora.getInstance();
+		txtNoFactura.setText("F-"+Controladora.idorder);
 		txtNoFactura.setBounds(156, 15, 233, 20);
 		contentPanel.add(txtNoFactura);
 		txtNoFactura.setColumns(10);
@@ -385,7 +386,16 @@ public class Facturacion extends JDialog {
 				JOptionPane.INFORMATION_MESSAGE);
 		Controladora.getInstance().setCarrito(new ArrayList<Product>());;
 		Controladora.getInstance().guardarDatos();
+		clean();
 		dispose();
+		
+	}
+	
+	private void clean() {
+		Controladora.getInstance();
+		txtNoFactura.setText("F-"+Controladora.idorder);
+		txtRNC.setText("");
+		chckbxValorFiscal.setSelected(false);
 		
 	}
 }

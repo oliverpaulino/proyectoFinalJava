@@ -16,7 +16,6 @@ public class Controladora implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public static int idfactura;
 	public static int iduser;
 	public static int idproduct;
 	public static int idorder;
@@ -34,7 +33,6 @@ public class Controladora implements Serializable {
 		myOrders = new ArrayList<Order>();
 		carrito = new ArrayList<Product>();
 		iduser = 1;
-		idfactura = 1;
 		idproduct = 1;
 		idorder = 1;
 	}
@@ -47,6 +45,8 @@ public class Controladora implements Serializable {
 				miControladora = new Controladora();
 			}
 			actualizarUltimoid();
+			actualizarUltimoidOrder();
+			
 		}
 		return miControladora;
 
@@ -61,6 +61,19 @@ public class Controladora implements Serializable {
 		            int id = Integer.parseInt(idStr);
 		            if (id >= idproduct) {
 		                idproduct = id + 1;
+		            }
+		        }
+		 //agregar tambien para todos los otros ids
+	}
+	private static void actualizarUltimoidOrder() {
+		if(miControladora.getOrders() == null)
+			idorder = 1;
+		else
+			 for (Order product : miControladora.getOrders()) {
+		            String idStr = product.getId().substring(2); // Elimina "F-"
+		            int id = Integer.parseInt(idStr);
+		            if (id >= idorder) {
+		                idorder = id + 1;
 		            }
 		        }
 		 //agregar tambien para todos los otros ids
@@ -232,7 +245,7 @@ public class Controladora implements Serializable {
 	public void addOrder(Order order) {
 		myOrders.add(order);
 		cargarDatos();
-		idorder++;
+		idorder = Controladora.idorder++;
 		guardarDatos();
 	}
 	public ArrayList<Order> getOrders() {
