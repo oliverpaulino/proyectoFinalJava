@@ -132,8 +132,7 @@ public class Facturacion extends JDialog {
 		txtNoFactura = new JTextField();
 		txtNoFactura.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtNoFactura.setEditable(false);
-		Controladora.getInstance();
-		txtNoFactura.setText("F-"+Controladora.idorder);
+		
 		txtNoFactura.setBounds(156, 15, 233, 20);
 		contentPanel.add(txtNoFactura);
 		txtNoFactura.setColumns(10);
@@ -151,7 +150,7 @@ public class Facturacion extends JDialog {
 		txtTotal.setColumns(10);
 		
 		txtIdCliente = new JTextField();
-		txtIdCliente.setText(cliente.getId());
+		
 		txtIdCliente.setEditable(false);
 		txtIdCliente.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtIdCliente.setColumns(10);
@@ -215,7 +214,6 @@ public class Facturacion extends JDialog {
 		
 		txtNombre = new JTextField();
 		txtNombre.setEditable(false);
-		txtNombre.setText(cliente.getNombre());
 		txtNombre.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtNombre.setColumns(10);
 		txtNombre.setBounds(156, 155, 233, 20);
@@ -227,7 +225,6 @@ public class Facturacion extends JDialog {
 		contentPanel.add(lblNombre_1);
 		
 		txtTelefono = new JTextField();
-		txtTelefono.setText(cliente.getNumero());
 		txtTelefono.setEditable(false);
 		txtTelefono.setFont(new Font("Arial", Font.PLAIN, 14));
 		txtTelefono.setColumns(10);
@@ -242,7 +239,6 @@ public class Facturacion extends JDialog {
 		txtDireccion = new JTextArea();
 		txtDireccion.setEditable(false);
 		txtDireccion.setFont(new Font("Arial", Font.PLAIN, 14));
-		txtDireccion.setText(cliente.getDireccion());
 		txtDireccion.setBounds(156, 225, 233, 66);
 		contentPanel.add(txtDireccion);
 		{
@@ -254,6 +250,8 @@ public class Facturacion extends JDialog {
 			btnEliminar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					elimanarDelCarrito(codProduct);
+					loadCarrito(cliente, empleado);
+					
 				}
 			});
 			buttonPane.add(btnEliminar);
@@ -262,6 +260,13 @@ public class Facturacion extends JDialog {
 			btnEliminar.setActionCommand("OK");
 			{
 				btnRealizar = new JButton("Realizar Compra");
+				if (Controladora.getInstance().getCarrito().size()==0) {
+					btnRealizar.setEnabled(false);
+				}
+				else {
+					btnRealizar.setEnabled(true);
+					
+				}
 				btnRealizar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						realizarCompra(cliente, empleado, null);
@@ -304,7 +309,7 @@ public class Facturacion extends JDialog {
 		}
 		else {
 			
-			loadCarrito();
+			loadCarrito(cliente, empleado);
 		}
 	}
 	private void loadAuxOrder(Order orderAux) {
@@ -321,6 +326,8 @@ public class Facturacion extends JDialog {
 		btnEliminar.setEnabled(false);
 		btnRealizar.setEnabled(false);
 		btnVaciarCarrito.setEnabled(false);
+		chckbxValorFiscal.setEnabled(false);
+		cbxMetodo.setEditable(false);
 		
 		
 		
@@ -358,7 +365,14 @@ public class Facturacion extends JDialog {
 		txtTotal.setText(total+"$");
 	}
 	
-	private void loadCarrito() {
+	private void loadCarrito(Cliente cliente, Empleado empleado) {
+		
+		txtIdCliente.setText(cliente.getId());
+		Controladora.getInstance();
+		txtNoFactura.setText("F-"+Controladora.idorder);
+		txtNombre.setText(cliente.getNombre());
+		txtTelefono.setText(cliente.getNumero());
+		txtDireccion.setText(cliente.getDireccion());
 		Controladora.getInstance();
 		ArrayList<Product> carrito = Controladora.cargarDatos().getCarrito();
 		modelo.setRowCount(0);
@@ -399,11 +413,11 @@ public class Facturacion extends JDialog {
 	
 	private void elimanarDelCarrito(String idProduct) {
 		Controladora.getInstance().deleteProductFromCarrito(idProduct);
-		loadCarrito();
 		
 	}
 	
 	private void realizarCompra(Cliente cliente, Empleado empleado, Order orderAux) {
+		
 		DiscoDuro discoDuro = null;
 		Microprocesador microprocesador = null;
 		MemoriaRAM memoriaRAM = null;
