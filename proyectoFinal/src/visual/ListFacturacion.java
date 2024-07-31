@@ -51,6 +51,7 @@ public class ListFacturacion extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setLocationRelativeTo(null);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			JScrollPane scrollPane = new JScrollPane();

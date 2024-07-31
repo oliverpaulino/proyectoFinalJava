@@ -263,7 +263,7 @@ public class Facturacion extends JDialog {
 				btnRealizar = new JButton("Realizar Compra");
 				btnRealizar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						realizarCompra(cliente, empleado);
+						realizarCompra(cliente, empleado, null);
 						
 						
 					}
@@ -299,6 +299,46 @@ public class Facturacion extends JDialog {
 			}
 		}
 		loadCarrito();
+	}
+	private void loadAuxOrder(Order orderAux) {
+		
+		txtIdCliente.setText(orderAux.getClientId());
+		txtNoFactura.setText(orderAux.getId());
+		txtRNC.setText(orderAux.getRNC());
+		txtTotal.setText(orderAux.getTotal()+"$");
+		
+		modelo.setRowCount(0);
+		row = new Object[table.getColumnCount()];
+		total = 0;
+		if(orderAux.getProducts() != null)
+			for (Product product : orderAux.getProducts()) {
+				row[0] = product.getId();
+				row[1] = product.getModelo();
+				if (product instanceof DiscoDuro) {
+					row[1] = "Disco duro";
+				} 
+				else if (product instanceof MemoriaRAM) {
+					row[1] = "RAM";
+					
+				}
+				else if (product instanceof Microprocesador) {
+					row[1] = "Micro Procesador";
+				}
+				else if (product instanceof TarjetaMadre) {
+					row[1] = "Tarjeta Madre";
+					
+				}
+				else if (product instanceof Computadora) {
+					row[1] = "Computadora";
+					
+				}
+				
+	
+				row[2]=  product.getPrecio();
+				modelo.addRow(row);
+				total+=product.getPrecio();
+			}
+		txtTotal.setText(total+"$");
 	}
 	
 	private void loadCarrito() {
@@ -346,7 +386,7 @@ public class Facturacion extends JDialog {
 		
 	}
 	
-	private void realizarCompra(Cliente cliente, Empleado empleado) {
+	private void realizarCompra(Cliente cliente, Empleado empleado, Order orderAux) {
 		DiscoDuro discoDuro = null;
 		Microprocesador microprocesador = null;
 		MemoriaRAM memoriaRAM = null;
@@ -369,6 +409,7 @@ public class Facturacion extends JDialog {
 				tarjetaMadre = (TarjetaMadre) product;
 				
 			}
+			product.setCantidad(product.getCantidad()-1);
 			
 		}
 		

@@ -29,16 +29,31 @@ public class ProductCard extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
+					
 				setBackground(new Color(240, 240, 240));
+				
+				
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				setBackground(Color.WHITE);
+				if (c1.getCantidad()>0) {
+					
+					setBackground(Color.WHITE);
+				}
+				else {
+					setBackground(Color.GRAY);
+				}
+				
 				
 			}
 			
 		});
-		setBackground(Color.WHITE);
+		if (c1.getCantidad()>0) {
+			setBackground(Color.WHITE);
+		}
+		else {
+			setBackground(Color.GRAY);
+		}
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		setLayout(null);
 		
