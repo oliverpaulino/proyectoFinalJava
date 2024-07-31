@@ -28,6 +28,7 @@ public class ListFacturacion extends JDialog {
 	private JTable table;
 	private static DefaultTableModel modelo;
 	private static Object row[];
+	private String idFactura;
 
 	/**
 	 * Launch the application.
@@ -86,6 +87,19 @@ public class ListFacturacion extends JDialog {
 						dispose();
 					}
 				});
+				{
+					JButton btnVaciar = new JButton("vaciar");
+					btnVaciar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							Controladora.cargarDatos();
+							Controladora.getInstance().setMyOrders(new ArrayList<Order>());
+							Controladora.getInstance().guardarDatos();
+							dispose();
+						}
+					});
+					btnVaciar.setActionCommand("Cancel");
+					buttonPane.add(btnVaciar);
+				}
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
