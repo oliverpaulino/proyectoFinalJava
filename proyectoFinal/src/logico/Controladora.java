@@ -49,6 +49,7 @@ public class Controladora implements Serializable {
 		}
 		actualizarUltimoidOrder();
 		actualizarUltimoid();
+		actualizarUltimoidUser();
 		return miControladora;
 
 	}
