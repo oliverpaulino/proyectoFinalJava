@@ -11,7 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-
+import logico.Computadora;
 import logico.Controladora;
 import logico.DiscoDuro;
 import logico.MemoriaRAM;
@@ -94,7 +94,7 @@ public class ProductModal extends JDialog {
 						.getScaledInstance(80,80, Image.SCALE_SMOOTH));
 			}
 			else {
-				productIcon =new ImageIcon(new ImageIcon(ProductCard.class.getResource("/img/reg.png")).getImage()
+				productIcon =new ImageIcon(new ImageIcon(ProductCard.class.getResource("/img/computadoraHollow.png")).getImage()
 						.getScaledInstance(80,80, Image.SCALE_SMOOTH));
 			}
 			lblIcon.setIcon(productIcon);
@@ -194,6 +194,13 @@ public class ProductModal extends JDialog {
 			lblExtra1.setText("Tipo de ram: "+t1.getTipoRAM() );
 			lblExtra2.setText("Tipo de conector: "+t1.getTipoConector());
 			lblExtra3.setText("Conexiones disco duros: "+t1.getListConexionDiscoDuro());
+			
+		}
+		else if (c1 instanceof Computadora) {
+			Computadora p1 = (Computadora) c1;
+			lblExtra1.setText("");
+			lblExtra2.setText("");
+			lblExtra3.setText("");
 			
 		}
 		

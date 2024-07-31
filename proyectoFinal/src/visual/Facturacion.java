@@ -415,7 +415,7 @@ public class Facturacion extends JDialog {
 				row[2]=  product.getPrecio();
 				modelo.addRow(row);
 				total+=product.getPrecio();
-			}
+			} 
 			if (discoDuro!=null && tarjetaMadre !=null && microprocesador !=null && memoriaRAM !=null) {
 				if (tarjetaMadre.getTipoConector().toLowerCase().equals(microprocesador.getTipoConexion().toLowerCase()) && tarjetaMadre.getTipoRAM().equals(memoriaRAM.getTipoMemoria()) && tarjetaMadre.getListConexionDiscoDuro().contains(discoDuro.getTipoConexion()) ) {
 					int res = JOptionPane.showConfirmDialog(null, "¿Desea incluir servicio de ensamblado?", "Confirmar ensamblado", JOptionPane.YES_NO_OPTION);
