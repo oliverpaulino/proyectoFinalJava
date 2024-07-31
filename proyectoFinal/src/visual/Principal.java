@@ -95,8 +95,6 @@ public class Principal extends JFrame {
 	private JTextField txtBuscadorCliente;
 	private JComboBox<String> cbxbuscador;
 	private JPanel pnBuscarClientes;
-	private JPanel pnOfertas;
-	private JPanel panel_2;
 	private ListProduct listProduct;
 	private JLabel lblCarrito;
 	static Socket sfd = null;
@@ -579,46 +577,11 @@ public class Principal extends JFrame {
 		scrollPane.setViewportView(pnCentro);
 		pnCentro.setLayout(null);
 
-		JButton btnNewButton = new JButton("Ofertas");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (btnNewButton.getIcon().toString().contains("sortDown")) {
-					btnNewButton.setBounds(781, 0, 89, 23);
-					pnOfertas.setVisible(false);
-					btnNewButton.setIcon(
-							new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortUp.png")));
-				} else {
-					btnNewButton.setBounds(781, 162, 89, 23);
-					pnOfertas.setVisible(true);
-					btnNewButton.setIcon(
-							new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortDown.png")));
-
-				}
-			}
-		});
-		btnNewButton.setBackground(Color.WHITE);
-		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortUp.png")));
-		btnNewButton.setBounds(781, 0, 89, 23);
-		pnCentro.add(btnNewButton);
-
 		listProduct = new ListProduct();
-		listProduct.setBounds(10, 37, 1631, 857);
+		listProduct.setBounds(10, 11, 1631, 883);
 		listProduct.setVisible(false);
 
-		pnOfertas = new JPanel();
-		pnOfertas.setBackground(Color.LIGHT_GRAY);
-		pnOfertas.setVisible(false);
-		pnOfertas.setBounds(0, 0, 1666, 162);
-		pnCentro.add(pnOfertas);
-		pnOfertas.setLayout(new BorderLayout(0, 0));
-
 		pnCentro.add(listProduct);
-		JScrollPane scrollPane_2 = new JScrollPane();
-		pnOfertas.add(scrollPane_2, BorderLayout.CENTER);
-
-		panel_2 = new JPanel();
-		panel_2.setBackground(Color.LIGHT_GRAY);
-		scrollPane_2.setViewportView(panel_2);
 
 		btniniciosesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

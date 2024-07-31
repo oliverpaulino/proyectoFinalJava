@@ -45,9 +45,9 @@ public class Controladora implements Serializable {
 			if (miControladora == null) {
 				miControladora = new Controladora();
 			}
-			actualizarUltimoid();
 			actualizarUltimoidOrder();
 		}
+		actualizarUltimoid();
 		return miControladora;
 
 	}
@@ -63,7 +63,6 @@ public class Controladora implements Serializable {
 		                idproduct = id + 1;
 		            }
 		        }
-		 //agregar tambien para todos los otros ids
 	}
 	
 	private static void actualizarUltimoidOrder() {
@@ -77,7 +76,6 @@ public class Controladora implements Serializable {
 		                idorder = id + 1;
 		            }
 		        }
-		 //agregar tambien para todos los otros ids
 	}
 
 	// Users
@@ -143,7 +141,7 @@ public class Controladora implements Serializable {
 	public void addProduct(Product c1) {
 		myProducts.add(c1);
 		cargarDatos();
-		idproduct = Controladora.idproduct++;
+		idproduct = Controladora.getInstance().idproduct++;
 		guardarDatos();
 
 	}
@@ -187,6 +185,12 @@ public class Controladora implements Serializable {
 					break;
 				case "Num. de serie":
 					if (product.getNumeroSerie().contains(filtro)) {
+						filteredProducts.add(product);
+						
+					}
+					break;
+				case "Ofertas":
+					if (product.isOferta()) {
 						filteredProducts.add(product);
 
 					}
