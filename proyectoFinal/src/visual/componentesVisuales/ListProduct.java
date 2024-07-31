@@ -69,7 +69,7 @@ public class ListProduct extends JPanel {
         
         cbxFiltro = new JComboBox();
         cbxFiltro.setFont(new Font("Arial", Font.PLAIN, 14));
-        cbxFiltro.setModel(new DefaultComboBoxModel(new String[] {"Id", "Num. de serie", "Marca", "Modelo", "Tipo"}));
+        cbxFiltro.setModel(new DefaultComboBoxModel(new String[] {"Id", "Num. de serie", "Marca", "Modelo", "Tipo", "Ofertas"}));
         
         panel_1.add(cbxFiltro);
 
@@ -79,9 +79,8 @@ public class ListProduct extends JPanel {
     public void loadComponents() {
     	String buscadorTxt = txtBuscador.getText().toLowerCase();
     	String tipoBuscador = cbxFiltro.getSelectedItem().toString();
-    	System.out.println(tipoBuscador);
     	ArrayList<Product> losComponentes = new ArrayList<>();  
-    	if (buscadorTxt.isEmpty()) {
+    	if (buscadorTxt.isEmpty() && !tipoBuscador.equalsIgnoreCase("ofertas")) {
     		losComponentes = Controladora.getInstance().getProducts();
 		}
     	else {

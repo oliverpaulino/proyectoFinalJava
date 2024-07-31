@@ -16,6 +16,7 @@ public class Controladora implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static int idfactura;
 	public static int iduser;
 	public static int idproduct;
 	public static int idorder;
@@ -44,10 +45,9 @@ public class Controladora implements Serializable {
 			if (miControladora == null) {
 				miControladora = new Controladora();
 			}
-			actualizarUltimoid();
-			actualizarUltimoidOrder();
-			
 		}
+		actualizarUltimoidOrder();
+		actualizarUltimoid();
 		return miControladora;
 
 	}
@@ -63,8 +63,8 @@ public class Controladora implements Serializable {
 		                idproduct = id + 1;
 		            }
 		        }
-		 //agregar tambien para todos los otros ids
 	}
+	
 	private static void actualizarUltimoidOrder() {
 		if(miControladora.getOrders() == null)
 			idorder = 1;
@@ -76,7 +76,19 @@ public class Controladora implements Serializable {
 		                idorder = id + 1;
 		            }
 		        }
-		 //agregar tambien para todos los otros ids
+	}
+	
+	private static void actualizarUltimoidUser() {
+		if(miControladora.getMisUsuarios() == null)
+			iduser = 1;
+		else
+			 for (Usuario product : miControladora.getMisUsuarios()) {
+		            String idStr = product.getId().substring(2); // Elimina "U-"
+		            int id = Integer.parseInt(idStr);
+		            if (id >= iduser) {
+		                iduser = id + 1;
+		            }
+		        }
 	}
 
 	// Users
@@ -142,7 +154,7 @@ public class Controladora implements Serializable {
 	public void addProduct(Product c1) {
 		myProducts.add(c1);
 		cargarDatos();
-		idproduct = Controladora.idproduct++;
+		idproduct = Controladora.getInstance().idproduct++;
 		guardarDatos();
 
 	}
@@ -186,6 +198,12 @@ public class Controladora implements Serializable {
 					break;
 				case "Num. de serie":
 					if (product.getNumeroSerie().contains(filtro)) {
+						filteredProducts.add(product);
+						
+					}
+					break;
+				case "Ofertas":
+					if (product.isOferta()) {
 						filteredProducts.add(product);
 
 					}
@@ -248,6 +266,7 @@ public class Controladora implements Serializable {
 		idorder = Controladora.idorder++;
 		guardarDatos();
 	}
+
 	public ArrayList<Order> getOrders() {
 		return myOrders;
 		
@@ -294,5 +313,52 @@ public class Controladora implements Serializable {
 	public void setCarrito(ArrayList<Product> carrito) {
 		this.carrito = carrito;
 	}
+	public ArrayList<Product> ListarProductosPorFiltro(String filtro) {
+		ArrayList<Product> aux = new ArrayList<>();
+		if(filtro.equals("Todos"))
+			aux = getInstance().getProducts();
+		else
+			for(Product p : myProducts) {
+				if(filtro == "Disco Duro")
+					if(p instanceof DiscoDuro)
+						aux.add(p);
+				
+				if(filtro == "Computadora")
+					if(p instanceof Computadora)
+						aux.add(p);
+				
+				if(filtro == "Memoria Ram")
+					if(p instanceof MemoriaRAM)
+						aux.add(p);
+				
+				if(filtro == "Microprocesador")
+					if(p instanceof Microprocesador)
+						aux.add(p);
+				
+				if(filtro == "Tarjeta Madre")
+					if(p instanceof TarjetaMadre)
+						aux.add(p);
+				
+			}
+		
+		return aux;
+	}
+
+	public Object BuscarTipoDeUnProducto(Product p) {
+		String tipo = null;
+			if(p instanceof DiscoDuro)
+				tipo = "Disco Duro";		
+			if(p instanceof Computadora)
+				tipo = "Computadora";		
+			if(p instanceof MemoriaRAM)
+				tipo = "Memoria Ram";		
+			if(p instanceof Microprocesador)
+				tipo = "Microprocesaodr";
+			if(p instanceof TarjetaMadre)
+				tipo = "Tarjeta Madre";
+		
+		return tipo;
+	}
+	
 
 }

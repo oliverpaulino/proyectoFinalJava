@@ -22,6 +22,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class ProductCard extends JPanel {
+	private JLabel lblOfeta;
 	/**
 	 * Create the panel.
 	 */
@@ -29,16 +30,31 @@ public class ProductCard extends JPanel {
 		addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
+					
 				setBackground(new Color(240, 240, 240));
+				
+				
 			}
 			@Override
 			public void mouseExited(MouseEvent e) {
-				setBackground(Color.WHITE);
+				if (c1.getCantidad()>0) {
+					
+					setBackground(Color.WHITE);
+				}
+				else {
+					setBackground(Color.GRAY);
+				}
+				
 				
 			}
 			
 		});
-		setBackground(Color.WHITE);
+		if (c1.getCantidad()>0) {
+			setBackground(Color.WHITE);
+		}
+		else {
+			setBackground(Color.GRAY);
+		}
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		setLayout(null);
 		
@@ -72,7 +88,7 @@ public class ProductCard extends JPanel {
 		label342.setBounds(10, 265, 58, 22);
 		add(label342);
 		
-		JLabel label_1 = new JLabel(c1.getPrecio()+"$");
+		JLabel label_1 = new JLabel(c1.isOferta()? c1.getPrecioOferta()+"$": c1.getPrecio() + "$");
 		label_1.setFont(new Font("Arial", Font.PLAIN, 14));
 		label_1.setBounds(88, 265, 94, 22);
 		add(label_1);
@@ -133,6 +149,12 @@ public class ProductCard extends JPanel {
 		lblSerie.setFont(new Font("Arial", Font.PLAIN, 14));
 		lblSerie.setBounds(10, 199, 58, 22);
 		add(lblSerie);
+		
+		lblOfeta = new JLabel("En oferta! un " + c1.getPorcentajeDescuento()+"%");
+		lblOfeta.setVisible(c1.isOferta()? true: false);
+		lblOfeta.setForeground(new Color(255, 0, 0));
+		lblOfeta.setBounds(88, 16, 104, 14);
+		add(lblOfeta);
 
 	}
 }

@@ -141,7 +141,7 @@ public class ProductModal extends JDialog {
 		contentPanel.add(spnCosto);
 		
 		spnCant = new JSpinner();
-		spnCant.setModel(new SpinnerNumberModel(new Float(0), null, null, new Float(1)));
+		spnCant.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spnCant.setFont(new Font("Arial", Font.PLAIN, 16));
 		spnCant.setValue( c1.getCantidad());
 		spnCant.setBounds(92, 249, 104, 20);
@@ -203,6 +203,10 @@ public class ProductModal extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton btnAgregarACarrito = new JButton("Agregar a carrito");
+				if (c1.getCantidad()==0) {
+					btnAgregarACarrito.setEnabled(false);
+					
+				}
 				btnAgregarACarrito.setFont(new Font("Arial", Font.PLAIN, 11));
 				btnAgregarACarrito.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -230,6 +234,9 @@ public class ProductModal extends JDialog {
 						c1.setCosto(newCosto);
 						c1.setCantidad(newCant);
 						c1.setPrecio(newPrecio);
+						if(c1.isOferta()) {
+							c1.setPrecioOferta(c1.getPrecio() - (c1.getPrecio()*(c1.getPorcentajeDescuento()/100)));
+						}
 						
 						JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Productos", JOptionPane.INFORMATION_MESSAGE);
 						dispose();

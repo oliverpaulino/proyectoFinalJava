@@ -46,7 +46,7 @@ public class RegComp extends JPanel {
 	private JComboBox cbxUnidadVelocidad;
 	private JTextField txtConectorTarjetaMadre;
 	private JComboBox cbxTipoRamMadre;
-	private int idActual = Controladora.getInstance().idproduct+1;
+	private int idActual = Controladora.getInstance().idproduct;
 	private ListConexiones listConexiones = new ListConexiones();
 	private JComboBox cbxConexion;
 	private JSpinner spnCosto;
@@ -436,8 +436,7 @@ public class RegComp extends JPanel {
 		pnFondo.add(spnCantidad);
 
 		txtId = new JTextField();
-		txtId.setText("C-" + Controladora.getInstance().idproduct);
-		System.out.println(idActual);
+		txtId.setText("C-" + (Controladora.getInstance().idproduct));
 		txtId.setFont(new Font("Arial", Font.PLAIN, 16));
 		txtId.setEnabled(false);
 		txtId.setColumns(10);
@@ -469,11 +468,13 @@ public class RegComp extends JPanel {
 		default:
 			break;
 		}
+		
 
 	}
 
 	private void clean() {
-		txtId.setText("C-" + Controladora.getInstance().idproduct);
+		idActual = Controladora.getInstance().idproduct;
+		txtId.setText("C-" + idActual);
 		txtMarca.setText("");
 		txtModelo.setText("");
 		txtSerie.setText("");

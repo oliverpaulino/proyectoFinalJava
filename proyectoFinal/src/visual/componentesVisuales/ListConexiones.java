@@ -41,6 +41,7 @@ public class ListConexiones extends JDialog {
 		setTitle("Conexiones");
 		setBounds(100, 100, 193, 300);
 		getContentPane().setLayout(new BorderLayout());
+		setLocationRelativeTo(null);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);

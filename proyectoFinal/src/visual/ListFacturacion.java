@@ -9,6 +9,7 @@ import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -51,6 +52,7 @@ public class ListFacturacion extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+		setLocationRelativeTo(null);
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			JScrollPane scrollPane = new JScrollPane();
@@ -65,6 +67,7 @@ public class ListFacturacion extends JDialog {
 						int index = table.getSelectedRow();
 						if(index>=0){
 							
+							idFactura = new String(table.getValueAt(index, 0).toString());
 							
 						}
 					}
@@ -98,7 +101,26 @@ public class ListFacturacion extends JDialog {
 						}
 					});
 					btnVaciar.setActionCommand("Cancel");
-					buttonPane.add(btnVaciar);
+//					buttonPane.add(btnVaciar);
+				}
+				{
+					JButton btnNewButton = new JButton("Ver factura");
+					btnNewButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							if (idFactura!=null) {
+								
+								Order order = Controladora.getInstance().findOrderById(idFactura);
+								Facturacion facturacion = new Facturacion(null, null, order);
+								facturacion.setModal(true);
+								facturacion.setVisible(true);
+							}
+							else {
+
+					            JOptionPane.showMessageDialog(null, "Eliga una factura", "Confirmación", JOptionPane.INFORMATION_MESSAGE);
+							}
+						}
+					});
+					buttonPane.add(btnNewButton);
 				}
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
