@@ -45,8 +45,8 @@ public class Controladora implements Serializable {
 			if (miControladora == null) {
 				miControladora = new Controladora();
 			}
-			actualizarUltimoidOrder();
 		}
+		actualizarUltimoidOrder();
 		actualizarUltimoid();
 		return miControladora;
 
@@ -72,7 +72,20 @@ public class Controladora implements Serializable {
 			 for (Order product : miControladora.getOrders()) {
 		            String idStr = product.getId().substring(2); // Elimina "F-"
 		            int id = Integer.parseInt(idStr);
-		            if (id >= idorder) {
+		            if (id >= iduser) {
+		                iduser = id + 1;
+		            }
+		        }
+	}
+	
+	private static void actualizarUltimoidUser() {
+		if(miControladora.getMisUsuarios() == null)
+			idorder = 1;
+		else
+			 for (Usuario product : miControladora.getMisUsuarios()) {
+		            String idStr = product.getId().substring(2); // Elimina "F-"
+		            int id = Integer.parseInt(idStr);
+		            if (id >= id) {
 		                idorder = id + 1;
 		            }
 		        }

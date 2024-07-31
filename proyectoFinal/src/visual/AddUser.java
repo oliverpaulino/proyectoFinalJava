@@ -85,7 +85,7 @@ public class AddUser extends JDialog {
 			tbId.setBounds(12, 24, 116, 22);
 			panel.add(tbId);
 			tbId.setColumns(10);
-			tbId.setText( user!= null? user.getId(): "U-" +idActual);
+			tbId.setText( user!= null? user.getId(): "U-" +Controladora.getInstance().iduser);
 
 			tbName = new JTextField();
 			tbName.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Nombre", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLUE));
