@@ -362,14 +362,15 @@ public class Facturacion extends JDialog {
 				modelo.addRow(row);
 				total+=product.getPrecio();
 			}
+		
 		txtTotal.setText(total+"$");
 	}
+
 	
 	private void loadCarrito(Cliente cliente, Empleado empleado) {
 		
 		txtIdCliente.setText(cliente.getId());
-		Controladora.getInstance();
-		txtNoFactura.setText("F-"+Controladora.idorder);
+		txtNoFactura.setText("F-"+Controladora.getInstance().idorder);
 		txtNombre.setText(cliente.getNombre());
 		txtTelefono.setText(cliente.getNumero());
 		txtDireccion.setText(cliente.getDireccion());
@@ -378,22 +379,31 @@ public class Facturacion extends JDialog {
 		modelo.setRowCount(0);
 		row = new Object[table.getColumnCount()];
 		total = 0;
-		if(carrito != null)
+		if(carrito != null) {
+			DiscoDuro discoDuro = null;
+			TarjetaMadre tarjetaMadre = null;
+			Microprocesador microprocesador = null;
+			MemoriaRAM memoriaRAM = null;
+			
 			for (Product product : carrito) {
 				row[0] = product.getId();
 				row[1] = product.getModelo();
 				if (product instanceof DiscoDuro) {
 					row[1] = "Disco duro";
+					discoDuro = (DiscoDuro) product;
 				} 
 				else if (product instanceof MemoriaRAM) {
 					row[1] = "RAM";
+					memoriaRAM = (MemoriaRAM) product;
 					
 				}
 				else if (product instanceof Microprocesador) {
 					row[1] = "Micro Procesador";
+					microprocesador = (Microprocesador) product;
 				}
 				else if (product instanceof TarjetaMadre) {
 					row[1] = "Tarjeta Madre";
+					tarjetaMadre = (TarjetaMadre) product;
 					
 				}
 				else if (product instanceof Computadora) {
@@ -406,6 +416,19 @@ public class Facturacion extends JDialog {
 				modelo.addRow(row);
 				total+=product.getPrecio();
 			}
+			if (discoDuro!=null && tarjetaMadre !=null && microprocesador !=null && memoriaRAM !=null) {
+				if (tarjetaMadre.getTipoConector().toLowerCase().equals(microprocesador.getTipoConexion().toLowerCase()) && tarjetaMadre.getTipoRAM().equals(memoriaRAM.getTipoMemoria()) && tarjetaMadre.getListConexionDiscoDuro().contains(discoDuro.getTipoConexion()) ) {
+					int res = JOptionPane.showConfirmDialog(null, "¿Desea incluir servicio de ensamblado?", "Confirmar ensamblado", JOptionPane.YES_NO_OPTION);
+
+			        if (res == JOptionPane.YES_OPTION) {
+						total+=1500;
+			        }
+				}
+				
+			}
+			
+		}
+			
 		txtTotal.setText(total+"$");
 		
 		
@@ -418,38 +441,16 @@ public class Facturacion extends JDialog {
 	
 	private void realizarCompra(Cliente cliente, Empleado empleado, Order orderAux) {
 		
-		DiscoDuro discoDuro = null;
-		Microprocesador microprocesador = null;
-		MemoriaRAM memoriaRAM = null;
-		TarjetaMadre tarjetaMadre = null;
+		
 		
 		ArrayList<Product>miCarrito = Controladora.getInstance().getCarrito();
-		
-		for (Product product : miCarrito) {
-			if (product instanceof DiscoDuro) {
-				discoDuro = (DiscoDuro) product;
-			}
-			else if (product instanceof Microprocesador) {
-				microprocesador = (Microprocesador) product;
-			} 
-			else if (product instanceof MemoriaRAM) {
-				memoriaRAM = (MemoriaRAM) product;
-				
-			}
-			else if (product instanceof TarjetaMadre) {
-				tarjetaMadre = (TarjetaMadre) product;
-				
-			}
+		for (Product product : Controladora.getInstance().getCarrito()) {
+			
 			product.setCantidad(product.getCantidad()-1);
 			
 		}
 		
-		if (discoDuro!=null && microprocesador!=null && memoriaRAM != null &&tarjetaMadre!=null) {
-			int option = JOptionPane.showConfirmDialog(null, "Desea que le armemos su computadora?", "Confirmación", JOptionPane.WARNING_MESSAGE);
-			if(option == JOptionPane.YES_OPTION){
-				total += 50;
-			}
-		}
+		
 		Date date = new Date();
 		
 		Order order = new Order(txtNoFactura.getText(), date, chckbxValorFiscal.isSelected()? true : false, cliente.getId(), empleado.getId(), miCarrito, total, cbxMetodo.getSelectedItem().toString());

@@ -72,21 +72,21 @@ public class Controladora implements Serializable {
 			 for (Order product : miControladora.getOrders()) {
 		            String idStr = product.getId().substring(2); // Elimina "F-"
 		            int id = Integer.parseInt(idStr);
-		            if (id >= iduser) {
-		                iduser = id + 1;
+		            if (id >= idorder) {
+		                idorder = id + 1;
 		            }
 		        }
 	}
 	
 	private static void actualizarUltimoidUser() {
 		if(miControladora.getMisUsuarios() == null)
-			idorder = 1;
+			iduser = 1;
 		else
 			 for (Usuario product : miControladora.getMisUsuarios()) {
-		            String idStr = product.getId().substring(2); // Elimina "F-"
+		            String idStr = product.getId().substring(2); // Elimina "U-"
 		            int id = Integer.parseInt(idStr);
-		            if (id >= id) {
-		                idorder = id + 1;
+		            if (id >= iduser) {
+		                iduser = id + 1;
 		            }
 		        }
 	}

@@ -101,7 +101,7 @@ public class ListFacturacion extends JDialog {
 						}
 					});
 					btnVaciar.setActionCommand("Cancel");
-					buttonPane.add(btnVaciar);
+//					buttonPane.add(btnVaciar);
 				}
 				{
 					JButton btnNewButton = new JButton("Ver factura");
