@@ -2,6 +2,7 @@ package visual.componentesVisuales;
 
 import javax.swing.JPanel;
 
+import logico.Computadora;
 import logico.DiscoDuro;
 import logico.MemoriaRAM;
 import logico.Microprocesador;
@@ -116,6 +117,9 @@ public class ProductCard extends JPanel {
 		else if (c1 instanceof TarjetaMadre) {
 			productIcon = new ImageIcon(new ImageIcon(ProductCard.class.getResource("/img/madreFull.png")).getImage()
 					.getScaledInstance(80,80, Image.SCALE_SMOOTH));
+		}
+		else if(c1 instanceof Computadora) {
+			productIcon = new ImageIcon(new ImageIcon(ProductCard.class.getResource("/img/computadoraHollow.png")).getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH));
 		}
 		else {
 			productIcon =new ImageIcon(new ImageIcon(ProductCard.class.getResource("/img/reg.png")).getImage()
