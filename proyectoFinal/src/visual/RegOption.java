@@ -121,7 +121,7 @@ public class RegOption extends JDialog {
 			gbl_panel_1.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 			panel_1.setLayout(gbl_panel_1);
 
-			JButton btnDiscoDuro = new JButton("Disco duro");
+			JButton btnDiscoDuro = new JButton("Disco Duro");
 			btnDiscoDuro.setFocusable(false);
 			btnDiscoDuro.setFocusTraversalPolicyProvider(true);
 			btnDiscoDuro.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -145,7 +145,7 @@ public class RegOption extends JDialog {
 			gbc_btnDiscoDuro.gridy = 0;
 			panel_1.add(btnDiscoDuro, gbc_btnDiscoDuro);
 
-			JButton btnRam = new JButton("Ram");
+			JButton btnRam = new JButton("RAM");
 			btnRam.setFocusable(false);
 			btnRam.setFocusTraversalPolicyProvider(true);
 			btnRam.addActionListener(new ActionListener() {
@@ -169,7 +169,7 @@ public class RegOption extends JDialog {
 			gbc_btnRam.gridy = 0;
 			panel_1.add(btnRam, gbc_btnRam);
 
-			JButton btnMicroProcesador = new JButton("Micro procesador");
+			JButton btnMicroProcesador = new JButton("Micro Procesador");
 			btnMicroProcesador.setFocusTraversalPolicyProvider(true);
 			btnMicroProcesador.setFocusable(false);
 			btnMicroProcesador.addActionListener(new ActionListener() {
