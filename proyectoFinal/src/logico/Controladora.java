@@ -44,6 +44,7 @@ public class Controladora implements Serializable {
 			miControladora = cargarDatos();
 			if (miControladora == null) {
 				miControladora = new Controladora();
+				miControladora.createDefaultUser();
 			}
 		}
 		actualizarUltimoidOrder();
@@ -283,28 +284,74 @@ public class Controladora implements Serializable {
 			guardarDatos();
 		}
 	}
-
-	public void guardarDatos() {
-		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("./src/Datos/Informaciones.dat"))) {
-			oos.writeObject(miControladora);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	
+	public void createDefaultUser() {
+		Empleado adminDefault = new Empleado("U-"+this.iduser, "admin", "admin", "0", "-", "admin", (float) 0.0, true);
+		addUser(adminDefault);
 	}
+
+	public static void guardarDatos() {
+        String userHome = System.getProperty("user.home");
+        String osName = System.getProperty("os.name").toLowerCase();
+        String dataDir;
+
+        if (osName.contains("win")) {
+            dataDir = System.getenv("APPDATA");
+            if (dataDir == null) {
+                dataDir = userHome;
+            }
+            dataDir += "\\TechCRM\\Data";
+        } else {
+            dataDir = userHome + "/.techcrm/data";
+        }
+
+        java.io.File dir = new java.io.File(dataDir);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+
+        String filePath = dataDir + "/Informaciones.dat";
+
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
+            oos.writeObject(miControladora);
+            System.out.println("Datos guardados en: " + filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 	public static Controladora cargarDatos() {
-		Controladora controladora = null;
-		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("./src/Datos/Informaciones.dat"))) {
-			controladora = (Controladora) ois.readObject();
-		} catch (FileNotFoundException e) {
-			System.out.println("Archivo no encontrado: " + e.getMessage());
-		} catch (EOFException e) {
-			System.out.println("Fin del archivo alcanzado inesperadamente: " + e.getMessage());
-		} catch (IOException | ClassNotFoundException e) {
-			System.out.println("Error al leer el archivo Controladora.dat: " + e.getMessage());
-		}
-		return controladora;
-	}
+        Controladora controladora = null;
+        String userHome = System.getProperty("user.home");
+        String osName = System.getProperty("os.name").toLowerCase();
+        String dataDir;
+
+        if (osName.contains("win")) {
+            // Windows: Utilizar AppData
+            dataDir = System.getenv("APPDATA");
+            if (dataDir == null) {
+                dataDir = userHome;
+            }
+            dataDir += "\\TechCRM\\Data";
+        } else {
+            // Unix/Linux/Mac: Usar directorio de usuario
+            dataDir = userHome + "/.techcrm/data";
+        }
+
+        String filePath = dataDir + "/Informaciones.dat";
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
+            controladora = (Controladora) ois.readObject();
+            System.out.println("Datos cargados desde: " + filePath);
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado: " + e.getMessage());
+        } catch (EOFException e) {
+            System.out.println("Fin del archivo alcanzado inesperadamente: " + e.getMessage());
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error al leer el archivo Informaciones.dat: " + e.getMessage());
+        }
+        return controladora;
+    }
 
 	public ArrayList<Product> getCarrito() {
 		return carrito;
