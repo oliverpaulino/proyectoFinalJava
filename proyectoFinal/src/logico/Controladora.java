@@ -130,7 +130,6 @@ public class Controladora implements Serializable {
 		myProducts.add(c1);
 		cargarDatos();
 		idproduct = Controladora.idproduct++;
-		System.out.println(idproduct);
 		guardarDatos();
 
 	}
@@ -232,10 +231,18 @@ public class Controladora implements Serializable {
 
 	public void addOrder(Order order) {
 		myOrders.add(order);
+		cargarDatos();
 		idorder++;
 		guardarDatos();
 	}
-
+	public ArrayList<Order> getOrders() {
+		return myOrders;
+		
+	}
+	public void setMyOrders(ArrayList<Order>newOrders) {
+		myOrders=newOrders;
+	}
+	
 	public void deleteOrder(String orderId) {
 		Order order = findOrderById(orderId);
 

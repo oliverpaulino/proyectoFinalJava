@@ -3,6 +3,7 @@
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -14,8 +15,10 @@ import logico.Cliente;
 import logico.Computadora;
 import logico.Controladora;
 import logico.DiscoDuro;
+import logico.Empleado;
 import logico.MemoriaRAM;
 import logico.Microprocesador;
+import logico.Order;
 import logico.Product;
 import logico.TarjetaMadre;
 
@@ -23,6 +26,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -55,13 +60,15 @@ public class Facturacion extends JDialog {
 	private JLabel lblMetodo;
 	private JTextField textField;
 	private JTextField textField_1;
-	
+	private float total =0;
+	private JCheckBox chckbxValorFiscal;
+	private JComboBox cbxMetodo;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			Facturacion dialog = new Facturacion(null);
+			Facturacion dialog = new Facturacion(null, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -72,7 +79,7 @@ public class Facturacion extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Facturacion(Cliente cliente) {
+	public Facturacion(Cliente cliente, Empleado empleado) {
 		setTitle("Facturacion");
 		setBounds(100, 100, 586, 381);
 		getContentPane().setLayout(new BorderLayout());
@@ -166,10 +173,10 @@ public class Facturacion extends JDialog {
 		txtRNC.setBounds(156, 50, 234, 20);
 		contentPanel.add(txtRNC);
 		
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Valor Fiscal");
-		chckbxNewCheckBox.addActionListener(new ActionListener() {
+		chckbxValorFiscal = new JCheckBox("Valor Fiscal");
+		chckbxValorFiscal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if (chckbxNewCheckBox.isSelected()) {
+				if (chckbxValorFiscal.isSelected()) {
 					txtRNC.setEditable(true);
 					
 				}
@@ -179,9 +186,9 @@ public class Facturacion extends JDialog {
 				}
 			}
 		});
-		chckbxNewCheckBox.setFont(new Font("Arial", Font.PLAIN, 16));
-		chckbxNewCheckBox.setBounds(429, 12, 109, 23);
-		contentPanel.add(chckbxNewCheckBox);
+		chckbxValorFiscal.setFont(new Font("Arial", Font.PLAIN, 16));
+		chckbxValorFiscal.setBounds(429, 12, 109, 23);
+		contentPanel.add(chckbxValorFiscal);
 		
 		lblCarrito = new JLabel("Carrito");
 		lblCarrito.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -193,11 +200,11 @@ public class Facturacion extends JDialog {
 		lblMetodo.setBounds(29, 90, 67, 14);
 		contentPanel.add(lblMetodo);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Efectivo", "Tarjeta", "Transferencia"}));
-		comboBox.setFont(new Font("Arial", Font.PLAIN, 14));
-		comboBox.setBounds(156, 85, 233, 20);
-		contentPanel.add(comboBox);
+		cbxMetodo = new JComboBox();
+		cbxMetodo.setModel(new DefaultComboBoxModel(new String[] {"Efectivo", "Tarjeta", "Transferencia"}));
+		cbxMetodo.setFont(new Font("Arial", Font.PLAIN, 14));
+		cbxMetodo.setBounds(156, 85, 233, 20);
+		contentPanel.add(cbxMetodo);
 		
 		JLabel lblNombre = new JLabel("Nombre:");
 		lblNombre.setFont(new Font("Arial", Font.PLAIN, 16));
@@ -255,6 +262,8 @@ public class Facturacion extends JDialog {
 				btnRealizar = new JButton("Realizar Compra");
 				btnRealizar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						realizarCompra(cliente, empleado);
+						
 						
 					}
 				});
@@ -296,7 +305,7 @@ public class Facturacion extends JDialog {
 		ArrayList<Product> carrito = Controladora.cargarDatos().getCarrito();
 		modelo.setRowCount(0);
 		row = new Object[table.getColumnCount()];
-		float total = 0;
+		total = 0;
 		if(carrito != null)
 			for (Product product : carrito) {
 				row[0] = product.getId();
@@ -331,9 +340,52 @@ public class Facturacion extends JDialog {
 	}
 	
 	private void elimanarDelCarrito(String idProduct) {
-		System.out.println("hola");
 		Controladora.getInstance().deleteProductFromCarrito(idProduct);
 		loadCarrito();
+		
+	}
+	
+	private void realizarCompra(Cliente cliente, Empleado empleado) {
+		DiscoDuro discoDuro = null;
+		Microprocesador microprocesador = null;
+		MemoriaRAM memoriaRAM = null;
+		TarjetaMadre tarjetaMadre = null;
+		
+		ArrayList<Product>miCarrito = Controladora.getInstance().getCarrito();
+		
+		for (Product product : miCarrito) {
+			if (product instanceof DiscoDuro) {
+				discoDuro = (DiscoDuro) product;
+			}
+			else if (product instanceof Microprocesador) {
+				microprocesador = (Microprocesador) product;
+			} 
+			else if (product instanceof MemoriaRAM) {
+				memoriaRAM = (MemoriaRAM) product;
+				
+			}
+			else if (product instanceof TarjetaMadre) {
+				tarjetaMadre = (TarjetaMadre) product;
+				
+			}
+			
+		}
+		
+		if (discoDuro!=null && microprocesador!=null && memoriaRAM != null &&tarjetaMadre!=null) {
+			int option = JOptionPane.showConfirmDialog(null, "Desea que le armemos su computadora?", "Confirmación", JOptionPane.WARNING_MESSAGE);
+			if(option == JOptionPane.YES_OPTION){
+				total += 50;
+			}
+		}
+		Date date = new Date();
+		
+		Order order = new Order(txtNoFactura.getText(), date, chckbxValorFiscal.isSelected()? true : false, cliente.getId(), empleado.getId(), miCarrito, total, cbxMetodo.getSelectedItem().toString());
+		Controladora.getInstance().addOrder(order);
+		JOptionPane.showMessageDialog(null, "Venta exitosa", "Productos",
+				JOptionPane.INFORMATION_MESSAGE);
+		Controladora.getInstance().setCarrito(new ArrayList<Product>());;
+		Controladora.getInstance().guardarDatos();
+		dispose();
 		
 	}
 }

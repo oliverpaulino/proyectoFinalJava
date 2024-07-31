@@ -204,6 +204,9 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Ver facturas");
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				ListFacturacion listFacturacion = new ListFacturacion();
+				listFacturacion.setModal(true);
+				listFacturacion.setVisible(true);
 
 			}
 		});
@@ -398,7 +401,7 @@ public class Principal extends JFrame {
 				Cliente cliente = (Cliente) Controladora.getInstance().findUserByCorreo(idSelected);
 				if (cliente != null) {
 
-					Facturacion facturacion = new Facturacion(cliente);
+					Facturacion facturacion = new Facturacion(cliente, Admin);
 
 					facturacion.setModal(true);
 					facturacion.setVisible(true);
