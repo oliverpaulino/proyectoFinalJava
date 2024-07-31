@@ -161,7 +161,7 @@ public class Controladora implements Serializable {
 	}
 	
 
-	private Product findProductById(String productid) {
+	public Product findProductById(String productid) {
 		return myProducts.stream().filter(user -> user.getId().equalsIgnoreCase(productid)).findFirst().orElse(null);
 	}
 	public void deleteProductFromCarrito(String productid) {

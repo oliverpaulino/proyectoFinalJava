@@ -47,7 +47,7 @@ public class CompFinder extends JDialog {
 	private static DefaultTableModel modelo;
 	private JTextField tbSearch;
 	private JTable table;
-	private String idSelected;
+	private ArrayList<String> idsSelected = new ArrayList<String>();
 	private JButton okButton;
 	private JLabel resultsLabel;
 	private JLabel lblNewLabel;
@@ -149,12 +149,17 @@ public class CompFinder extends JDialog {
 				table.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent arg0) {
-			
+
 					}
 				});
 
 				table.setModel(modelo);
-				table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+				if (type.equalsIgnoreCase("PROCESADOR") || type.equalsIgnoreCase("MOTHERBOARD")) {
+					table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				} else {
+					table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+				}
 
 				String[] headers = { "ID", "Marca", "Modelo", "Precio", "Numero de Serie" };
 				modelo.setColumnIdentifiers(headers);
@@ -169,12 +174,19 @@ public class CompFinder extends JDialog {
 				okButton = new JButton("Seleccionar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						int index = table.getSelectedRow();
+						int[] selectionedRows = table.getSelectedRows();
+						
 
-						if (index >= 0) {
-							idSelected = new String(table.getValueAt(index, 0).toString());
+						if (selectionedRows.length > 0) {
+							idsSelected.clear();
+							for (int row : selectionedRows) {
+								idsSelected.add(new String(table.getValueAt(row, 0).toString()));
+							}
+							
+							System.out.println("Multi: " + idsSelected);
 							dispose();
 						} else {
+							
 							JOptionPane.showMessageDialog(null, "No ha seleccionado ningún producto");
 						}
 					}
@@ -203,7 +215,7 @@ public class CompFinder extends JDialog {
 		ArrayList<Product> products = Controladora.getInstance().getProducts();
 		modelo.setRowCount(0);
 		int resultCount = 0;
-			
+
 		if (search == "") {
 			for (Product product : products) {
 				if (isType(product, type)) {
@@ -245,9 +257,9 @@ public class CompFinder extends JDialog {
 
 		table.setModel(modelo);
 	}
-	
-	public String getSelectedID() {
-	    return idSelected;
+
+	public ArrayList<String> getSelectedIDs() {
+		return idsSelected;
 	}
 
 	private String getTypeName(String type) {
@@ -268,7 +280,8 @@ public class CompFinder extends JDialog {
 		return ((product instanceof DiscoDuro) && type.equalsIgnoreCase("HARDDRIVE"))
 				|| ((product instanceof MemoriaRAM) && type.equalsIgnoreCase("RAM"))
 				|| ((product instanceof Microprocesador) && type.equalsIgnoreCase("PROCESADOR"))
-				|| ((product instanceof TarjetaMadre) && type.equalsIgnoreCase("MOTHERBOARD"));
+				|| ((product instanceof TarjetaMadre) && type.equalsIgnoreCase("MOTHERBOARD"))
+				|| type.equalsIgnoreCase("");
 	}
 
 }

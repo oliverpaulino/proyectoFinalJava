@@ -61,6 +61,10 @@ public class Product implements Serializable  {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
+	
+	public float getTotalCost() {
+		return this.costo + this.precio;
+	}
 
 	public void setCantidad(int cantidad) {
 		this.cantidad = cantidad;
