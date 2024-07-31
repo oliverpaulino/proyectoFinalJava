@@ -180,8 +180,8 @@ public class RegPC extends JDialog {
 		panel_1_1.add(tbSeriesNumber);
 		tbSeriesNumber.setColumns(10);
 
-		JLabel lblNewLabel_6 = new JLabel("Costo total:");
-		lblNewLabel_6.setBounds(196, 54, 69, 16);
+		JLabel lblNewLabel_6 = new JLabel("Precio total:");
+		lblNewLabel_6.setBounds(188, 54, 69, 16);
 		panel_1_1.add(lblNewLabel_6);
 
 		tbTotalCost = new JTextField();
@@ -215,8 +215,8 @@ public class RegPC extends JDialog {
 		gbc_panel_1_11.gridy = 1;
 		contentPanel.add(panel_1, gbc_panel_1_11);
 
-		JLabel lblNewLabel_5 = new JLabel("Tarjeta Madre:");
-		lblNewLabel_5.setBounds(12, 32, 97, 16);
+		JLabel lblNewLabel_5 = new JLabel("*Tarjeta Madre:");
+		lblNewLabel_5.setBounds(12, 32, 111, 16);
 		panel_1.add(lblNewLabel_5);
 
 		JButton btnSelectMotherboard = new JButton("Seleccionar");
@@ -241,16 +241,16 @@ public class RegPC extends JDialog {
 
 		lblSelectedMotherboard = new JLabel("No seleccionado...");
 		lblSelectedMotherboard.setForeground(Color.RED);
-		lblSelectedMotherboard.setBounds(106, 32, 195, 16);
+		lblSelectedMotherboard.setBounds(126, 32, 175, 16);
 		panel_1.add(lblSelectedMotherboard);
 
-		JLabel lblProcesador = new JLabel("Procesador:");
-		lblProcesador.setBounds(383, 32, 85, 16);
+		JLabel lblProcesador = new JLabel("*Procesador:");
+		lblProcesador.setBounds(357, 32, 85, 16);
 		panel_1.add(lblProcesador);
 
 		lblSelectedProcesador = new JLabel("No seleccionado...");
 		lblSelectedProcesador.setForeground(Color.RED);
-		lblSelectedProcesador.setBounds(458, 32, 142, 16);
+		lblSelectedProcesador.setBounds(449, 32, 151, 16);
 		panel_1.add(lblSelectedProcesador);
 
 		JButton btnSelectProcesador = new JButton("Seleccionar");
@@ -269,43 +269,50 @@ public class RegPC extends JDialog {
 				}
 			}
 		});
-		btnSelectProcesador.setBounds(383, 53, 117, 25);
+		btnSelectProcesador.setBounds(357, 53, 117, 25);
 		panel_1.add(btnSelectProcesador);
 
-		JLabel lblAlmacenamiento = new JLabel("Almacenamiento:");
+		JLabel lblAlmacenamiento = new JLabel("*Almacenamiento:");
 		lblAlmacenamiento.setBounds(12, 91, 111, 16);
 		panel_1.add(lblAlmacenamiento);
 
 		lblSelectedHardDrive = new JLabel("No seleccionado(s)...");
 		lblSelectedHardDrive.setForeground(Color.RED);
-		lblSelectedHardDrive.setBounds(120, 91, 127, 16);
+		lblSelectedHardDrive.setBounds(126, 91, 127, 16);
 		panel_1.add(lblSelectedHardDrive);
 
 		JButton btnSelectHardDrive = new JButton("Seleccionar");
 		btnSelectHardDrive.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
-				CompFinder finderHardDriveDialog = new CompFinder("HARDDRIVE");
-				finderHardDriveDialog.setModal(true);
-				finderHardDriveDialog.setVisible(true);
-				ArrayList<String> selectedIDs = finderHardDriveDialog.getSelectedIDs();
 
-				if (selectedIDs.size() > 0) {
-					selectedHardDrives.clear();
-					for (String selectedId : selectedIDs) {
-						selectedHardDrives.add((DiscoDuro) Controladora.getInstance().findProductById(selectedId));
+				ArrayList<Product> hardDriveList = new ArrayList<Product>();
+				if (selectedHardDrives.size() > 0) {
+					for (DiscoDuro hardDrive : selectedHardDrives) {
+						hardDriveList.add(hardDrive);
 					}
-
-					lblSelectedHardDrive.setText("(" + selectedHardDrives.size() + ") Almacenamiento(s)");
-					lblSelectedHardDrive.setForeground(Color.BLUE);
-					calcTotalCost();
 				}
+
+				PCPartsManagement pcPartsDialog = new PCPartsManagement(hardDriveList, "HARDDRIVE");
+				pcPartsDialog.setModal(true);
+				pcPartsDialog.setVisible(true);
+
+				selectedHardDrives.clear();
+
+				for (Product product : pcPartsDialog.currentList) {
+					selectedHardDrives.add((DiscoDuro) product);
+				}
+
+				lblSelectedHardDrive.setText("(" + selectedHardDrives.size() + ") Almacenamiento(s)");
+				lblSelectedHardDrive.setForeground(Color.BLUE);
+				calcTotalCost();
+
 			}
 		});
 		btnSelectHardDrive.setBounds(12, 112, 117, 25);
 		panel_1.add(btnSelectHardDrive);
 
-		JLabel lblMemoriasRam = new JLabel("Memoria(s) RAM:");
+		JLabel lblMemoriasRam = new JLabel("*Memoria(s) RAM:");
 		lblMemoriasRam.setBounds(357, 91, 111, 16);
 		panel_1.add(lblMemoriasRam);
 
@@ -318,52 +325,32 @@ public class RegPC extends JDialog {
 		btnSelectRAM.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
-				CompFinder finderRAMDialog = new CompFinder("RAM");
-				finderRAMDialog.setModal(true);
-				finderRAMDialog.setVisible(true);
-				ArrayList<String> selectedIDs = finderRAMDialog.getSelectedIDs();
+				ArrayList<Product> RamList = new ArrayList<Product>();
 
-				if (selectedIDs.size() > 0) {
-					selectedRAMs.clear();
-
-					for (String selectedId : selectedIDs) {
-						MemoriaRAM selectedRam = (MemoriaRAM) Controladora.getInstance().findProductById(selectedId);
-						selectedRAMs.add(selectedRam);
+				if (selectedRAMs.size() > 0) {
+					for (MemoriaRAM ram : selectedRAMs) {
+						RamList.add(ram);
 					}
-
-					lblSelectedRAM.setText("(" + selectedRAMs.size() + ") Memoria(s) RAM");
-					lblSelectedRAM.setForeground(Color.BLUE);
-
-					calcTotalCost();
 				}
+				PCPartsManagement pcPartsDialog = new PCPartsManagement(RamList, "RAM");
+				pcPartsDialog.setModal(true);
+				pcPartsDialog.setVisible(true);
+
+				selectedRAMs.clear();
+
+				for (Product product : pcPartsDialog.currentList) {
+					selectedRAMs.add((MemoriaRAM) product);
+				}
+
+				lblSelectedRAM.setText("(" + selectedRAMs.size() + ") Memoria(s) RAM");
+				lblSelectedRAM.setForeground(Color.BLUE);
+
+				calcTotalCost();
+
 			}
 		});
-		btnSelectRAM.setBounds(383, 112, 117, 25);
+		btnSelectRAM.setBounds(357, 112, 117, 25);
 		panel_1.add(btnSelectRAM);
-
-		JButton btnMotherboardList = new JButton("Ver");
-
-		btnMotherboardList.setEnabled(selectedMotherboard != null);
-
-		btnMotherboardList.setBounds(138, 53, 97, 25);
-		panel_1.add(btnMotherboardList);
-
-		JButton btnHardDriveList = new JButton("Ver");
-		btnHardDriveList.setEnabled(selectedHardDrives.size() > 0);
-
-		btnHardDriveList.setBounds(141, 112, 90, 25);
-		panel_1.add(btnHardDriveList);
-
-		JButton btnProccessorList = new JButton("Ver");
-		btnProccessorList.setEnabled(selectedProcesador != null);
-		btnProccessorList.setBounds(512, 53, 97, 25);
-		panel_1.add(btnProccessorList);
-
-		JButton btnRamsList = new JButton("Ver");
-		btnRamsList.setEnabled(selectedRAMs.size() > 0);
-
-		btnRamsList.setBounds(512, 112, 97, 25);
-		panel_1.add(btnRamsList);
 
 		JLabel lblAdicional = new JLabel("Adicional:");
 		lblAdicional.setBounds(12, 150, 56, 16);
@@ -374,29 +361,32 @@ public class RegPC extends JDialog {
 		lblSelectedAddons.setBounds(80, 150, 127, 16);
 		panel_1.add(lblSelectedAddons);
 
-		JButton btnAddonsList = new JButton("Ver");
-		btnAddonsList.setBounds(141, 171, 90, 25);
-		panel_1.add(btnAddonsList);
-		btnAddonsList.setEnabled(selectedAddonsId.size() > 0);
-
 		JButton btnSelectAddons = new JButton("Seleccionar");
 		btnSelectAddons.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
-				CompFinder finderOthersDialog = new CompFinder("");
-				finderOthersDialog.setModal(true);
-				finderOthersDialog.setVisible(true);
-				ArrayList<String> selectedIDs = finderOthersDialog.getSelectedIDs();
+				ArrayList<Product> AddonsList = new ArrayList<Product>();
 
-				if (selectedIDs.size() > 0) {
-					selectedAddonsId.clear();
-					selectedAddonsId.addAll(selectedIDs);
-
-					lblSelectedAddons.setText("(" + selectedAddonsId.size() + ") Adicional(es)");
-					lblSelectedAddons.setForeground(Color.BLUE);
-					calcTotalCost();
-
+				if (selectedAddonsId.size() > 0) {
+					for (String addonId : selectedAddonsId) {
+						AddonsList.add(Controladora.getInstance().findProductById(addonId));
+					}
 				}
+
+				PCPartsManagement pcPartsDialog = new PCPartsManagement(AddonsList, "");
+				pcPartsDialog.setModal(true);
+				pcPartsDialog.setVisible(true);
+
+				selectedAddonsId.clear();
+
+				for (Product product : pcPartsDialog.currentList) {
+					selectedAddonsId.add(product.getId());
+				}
+
+				lblSelectedAddons.setText("(" + selectedAddonsId.size() + ") Adicional(es)");
+				lblSelectedAddons.setForeground(Color.BLUE);
+				calcTotalCost();
+
 			}
 		});
 		btnSelectAddons.setBounds(12, 171, 117, 25);
@@ -419,16 +409,23 @@ public class RegPC extends JDialog {
 						String series = tbSeriesNumber.getText();
 
 						if (pc == null) {
-							Computadora newPc = new Computadora(id, brand, model, Mountcost, price, quantity, series,
-									selectedHardDrives, selectedRAMs, selectedMotherboard, selectedProcesador,
-									selectedAddonsId);
-							
-							Controladora.getInstance().addProduct(newPc);
-							
-							JOptionPane.showMessageDialog(null, "Operación satisfactoria",
-									"Registro de computadora",
-									JOptionPane.INFORMATION_MESSAGE);
-							clean();
+
+							if (id.length() <= 0 || brand.length() <= 0 || model.length() <= 0 || Mountcost <= 0
+									|| quantity <= 0 || series.length() <= 0 || selectedHardDrives.size() <= 0 || selectedRAMs.size() <= 0 || selectedProcesador == null || selectedMotherboard == null) {
+								JOptionPane.showMessageDialog(null, "Debe completar los campos requeridos.", "Error",
+										JOptionPane.ERROR_MESSAGE);
+							} else {
+								Computadora newPc = new Computadora(id, brand, model, Mountcost, price, quantity,
+										series, selectedHardDrives, selectedRAMs, selectedMotherboard,
+										selectedProcesador, selectedAddonsId);
+
+								Controladora.getInstance().addProduct(newPc);
+
+								JOptionPane.showMessageDialog(null, "Operación satisfactoria",
+										"Registro de computadora", JOptionPane.INFORMATION_MESSAGE);
+								clean();
+							}
+
 						}
 
 					}
@@ -520,7 +517,7 @@ public class RegPC extends JDialog {
 	}
 
 	private void clean() {
-		
+
 		spMountCost.setValue(0);
 		tbPrice.setText("0");
 		tbTotalCost.setText("0");
@@ -528,23 +525,23 @@ public class RegPC extends JDialog {
 		tbBrand.setText("");
 		tbModel.setText("");
 		spQty.setValue(0);
-		
+
 		selectedMotherboard = null;
 		lblSelectedMotherboard.setText("No seleccionado...");
 		lblSelectedMotherboard.setForeground(Color.RED);
-		
+
 		selectedProcesador = null;
 		lblSelectedProcesador.setText("No seleccionado...");
 		lblSelectedProcesador.setForeground(Color.RED);
-		
+
 		selectedAddonsId.clear();
 		lblSelectedAddons.setText("No seleccionado(s)...");
 		lblSelectedAddons.setForeground(Color.RED);
-		
+
 		selectedHardDrives.clear();
 		lblSelectedHardDrive.setText("No seleccionado(s)...");
 		lblSelectedHardDrive.setForeground(Color.RED);
-		
+
 		selectedRAMs.clear();
 		lblSelectedRAM.setText("No seleccionado(s)...");
 		lblSelectedRAM.setForeground(Color.RED);
