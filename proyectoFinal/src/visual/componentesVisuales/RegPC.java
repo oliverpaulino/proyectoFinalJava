@@ -217,7 +217,7 @@ public class RegPC extends JDialog {
 				String selectedID = finderMotherBoardDialog.getSelectedID();
 				if (selectedID != null) {
 					System.out.println("Elemento seleccionado: " + selectedID);
-					selectedMotherboard = selectedID;
+					//selectedMotherboard = selectedID;
 					// Realiza alguna acción con el ID seleccionado
 				}
 			}
