@@ -2,6 +2,8 @@ package visual;
 
 import java.awt.BorderLayout;
 import visual.componentesVisuales.RegComp;
+import visual.componentesVisuales.RegOfertas;
+
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -222,7 +224,14 @@ public class RegOption extends JDialog {
 			gbc_btnTarjetaMadre.gridy = 0;
 			panel_2.add(btnTarjetaMadre, gbc_btnTarjetaMadre);
 
-			JButton btnNewButton = new JButton("New button");
+			JButton btnNewButton = new JButton("Ofertas");
+			btnNewButton.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					RegOfertas reg = new RegOfertas();
+					reg.setModal(true);
+					reg.setVisible(true);
+				}
+			});
 			btnNewButton.setFocusable(false);
 			btnNewButton.setFont(new Font("Segoe UI", Font.PLAIN, 16));
 			btnNewButton.setBackground(Color.WHITE);

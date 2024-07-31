@@ -234,6 +234,9 @@ public class ProductModal extends JDialog {
 						c1.setCosto(newCosto);
 						c1.setCantidad(newCant);
 						c1.setPrecio(newPrecio);
+						if(c1.isOferta()) {
+							c1.setPrecioOferta(c1.getPrecio() - (c1.getPrecio()*(c1.getPorcentajeDescuento()/100)));
+						}
 						
 						JOptionPane.showMessageDialog(null, "Actualizacion exitosa", "Productos", JOptionPane.INFORMATION_MESSAGE);
 						dispose();

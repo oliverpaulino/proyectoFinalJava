@@ -16,6 +16,7 @@ public class Controladora implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	public static int idfactura;
 	public static int iduser;
 	public static int idproduct;
 	public static int idorder;
@@ -46,7 +47,6 @@ public class Controladora implements Serializable {
 			}
 			actualizarUltimoid();
 			actualizarUltimoidOrder();
-			
 		}
 		return miControladora;
 
@@ -65,6 +65,7 @@ public class Controladora implements Serializable {
 		        }
 		 //agregar tambien para todos los otros ids
 	}
+	
 	private static void actualizarUltimoidOrder() {
 		if(miControladora.getOrders() == null)
 			idorder = 1;
@@ -161,7 +162,7 @@ public class Controladora implements Serializable {
 	}
 	
 
-	private Product findProductById(String productid) {
+	public Product findProductById(String productid) {
 		return myProducts.stream().filter(user -> user.getId().equalsIgnoreCase(productid)).findFirst().orElse(null);
 	}
 	public void deleteProductFromCarrito(String productid) {
@@ -248,6 +249,7 @@ public class Controladora implements Serializable {
 		idorder = Controladora.idorder++;
 		guardarDatos();
 	}
+
 	public ArrayList<Order> getOrders() {
 		return myOrders;
 		
@@ -294,5 +296,52 @@ public class Controladora implements Serializable {
 	public void setCarrito(ArrayList<Product> carrito) {
 		this.carrito = carrito;
 	}
+	public ArrayList<Product> ListarProductosPorFiltro(String filtro) {
+		ArrayList<Product> aux = new ArrayList<>();
+		if(filtro.equals("Todos"))
+			aux = getInstance().getProducts();
+		else
+			for(Product p : myProducts) {
+				if(filtro == "Disco Duro")
+					if(p instanceof DiscoDuro)
+						aux.add(p);
+				
+				if(filtro == "Computadora")
+					if(p instanceof Computadora)
+						aux.add(p);
+				
+				if(filtro == "Memoria Ram")
+					if(p instanceof MemoriaRAM)
+						aux.add(p);
+				
+				if(filtro == "Microprocesador")
+					if(p instanceof Microprocesador)
+						aux.add(p);
+				
+				if(filtro == "Tarjeta Madre")
+					if(p instanceof TarjetaMadre)
+						aux.add(p);
+				
+			}
+		
+		return aux;
+	}
+
+	public Object BuscarTipoDeUnProducto(Product p) {
+		String tipo = null;
+			if(p instanceof DiscoDuro)
+				tipo = "Disco Duro";		
+			if(p instanceof Computadora)
+				tipo = "Computadora";		
+			if(p instanceof MemoriaRAM)
+				tipo = "Memoria Ram";		
+			if(p instanceof Microprocesador)
+				tipo = "Microprocesaodr";
+			if(p instanceof TarjetaMadre)
+				tipo = "Tarjeta Madre";
+		
+		return tipo;
+	}
+	
 
 }
