@@ -12,6 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -70,7 +74,7 @@ public class Principal extends JFrame {
 	private JLabel lblinicio;
 	private JPanel pnContrasena;
 	private Empleado Admin = null;
-	private boolean inicioSesion = false;//==========================
+	private boolean inicioSesion = false;// ==========================
 	private JButton button;
 	private JButton btnAtrasInicio;
 	private JLabel lblUser;
@@ -95,6 +99,8 @@ public class Principal extends JFrame {
 	private JPanel panel_2;
 	private ListProduct listProduct;
 	private JLabel lblCarrito;
+	static Socket sfd = null;
+	static ObjectOutputStream sld = null;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -194,11 +200,11 @@ public class Principal extends JFrame {
 			}
 		});
 		mnAdmin.add(mntmNewMenuItem_2);
-		
+
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Ver facturas");
 		mntmNewMenuItem_5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		mnAdmin.add(mntmNewMenuItem_5);
@@ -255,7 +261,7 @@ public class Principal extends JFrame {
 				if (user != null) {
 					pnContrasena.setVisible(true);
 					pnInicioSesion.setVisible(false);
-					Admin =  user;
+					Admin = user;
 				} else {
 					JOptionPane.showMessageDialog(null, "No encontramos ningun email, hable con el manager", "Registro",
 							JOptionPane.WARNING_MESSAGE);
@@ -384,38 +390,37 @@ public class Principal extends JFrame {
 		lblUser.setBounds(1804, 12, 30, 30);
 		lblUser.setBounds(1854, 8, 30, 30);
 		pnSuperior.add(lblUser);
-		
+
 		lblCarrito = new JLabel("");
 		lblCarrito.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				Cliente cliente = (Cliente) Controladora.getInstance().findUserByCorreo(idSelected);
-				if (cliente!=null) {
-					
+				if (cliente != null) {
+
 					Facturacion facturacion = new Facturacion(cliente);
-					
+
 					facturacion.setModal(true);
 					facturacion.setVisible(true);
-				}
-				else {
+				} else {
 
-					JOptionPane.showMessageDialog(null, "Debe de elegir un cliente", "Productos", JOptionPane.INFORMATION_MESSAGE);
+					JOptionPane.showMessageDialog(null, "Debe de elegir un cliente", "Productos",
+							JOptionPane.INFORMATION_MESSAGE);
 				}
-				
-				
+
 			}
 		});
 		lblCarrito.setVisible(false);
 		ImageIcon imgCarrito = new ImageIcon(Controladora.class.getResource("/img/carrito-de-compras.png"));
 		Image carritoImg = imgCarrito.getImage();
-		
+
 		lblCarrito.setIcon(new ImageIcon(carritoImg.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		
+
 		lblCarrito.setBounds(1800, 6, 30, 35);
 		pnSuperior.add(lblCarrito);
 
 		pnUser = new JPanel();
-		pnUser.setBounds(1766, 47, 118, 47);
+		pnUser.setBounds(1766, 47, 118, 69);
 		pnUser.setVisible(false);
 		panel.add(pnUser);
 		pnUser.setLayout(null);
@@ -450,6 +455,39 @@ public class Principal extends JFrame {
 		});
 		btnInfoPer.setBounds(0, 0, 118, 23);
 		pnUser.add(btnInfoPer);
+
+		JButton respaldobtn = new JButton("Respaldo");
+		respaldobtn.setBounds(0, 46, 118, 23);
+		pnUser.add(respaldobtn);
+		respaldobtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					sfd = new Socket("localhost", 7000);
+					ObjectOutputStream sld = new ObjectOutputStream(sfd.getOutputStream());
+					Controladora controlador = Controladora.getInstance();
+					sld.writeObject(controlador);
+					sld.flush();
+
+				} catch (UnknownHostException uhe) {
+					System.out.println("No se puede acceder al servidor.");
+					System.exit(1);
+				} catch (IOException ioe) {
+					System.out.println("Comunicación rechazada.");
+					System.exit(1);
+				} finally {
+					try {
+						if (sld != null) {
+							sld.close();
+						}
+						if (sfd != null) {
+							sfd.close();
+						}
+					} catch (IOException ioe) {
+						ioe.printStackTrace();
+					}
+				}
+			}
+		});
 
 		panelizquierda = new JPanel();
 		panelizquierda.setBackground(Color.WHITE);
@@ -559,12 +597,11 @@ public class Principal extends JFrame {
 		btnNewButton.setIcon(new ImageIcon(Principal.class.getResource("/javax/swing/plaf/metal/icons/sortUp.png")));
 		btnNewButton.setBounds(781, 0, 89, 23);
 		pnCentro.add(btnNewButton);
-		
+
 		listProduct = new ListProduct();
 		listProduct.setBounds(10, 37, 1631, 857);
 		listProduct.setVisible(false);
-		
-		
+
 		pnOfertas = new JPanel();
 		pnOfertas.setBackground(Color.LIGHT_GRAY);
 		pnOfertas.setVisible(false);
@@ -579,8 +616,7 @@ public class Principal extends JFrame {
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		scrollPane_2.setViewportView(panel_2);
-		
-		
+
 		btniniciosesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnInicioSesion.setVisible(true);
@@ -624,32 +660,33 @@ public class Principal extends JFrame {
 	}
 
 	private void loadUsers() {
-	    ArrayList<Usuario> users = Controladora.getInstance().getMisUsuarios();
-	    String textoBuscador = txtBuscadorCliente.getText().toLowerCase();
-	    modelo.setRowCount(0); // Limpia el modelo antes de cargar nuevos datos
+		ArrayList<Usuario> users = Controladora.getInstance().getMisUsuarios();
+		String textoBuscador = txtBuscadorCliente.getText().toLowerCase();
+		modelo.setRowCount(0); // Limpia el modelo antes de cargar nuevos datos
 
-	    if (users != null && !users.isEmpty()) {
-	        for (Usuario user : users) {
-	            if (user instanceof Cliente) {
-	                String nombre = user.getNombre();
-	                String email = user.getEmail();
-	                String direccion = user.getDireccion();
+		if (users != null && !users.isEmpty()) {
+			for (Usuario user : users) {
+				if (user instanceof Cliente) {
+					String nombre = user.getNombre();
+					String email = user.getEmail();
+					String direccion = user.getDireccion();
 
-	                // Filtrar según el tipo de búsqueda seleccionado
-	                String filtro = cbxbuscador.getSelectedItem().toString();
-	                if ((filtro.equalsIgnoreCase("Nombre") && nombre.toLowerCase().contains(textoBuscador)) ||
-	                    (filtro.equalsIgnoreCase("Email") && email.toLowerCase().contains(textoBuscador)) ||
-	                    (filtro.equalsIgnoreCase("Direccion") && direccion.toLowerCase().contains(textoBuscador))) {
-	                    // Agregar fila al modelo
-	                    Object[] row = { nombre, email, direccion };
-	                    modelo.addRow(row);
-	                }
-	            }
-	        }
-	    } else {
-	        System.out.println("No se encontraron usuarios para cargar.");
-	    }
+					// Filtrar según el tipo de búsqueda seleccionado
+					String filtro = cbxbuscador.getSelectedItem().toString();
+					if ((filtro.equalsIgnoreCase("Nombre") && nombre.toLowerCase().contains(textoBuscador))
+							|| (filtro.equalsIgnoreCase("Email") && email.toLowerCase().contains(textoBuscador))
+							|| (filtro.equalsIgnoreCase("Direccion")
+									&& direccion.toLowerCase().contains(textoBuscador))) {
+						// Agregar fila al modelo
+						Object[] row = { nombre, email, direccion };
+						modelo.addRow(row);
+					}
+				}
+			}
+		} else {
+			System.out.println("No se encontraron usuarios para cargar.");
+		}
 
-	    table.setModel(modelo); // Establecer el modelo en la tabla
+		table.setModel(modelo); // Establecer el modelo en la tabla
 	}
 }
