@@ -401,7 +401,7 @@ public class Principal extends JFrame {
 				Cliente cliente = (Cliente) Controladora.getInstance().findUserByCorreo(idSelected);
 				if (cliente != null) {
 
-					Facturacion facturacion = new Facturacion(cliente, Admin);
+					Facturacion facturacion = new Facturacion(cliente, Admin, null);
 
 					facturacion.setModal(true);
 					facturacion.setVisible(true);

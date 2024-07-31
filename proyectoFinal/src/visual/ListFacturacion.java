@@ -66,6 +66,7 @@ public class ListFacturacion extends JDialog {
 						int index = table.getSelectedRow();
 						if(index>=0){
 							
+							idFactura = new String(table.getValueAt(index, 0).toString());
 							
 						}
 					}
@@ -100,6 +101,15 @@ public class ListFacturacion extends JDialog {
 					});
 					btnVaciar.setActionCommand("Cancel");
 					buttonPane.add(btnVaciar);
+				}
+				{
+					JButton btnNewButton = new JButton("Ver factura");
+					btnNewButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							
+						}
+					});
+					buttonPane.add(btnNewButton);
 				}
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);

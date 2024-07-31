@@ -58,17 +58,18 @@ public class Facturacion extends JDialog {
 	private JTextField txtRNC;
 	private JLabel lblCarrito;
 	private JLabel lblMetodo;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtNombre;
+	private JTextField txtTelefono;
 	private float total =0;
 	private JCheckBox chckbxValorFiscal;
 	private JComboBox cbxMetodo;
+	private JTextArea txtDireccion;
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			Facturacion dialog = new Facturacion(null, null);
+			Facturacion dialog = new Facturacion(null, null, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -79,7 +80,7 @@ public class Facturacion extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public Facturacion(Cliente cliente, Empleado empleado) {
+	public Facturacion(Cliente cliente, Empleado empleado, Order order) {
 		setTitle("Facturacion");
 		setBounds(100, 100, 586, 381);
 		getContentPane().setLayout(new BorderLayout());
@@ -212,38 +213,38 @@ public class Facturacion extends JDialog {
 		lblNombre.setBounds(29, 157, 109, 14);
 		contentPanel.add(lblNombre);
 		
-		textField = new JTextField();
-		textField.setEditable(false);
-		textField.setText(cliente.getNombre());
-		textField.setFont(new Font("Arial", Font.PLAIN, 14));
-		textField.setColumns(10);
-		textField.setBounds(156, 155, 233, 20);
-		contentPanel.add(textField);
+		txtNombre = new JTextField();
+		txtNombre.setEditable(false);
+		txtNombre.setText(cliente.getNombre());
+		txtNombre.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtNombre.setColumns(10);
+		txtNombre.setBounds(156, 155, 233, 20);
+		contentPanel.add(txtNombre);
 		
 		JLabel lblNombre_1 = new JLabel("Telefono:");
 		lblNombre_1.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblNombre_1.setBounds(29, 195, 109, 14);
 		contentPanel.add(lblNombre_1);
 		
-		textField_1 = new JTextField();
-		textField_1.setText(cliente.getNumero());
-		textField_1.setEditable(false);
-		textField_1.setFont(new Font("Arial", Font.PLAIN, 14));
-		textField_1.setColumns(10);
-		textField_1.setBounds(156, 190, 233, 20);
-		contentPanel.add(textField_1);
+		txtTelefono = new JTextField();
+		txtTelefono.setText(cliente.getNumero());
+		txtTelefono.setEditable(false);
+		txtTelefono.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtTelefono.setColumns(10);
+		txtTelefono.setBounds(156, 190, 233, 20);
+		contentPanel.add(txtTelefono);
 		
 		JLabel lblTelefono = new JLabel("Direccion");
 		lblTelefono.setFont(new Font("Arial", Font.PLAIN, 16));
 		lblTelefono.setBounds(29, 228, 109, 14);
 		contentPanel.add(lblTelefono);
 		
-		JTextArea textArea = new JTextArea();
-		textArea.setEditable(false);
-		textArea.setFont(new Font("Arial", Font.PLAIN, 14));
-		textArea.setText(cliente.getDireccion());
-		textArea.setBounds(156, 225, 233, 66);
-		contentPanel.add(textArea);
+		txtDireccion = new JTextArea();
+		txtDireccion.setEditable(false);
+		txtDireccion.setFont(new Font("Arial", Font.PLAIN, 14));
+		txtDireccion.setText(cliente.getDireccion());
+		txtDireccion.setBounds(156, 225, 233, 66);
+		contentPanel.add(txtDireccion);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -298,7 +299,13 @@ public class Facturacion extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
-		loadCarrito();
+		if (order!=null) {
+			loadAuxOrder(order);
+		}
+		else {
+			
+			loadCarrito();
+		}
 	}
 	private void loadAuxOrder(Order orderAux) {
 		
@@ -306,6 +313,16 @@ public class Facturacion extends JDialog {
 		txtNoFactura.setText(orderAux.getId());
 		txtRNC.setText(orderAux.getRNC());
 		txtTotal.setText(orderAux.getTotal()+"$");
+		Cliente aux = (Cliente) Controladora.getInstance().findUserById(orderAux.getClientId());
+		txtNombre.setText(aux.getNombre());
+		txtTelefono.setText(aux.getNumero());
+		txtDireccion.setText(aux.getDireccion());
+		
+		btnEliminar.setEnabled(false);
+		btnRealizar.setEnabled(false);
+		btnVaciarCarrito.setEnabled(false);
+		
+		
 		
 		modelo.setRowCount(0);
 		row = new Object[table.getColumnCount()];
