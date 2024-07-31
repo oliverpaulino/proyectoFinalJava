@@ -39,7 +39,7 @@ public class AddUser extends JDialog {
 	private JTextField tbPassword;
 	private JSpinner spSalary;
 	private JComboBox cbType;
-	private int idActual =  Controladora.getInstance().cargarDatosUsuarios() == null? 1 : Controladora.getInstance().cargarDatosUsuarios().size()+1 ;
+	private int idActual =  Controladora.getInstance().getMisUsuarios() == null? 1 : Controladora.getInstance().getMisUsuarios().size()+1 ;
 
 	/**
 	 * Launch the application.
@@ -165,43 +165,47 @@ public class AddUser extends JDialog {
 								(Number) spSalary.getValue();
 						String typeEmp = cbType.getSelectedItem().toString();
 
-						if (user == null) {
-							
-							if(type == "EMPLEADO") {
-								Empleado newEmp = new Empleado(id, name, email, phone, address, password, salary.floatValue(),
-										typeEmp.equalsIgnoreCase("Manager"));
-								Controladora.getInstance().addUser(newEmp);
-							} else if(type == "CLIENTE") {
-								Cliente newClient = new Cliente(id, name, email, phone, address);
-								Controladora.getInstance().addUser(newClient);
+						if(Controladora.getInstance().buscarExistenciaDeEmail(email) == false)
+							if (user == null) {
+								
+								if(type == "EMPLEADO") {
+									Empleado newEmp = new Empleado(id, name, email, phone, address, password, salary.floatValue(),
+											typeEmp.equalsIgnoreCase("Manager"));
+									Controladora.getInstance().addUser(newEmp);
+								} else if(type == "CLIENTE") {
+									Cliente newClient = new Cliente(id, name, email, phone, address);
+									Controladora.getInstance().addUser(newClient);
+								}
+								
+								JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Registro de "+type.toLowerCase(),
+										JOptionPane.INFORMATION_MESSAGE);
+								idActual++;
+								cleanUser();
+							} else {
+								tbId.setText(user.getId());
+								user.setNombre(name);
+								user.setEmail(email);
+								user.setNumero(phone);
+								user.setDireccion(address);
+								
+								if(user instanceof Empleado) {
+									((Empleado) user).setPassword(password);
+									((Empleado) user).setSalario(salary.floatValue());
+									((Empleado) user).setManager(type.equalsIgnoreCase("Manager"));
+								} else if(user instanceof Cliente) {
+									/*...*/
+								}
+								
+								Controladora.getInstance().deleteUser(user.getId());
+								Controladora.getInstance().addUser(user);
+								Controladora.getInstance().getMisUsuarios();
+								
+								JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Actualización de "+type.toLowerCase(),
+										JOptionPane.INFORMATION_MESSAGE);
+								dispose();
 							}
-							
-							JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Registro de "+type.toLowerCase(),
-									JOptionPane.INFORMATION_MESSAGE);
-							idActual++;
-							cleanUser();
-						} else {
-							tbId.setText(user.getId());
-							user.setNombre(name);
-							user.setEmail(email);
-							user.setNumero(phone);
-							user.setDireccion(address);
-							
-							if(user instanceof Empleado) {
-								((Empleado) user).setPassword(password);
-								((Empleado) user).setSalario(salary.floatValue());
-								((Empleado) user).setManager(type.equalsIgnoreCase("Manager"));
-							} else if(user instanceof Cliente) {
-								/*...*/
-							}
-							
-							Controladora.getInstance().deleteUser(user.getId());
-							Controladora.getInstance().addUser(user);
-							Controladora.getInstance().guardarDatosUsuario();
-							
-							JOptionPane.showMessageDialog(null, "Operación satisfactoria", "Actualización de "+type.toLowerCase(),
-									JOptionPane.INFORMATION_MESSAGE);
-							dispose();
+						else {
+							JOptionPane.showMessageDialog(null, "ESTE CORREO ESTA EN USO", "ERROR", JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				});

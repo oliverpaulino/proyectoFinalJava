@@ -1,14 +1,12 @@
 package logico;
 
-import java.io.Serializable;
 
-public class Cliente extends Usuario implements Serializable {
-	
+public class Cliente extends Usuario  {
 	
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7422145305466558312L;
+	private static final long serialVersionUID = 1L;
 
 	// agregar arraylist de computadoras o facturas determinar con alonso
 	public Cliente(String id, String nombre, String email, String numero, String direccion) {

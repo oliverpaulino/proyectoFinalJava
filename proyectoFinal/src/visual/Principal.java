@@ -12,6 +12,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -36,14 +40,21 @@ import javax.swing.table.DefaultTableModel;
 
 import logico.Cliente;
 import logico.Controladora;
+import logico.DiscoDuro;
 import logico.Empleado;
+import logico.MemoriaRAM;
+import logico.Microprocesador;
+import logico.TarjetaMadre;
 import logico.Usuario;
+import visual.componentesVisuales.ListProduct;
+
 import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import java.awt.GridBagConstraints;
+import javax.swing.SwingConstants;
 
 public class Principal extends JFrame {
 
@@ -63,11 +74,10 @@ public class Principal extends JFrame {
 	private JLabel lblinicio;
 	private JPanel pnContrasena;
 	private Empleado Admin = null;
-	private boolean inicioSesion = false;//==========================
+	private boolean inicioSesion = false;// ==========================
 	private JButton button;
 	private JButton btnAtrasInicio;
-	private JLabel lblimg;
-	private JTextField textField;
+	private JLabel lblUser;
 	private JPanel pnUser;
 	private JButton btnCierreSesion;
 	private JPanel panelizquierda;
@@ -87,12 +97,12 @@ public class Principal extends JFrame {
 	private JPanel pnBuscarClientes;
 	private JPanel pnOfertas;
 	private JPanel panel_2;
+	private ListProduct listProduct;
+	private JLabel lblCarrito;
+	static Socket sfd = null;
+	static ObjectOutputStream sld = null;
 
 	public static void main(String[] args) {
-		Controladora.getInstance().getMisUsuarios().add(new Empleado("E1", "Oliver jose paulino perez", "oliver",
-				"8097914801", "blah blah", "1230", 15000, true));
-//		Controladora.getInstance().getMisUsuarios()
-//				.add(new Cliente("E3", "Oscar pajaro", "oscar", "8097914801", "blah blah"));
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -109,7 +119,7 @@ public class Principal extends JFrame {
 	public Principal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-
+//		Controladora.getInstance().addUser(new Empleado("", "", "", "", "", "", 0, true));
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 
@@ -128,6 +138,7 @@ public class Principal extends JFrame {
 				reg.setModal(true);
 				reg.setVisible(true);
 				reg.setLocationRelativeTo(null);
+				listProduct.loadComponents();
 
 			}
 		});
@@ -163,6 +174,7 @@ public class Principal extends JFrame {
 		mnCl.add(mntmNewMenuItem_4);
 
 		mnAdmin = new JMenu("Administrador");
+		mnAdmin.setHorizontalAlignment(SwingConstants.LEFT);
 		mnAdmin.setVisible(false);
 		mnAdmin.setMargin(new Insets(5, 5, 5, 5));
 		mnAdmin.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -188,6 +200,17 @@ public class Principal extends JFrame {
 			}
 		});
 		mnAdmin.add(mntmNewMenuItem_2);
+
+		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Ver facturas");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListFacturacion listFacturacion = new ListFacturacion();
+				listFacturacion.setModal(true);
+				listFacturacion.setVisible(true);
+
+			}
+		});
+		mnAdmin.add(mntmNewMenuItem_5);
 
 		btnNewButton_1 = new JButton("Iniciar Sesion");
 		btnNewButton_1.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -237,11 +260,11 @@ public class Principal extends JFrame {
 		btnEnviar.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Usuario user = Controladora.getInstance().buscarUsuarioByCorreo(txtCorreo.getText().toString());
+				Empleado user = Controladora.getInstance().buscarEmpleadoByCorreo(txtCorreo.getText().toString());
 				if (user != null) {
 					pnContrasena.setVisible(true);
 					pnInicioSesion.setVisible(false);
-					Admin = (Empleado) user;
+					Admin = user;
 				} else {
 					JOptionPane.showMessageDialog(null, "No encontramos ningun email, hable con el manager", "Registro",
 							JOptionPane.WARNING_MESSAGE);
@@ -350,15 +373,15 @@ public class Principal extends JFrame {
 		pnSuperior.setLayout(null);
 
 		btniniciosesion = new JButton("Iniciar Sesion");
-		btniniciosesion.setBounds(1773, 10, 111, 26);
+		btniniciosesion.setBounds(1773, 12, 111, 26);
 		pnSuperior.add(btniniciosesion);
 
-		lblimg = new JLabel("");
-		lblimg.setVisible(false);
+		lblUser = new JLabel("");
+		lblUser.setVisible(false);
 		ImageIcon img = new ImageIcon(Controladora.class.getResource("/img/user.png"));
 		Image userimg = img.getImage();
-		lblimg.setIcon(new ImageIcon(userimg.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
-		lblimg.addMouseListener(new MouseAdapter() {
+		lblUser.setIcon(new ImageIcon(userimg.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
+		lblUser.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (pnUser.isVisible() == true)
 					pnUser.setVisible(false);
@@ -367,21 +390,40 @@ public class Principal extends JFrame {
 				}
 			}
 		});
-		lblimg.setBounds(113, 3, 30, 30);
-		lblimg.setBounds(1854, 8, 30, 30);
-		pnSuperior.add(lblimg);
+		lblUser.setBounds(1804, 12, 30, 30);
+		lblUser.setBounds(1854, 8, 30, 30);
+		pnSuperior.add(lblUser);
 
-		textField = new JTextField();
-		textField.setBounds(818, 13, 257, 20);
-		pnSuperior.add(textField);
-		textField.setColumns(10);
+		lblCarrito = new JLabel("");
+		lblCarrito.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				Cliente cliente = (Cliente) Controladora.getInstance().findUserByCorreo(idSelected);
+				if (cliente != null) {
 
-		JLabel lblNewLabel_1 = new JLabel("Buscador:");
-		lblNewLabel_1.setBounds(750, 16, 48, 14);
-		pnSuperior.add(lblNewLabel_1);
+					Facturacion facturacion = new Facturacion(cliente, Admin);
+
+					facturacion.setModal(true);
+					facturacion.setVisible(true);
+				} else {
+
+					JOptionPane.showMessageDialog(null, "Debe de elegir un cliente", "Productos",
+							JOptionPane.INFORMATION_MESSAGE);
+				}
+
+			}
+		});
+		lblCarrito.setVisible(false);
+		ImageIcon imgCarrito = new ImageIcon(Controladora.class.getResource("/img/carrito-de-compras.png"));
+		Image carritoImg = imgCarrito.getImage();
+
+		lblCarrito.setIcon(new ImageIcon(carritoImg.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
+
+		lblCarrito.setBounds(1800, 6, 30, 35);
+		pnSuperior.add(lblCarrito);
 
 		pnUser = new JPanel();
-		pnUser.setBounds(1766, 47, 118, 47);
+		pnUser.setBounds(1766, 47, 118, 69);
 		pnUser.setVisible(false);
 		panel.add(pnUser);
 		pnUser.setLayout(null);
@@ -416,6 +458,39 @@ public class Principal extends JFrame {
 		});
 		btnInfoPer.setBounds(0, 0, 118, 23);
 		pnUser.add(btnInfoPer);
+
+		JButton respaldobtn = new JButton("Respaldo");
+		respaldobtn.setBounds(0, 46, 118, 23);
+		pnUser.add(respaldobtn);
+		respaldobtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					sfd = new Socket("localhost", 7000);
+					ObjectOutputStream sld = new ObjectOutputStream(sfd.getOutputStream());
+					Controladora controlador = Controladora.getInstance();
+					sld.writeObject(controlador);
+					sld.flush();
+
+				} catch (UnknownHostException uhe) {
+					System.out.println("No se puede acceder al servidor.");
+					System.exit(1);
+				} catch (IOException ioe) {
+					System.out.println("Comunicación rechazada.");
+					System.exit(1);
+				} finally {
+					try {
+						if (sld != null) {
+							sld.close();
+						}
+						if (sfd != null) {
+							sfd.close();
+						}
+					} catch (IOException ioe) {
+						ioe.printStackTrace();
+					}
+				}
+			}
+		});
 
 		panelizquierda = new JPanel();
 		panelizquierda.setBackground(Color.WHITE);
@@ -467,7 +542,7 @@ public class Principal extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				int index = table.getSelectedRow();
 				if (index >= 0) {
-					idSelected = new String(table.getValueAt(index, 0).toString());
+					idSelected = new String(table.getValueAt(index, 1).toString());
 					// btnDelete.setEnabled(true);
 					// btnEdit.setEnabled(true);
 				}
@@ -526,6 +601,10 @@ public class Principal extends JFrame {
 		btnNewButton.setBounds(781, 0, 89, 23);
 		pnCentro.add(btnNewButton);
 
+		listProduct = new ListProduct();
+		listProduct.setBounds(10, 37, 1631, 857);
+		listProduct.setVisible(false);
+
 		pnOfertas = new JPanel();
 		pnOfertas.setBackground(Color.LIGHT_GRAY);
 		pnOfertas.setVisible(false);
@@ -533,12 +612,14 @@ public class Principal extends JFrame {
 		pnCentro.add(pnOfertas);
 		pnOfertas.setLayout(new BorderLayout(0, 0));
 
+		pnCentro.add(listProduct);
 		JScrollPane scrollPane_2 = new JScrollPane();
 		pnOfertas.add(scrollPane_2, BorderLayout.CENTER);
 
 		panel_2 = new JPanel();
 		panel_2.setBackground(Color.LIGHT_GRAY);
 		scrollPane_2.setViewportView(panel_2);
+
 		btniniciosesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				pnInicioSesion.setVisible(true);
@@ -551,12 +632,14 @@ public class Principal extends JFrame {
 		if (inicioSesion) {
 			btniniciosesion.setVisible(false);
 			pnContrasena.setVisible(false);
-			lblimg.setVisible(true);
+			lblUser.setVisible(true);
+			lblCarrito.setVisible(true);
 			txtCorreo.setText("");
 			txtcontra.setText("");
 			mnCl.setVisible(true);
 			mnReg.setVisible(true);
 			pnBuscarClientes.setVisible(true);
+			listProduct.setVisible(true);
 			if (Admin.isManager())
 				mnAdmin.setVisible(true);
 			else {
@@ -569,41 +652,44 @@ public class Principal extends JFrame {
 			pnUser.setVisible(false);
 			Admin = null;
 			btniniciosesion.setVisible(true);
-			lblimg.setVisible(false);
+			lblUser.setVisible(false);
+			lblCarrito.setVisible(false);
 			mnCl.setVisible(false);
 			mnReg.setVisible(false);
 			mnAdmin.setVisible(false);
+			listProduct.setVisible(false);
 		}
 
 	}
 
 	private void loadUsers() {
-	    ArrayList<Usuario> users = Controladora.getInstance().cargarDatosUsuarios();
-	    String textoBuscador = txtBuscadorCliente.getText().toLowerCase();
-	    modelo.setRowCount(0); // Limpia el modelo antes de cargar nuevos datos
+		ArrayList<Usuario> users = Controladora.getInstance().getMisUsuarios();
+		String textoBuscador = txtBuscadorCliente.getText().toLowerCase();
+		modelo.setRowCount(0); // Limpia el modelo antes de cargar nuevos datos
 
-	    if (users != null && !users.isEmpty()) {
-	        for (Usuario user : users) {
-	            if (user instanceof Cliente) {
-	                String nombre = user.getNombre();
-	                String email = user.getEmail();
-	                String direccion = user.getDireccion();
+		if (users != null && !users.isEmpty()) {
+			for (Usuario user : users) {
+				if (user instanceof Cliente) {
+					String nombre = user.getNombre();
+					String email = user.getEmail();
+					String direccion = user.getDireccion();
 
-	                // Filtrar según el tipo de búsqueda seleccionado
-	                String filtro = cbxbuscador.getSelectedItem().toString();
-	                if ((filtro.equalsIgnoreCase("Nombre") && nombre.toLowerCase().contains(textoBuscador)) ||
-	                    (filtro.equalsIgnoreCase("Email") && email.toLowerCase().contains(textoBuscador)) ||
-	                    (filtro.equalsIgnoreCase("Direccion") && direccion.toLowerCase().contains(textoBuscador))) {
-	                    // Agregar fila al modelo
-	                    Object[] row = { nombre, email, direccion };
-	                    modelo.addRow(row);
-	                }
-	            }
-	        }
-	    } else {
-	        System.out.println("No se encontraron usuarios para cargar.");
-	    }
+					// Filtrar según el tipo de búsqueda seleccionado
+					String filtro = cbxbuscador.getSelectedItem().toString();
+					if ((filtro.equalsIgnoreCase("Nombre") && nombre.toLowerCase().contains(textoBuscador))
+							|| (filtro.equalsIgnoreCase("Email") && email.toLowerCase().contains(textoBuscador))
+							|| (filtro.equalsIgnoreCase("Direccion")
+									&& direccion.toLowerCase().contains(textoBuscador))) {
+						// Agregar fila al modelo
+						Object[] row = { nombre, email, direccion };
+						modelo.addRow(row);
+					}
+				}
+			}
+		} else {
+			System.out.println("No se encontraron usuarios para cargar.");
+		}
 
-	    table.setModel(modelo); // Establecer el modelo en la tabla
+		table.setModel(modelo); // Establecer el modelo en la tabla
 	}
 }

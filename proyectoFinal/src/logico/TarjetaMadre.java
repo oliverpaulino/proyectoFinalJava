@@ -6,7 +6,7 @@ public class TarjetaMadre extends Product {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 7416118208238982312L;
+	private static final long serialVersionUID = 1L;
 	private String tipoConector;
 	private String TipoRAM;
 	private ArrayList<String> listConexionDiscoDuro;
