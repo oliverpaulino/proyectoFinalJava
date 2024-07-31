@@ -115,6 +115,7 @@ public class Principal extends JFrame {
 	}
 
 	public Principal() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 //		Controladora.getInstance().addUser(new Empleado("", "", "", "", "", "", 0, true));
@@ -123,7 +124,7 @@ public class Principal extends JFrame {
 
 		mnReg = new JMenu("Registro");
 		mnReg.setVisible(false);
-		mnReg.setIcon(new ImageIcon(new ImageIcon(Principal.class.getResource("/img/reg.png")).getImage()
+		mnReg.setIcon(new ImageIcon(new ImageIcon(Principal.class.getResource("/img/torre-de-pc.png")).getImage()
 				.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
 		mnReg.setMargin(new Insets(5, 5, 5, 5));
 		mnReg.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -146,6 +147,8 @@ public class Principal extends JFrame {
 		mnCl.setVisible(false);
 		mnCl.setMargin(new Insets(5, 5, 5, 5));
 		mnCl.setFont(new Font("Arial", Font.PLAIN, 14));
+		mnCl.setIcon(new ImageIcon(new ImageIcon(Principal.class.getResource("/img/personas.png")).getImage()
+				.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
 		menuBar.add(mnCl);
 
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("A\u00F1adir cliente");
@@ -176,6 +179,8 @@ public class Principal extends JFrame {
 		mnAdmin.setVisible(false);
 		mnAdmin.setMargin(new Insets(5, 5, 5, 5));
 		mnAdmin.setFont(new Font("Arial", Font.PLAIN, 14));
+		mnAdmin.setIcon(new ImageIcon(new ImageIcon(Principal.class.getResource("/img/apoyo-tecnico.png")).getImage()
+				.getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
 		menuBar.add(mnAdmin);
 
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("A\u00F1adir empleado");
@@ -509,7 +514,8 @@ public class Principal extends JFrame {
 		pnBuscarClientes.setLayout(null);
 
 		JLabel lblNewLabel_2 = new JLabel("Clientes:");
-		lblNewLabel_2.setBounds(89, 0, 46, 14);
+		lblNewLabel_2.setFont(new Font("Arial", Font.PLAIN, 14));
+		lblNewLabel_2.setBounds(89, 0, 55, 14);
 		pnBuscarClientes.add(lblNewLabel_2);
 
 		txtBuscadorCliente = new JTextField();
@@ -534,6 +540,7 @@ public class Principal extends JFrame {
 		scrollPane_1.setBounds(10, 56, 206, 281);
 		pnBuscarClientes.add(scrollPane_1);
 		table = new JTable();
+		table.setFont(new Font("Arial", Font.PLAIN, 12));
 		table.setDefaultEditor(Object.class, null);
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -556,10 +563,12 @@ public class Principal extends JFrame {
 		panel_1.setLayout(new BorderLayout(0, 0));
 
 		lblNewLabel_3 = new JLabel("Buscar por:");
-		lblNewLabel_3.setBounds(10, 351, 55, 14);
+		lblNewLabel_3.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblNewLabel_3.setBounds(10, 351, 70, 14);
 		pnBuscarClientes.add(lblNewLabel_3);
 
 		cbxbuscador = new JComboBox<String>();
+		cbxbuscador.setFont(new Font("Arial", Font.PLAIN, 12));
 		cbxbuscador.setBounds(90, 348, 126, 20);
 		pnBuscarClientes.add(cbxbuscador);
 		cbxbuscador.setModel(new DefaultComboBoxModel<String>(new String[] { "Nombre", "Email", "Direccion" }));

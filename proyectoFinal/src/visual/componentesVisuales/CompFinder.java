@@ -40,6 +40,7 @@ import java.beans.PropertyChangeEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.awt.Font;
 
 public class CompFinder extends JDialog {
 
@@ -83,6 +84,7 @@ public class CompFinder extends JDialog {
 		contentPanel.setLayout(gbl_contentPanel);
 		{
 			lblNewLabel = new JLabel("Buscar componente:");
+			lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 			GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 			gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
 			gbc_lblNewLabel.anchor = GridBagConstraints.EAST;
@@ -92,6 +94,7 @@ public class CompFinder extends JDialog {
 		}
 		{
 			tbSearch = new JTextField();
+			tbSearch.setFont(new Font("Arial", Font.PLAIN, 12));
 			lblNewLabel.setLabelFor(tbSearch);
 			tbSearch.getDocument().addDocumentListener(new DocumentListener() {
 				@Override
@@ -127,6 +130,7 @@ public class CompFinder extends JDialog {
 		}
 		{
 			resultsLabel = new JLabel("Resultados ():");
+			resultsLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 			GridBagConstraints gbc_resultsLabel = new GridBagConstraints();
 			gbc_resultsLabel.insets = new Insets(0, 0, 5, 5);
 			gbc_resultsLabel.gridx = 1;
@@ -144,6 +148,7 @@ public class CompFinder extends JDialog {
 			contentPanel.add(scrollPane, gbc_scrollPane);
 			{
 				table = new JTable();
+				table.setFont(new Font("Arial", Font.PLAIN, 12));
 				modelo = new DefaultTableModel();
 
 				table.addMouseListener(new MouseAdapter() {

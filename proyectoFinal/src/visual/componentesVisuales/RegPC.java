@@ -30,6 +30,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.SpinnerNumberModel;
+import java.awt.Font;
 
 public class RegPC extends JDialog {
 
@@ -105,10 +106,12 @@ public class RegPC extends JDialog {
 			panel.setLayout(null);
 
 			JLabel lblNewLabel = new JLabel("ID:");
+			lblNewLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 			lblNewLabel.setBounds(12, 25, 22, 16);
 			panel.add(lblNewLabel);
 
 			tbId = new JTextField();
+			tbId.setFont(new Font("Arial", Font.PLAIN, 12));
 			tbId.setEditable(false);
 			tbId.setBounds(46, 22, 116, 22);
 			panel.add(tbId);
@@ -120,19 +123,23 @@ public class RegPC extends JDialog {
 			}
 
 			JLabel lblNewLabel_1 = new JLabel("Marca:");
+			lblNewLabel_1.setFont(new Font("Arial", Font.PLAIN, 12));
 			lblNewLabel_1.setBounds(12, 56, 46, 16);
 			panel.add(lblNewLabel_1);
 
 			tbBrand = new JTextField();
+			tbBrand.setFont(new Font("Arial", Font.PLAIN, 12));
 			tbBrand.setBounds(70, 53, 130, 22);
 			panel.add(tbBrand);
 			tbBrand.setColumns(10);
 
 			JLabel lblNewLabel_2 = new JLabel("Modelo:");
+			lblNewLabel_2.setFont(new Font("Arial", Font.PLAIN, 12));
 			lblNewLabel_2.setBounds(12, 88, 46, 16);
 			panel.add(lblNewLabel_2);
 
 			tbModel = new JTextField();
+			tbModel.setFont(new Font("Arial", Font.PLAIN, 12));
 			tbModel.setBounds(70, 85, 116, 22);
 			panel.add(tbModel);
 			tbModel.setColumns(10);
@@ -149,10 +156,12 @@ public class RegPC extends JDialog {
 		panel_1_1.setLayout(null);
 
 		JLabel lblNewLabel_3 = new JLabel("Costo de montaje:");
+		lblNewLabel_3.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblNewLabel_3.setBounds(6, 25, 112, 16);
 		panel_1_1.add(lblNewLabel_3);
 
 		spMountCost = new JSpinner();
+		spMountCost.setFont(new Font("Arial", Font.PLAIN, 12));
 		spMountCost.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spMountCost.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
@@ -163,28 +172,34 @@ public class RegPC extends JDialog {
 		panel_1_1.add(spMountCost);
 
 		JLabel lblCantidad = new JLabel("Cantidad:");
+		lblCantidad.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblCantidad.setBounds(6, 57, 55, 16);
 		panel_1_1.add(lblCantidad);
 
 		spQty = new JSpinner();
+		spQty.setFont(new Font("Arial", Font.PLAIN, 12));
 		spQty.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spQty.setBounds(69, 54, 62, 22);
 		panel_1_1.add(spQty);
 
 		JLabel lblNmeroDeSerie = new JLabel("N\u00FAmero de serie:");
+		lblNmeroDeSerie.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblNmeroDeSerie.setBounds(6, 86, 100, 16);
 		panel_1_1.add(lblNmeroDeSerie);
 
 		tbSeriesNumber = new JTextField();
+		tbSeriesNumber.setFont(new Font("Arial", Font.PLAIN, 12));
 		tbSeriesNumber.setBounds(121, 83, 217, 22);
 		panel_1_1.add(tbSeriesNumber);
 		tbSeriesNumber.setColumns(10);
 
 		JLabel lblNewLabel_6 = new JLabel("Precio total:");
+		lblNewLabel_6.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblNewLabel_6.setBounds(188, 54, 69, 16);
 		panel_1_1.add(lblNewLabel_6);
 
 		tbTotalCost = new JTextField();
+		tbTotalCost.setFont(new Font("Arial", Font.PLAIN, 12));
 		tbTotalCost.setText("0");
 		tbTotalCost.setEditable(false);
 		tbTotalCost.setBounds(269, 51, 69, 22);
@@ -192,10 +207,12 @@ public class RegPC extends JDialog {
 		tbTotalCost.setColumns(10);
 
 		JLabel lblNewLabel_4 = new JLabel("Subtotal:");
+		lblNewLabel_4.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblNewLabel_4.setBounds(206, 22, 59, 16);
 		panel_1_1.add(lblNewLabel_4);
 
 		tbPrice = new JTextField();
+		tbPrice.setFont(new Font("Arial", Font.PLAIN, 12));
 		tbPrice.setBounds(269, 16, 69, 22);
 		panel_1_1.add(tbPrice);
 		tbPrice.setText("0");
@@ -216,10 +233,12 @@ public class RegPC extends JDialog {
 		contentPanel.add(panel_1, gbc_panel_1_11);
 
 		JLabel lblNewLabel_5 = new JLabel("*Tarjeta Madre:");
+		lblNewLabel_5.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblNewLabel_5.setBounds(12, 32, 111, 16);
 		panel_1.add(lblNewLabel_5);
 
 		JButton btnSelectMotherboard = new JButton("Seleccionar");
+		btnSelectMotherboard.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSelectMotherboard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
@@ -240,20 +259,24 @@ public class RegPC extends JDialog {
 		panel_1.add(btnSelectMotherboard);
 
 		lblSelectedMotherboard = new JLabel("No seleccionado...");
+		lblSelectedMotherboard.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblSelectedMotherboard.setForeground(Color.RED);
 		lblSelectedMotherboard.setBounds(126, 32, 175, 16);
 		panel_1.add(lblSelectedMotherboard);
 
 		JLabel lblProcesador = new JLabel("*Procesador:");
+		lblProcesador.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblProcesador.setBounds(357, 32, 85, 16);
 		panel_1.add(lblProcesador);
 
 		lblSelectedProcesador = new JLabel("No seleccionado...");
+		lblSelectedProcesador.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblSelectedProcesador.setForeground(Color.RED);
 		lblSelectedProcesador.setBounds(449, 32, 151, 16);
 		panel_1.add(lblSelectedProcesador);
 
 		JButton btnSelectProcesador = new JButton("Seleccionar");
+		btnSelectProcesador.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSelectProcesador.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
@@ -273,15 +296,18 @@ public class RegPC extends JDialog {
 		panel_1.add(btnSelectProcesador);
 
 		JLabel lblAlmacenamiento = new JLabel("*Almacenamiento:");
+		lblAlmacenamiento.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblAlmacenamiento.setBounds(12, 91, 111, 16);
 		panel_1.add(lblAlmacenamiento);
 
 		lblSelectedHardDrive = new JLabel("No seleccionado(s)...");
+		lblSelectedHardDrive.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblSelectedHardDrive.setForeground(Color.RED);
 		lblSelectedHardDrive.setBounds(126, 91, 127, 16);
 		panel_1.add(lblSelectedHardDrive);
 
 		JButton btnSelectHardDrive = new JButton("Seleccionar");
+		btnSelectHardDrive.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSelectHardDrive.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
@@ -313,15 +339,18 @@ public class RegPC extends JDialog {
 		panel_1.add(btnSelectHardDrive);
 
 		JLabel lblMemoriasRam = new JLabel("*Memoria(s) RAM:");
+		lblMemoriasRam.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblMemoriasRam.setBounds(357, 91, 111, 16);
 		panel_1.add(lblMemoriasRam);
 
 		lblSelectedRAM = new JLabel("No seleccionado(s)...");
+		lblSelectedRAM.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblSelectedRAM.setForeground(Color.RED);
 		lblSelectedRAM.setBounds(480, 91, 120, 16);
 		panel_1.add(lblSelectedRAM);
 
 		JButton btnSelectRAM = new JButton("Seleccionar");
+		btnSelectRAM.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSelectRAM.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
@@ -353,15 +382,18 @@ public class RegPC extends JDialog {
 		panel_1.add(btnSelectRAM);
 
 		JLabel lblAdicional = new JLabel("Adicional:");
+		lblAdicional.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblAdicional.setBounds(12, 150, 56, 16);
 		panel_1.add(lblAdicional);
 
 		lblSelectedAddons = new JLabel("No seleccionado(s)...");
+		lblSelectedAddons.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblSelectedAddons.setForeground(Color.RED);
 		lblSelectedAddons.setBounds(80, 150, 127, 16);
 		panel_1.add(lblSelectedAddons);
 
 		JButton btnSelectAddons = new JButton("Seleccionar");
+		btnSelectAddons.setFont(new Font("Arial", Font.PLAIN, 12));
 		btnSelectAddons.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// types: "RAM", "HARDDRIVE", "PROCESADOR", "MOTHERBOARD"
